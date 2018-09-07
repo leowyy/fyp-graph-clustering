@@ -3,3 +3,6 @@
 __pycache__/
 .ipynb_checkpoints/
 dev/
+
+data/*
+!data/.gitkeep
