@@ -9,6 +9,7 @@ class DimReduction(object):
         if solver_type.lower() == "spectral":
             embedder = manifold.SpectralEmbedding(n_components=self.n_components, random_state=0,
                                                   eigen_solver="arpack")
+
         elif solver_type.lower() == "tsne":
             embedder = manifold.TSNE(n_components=self.n_components, init='pca', random_state=0)
 

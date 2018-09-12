@@ -62,7 +62,6 @@ class GraphConvNet2(nn.Module):
         self.L = L
         self.net_layers_extended = net_layers_extended
         self.flag_task = flag_task
-        self.tracker = []
 
     def init_weights_Graph_OurConvNet(self, Fin_fc, Fout_fc, gain):
 
@@ -74,10 +73,9 @@ class GraphConvNet2(nn.Module):
 
         # signal
         x = G.signal  # V-dim
-        x_emb = Variable(torch.FloatTensor(x).type(dtypeFloat), requires_grad=False)
 
-        # Extract first embedding layer
-        self.tracker.append(x_emb)
+        # Pass raw data matrix X directly as input
+        x = Variable(torch.FloatTensor(x).type(dtypeFloat), requires_grad=False)
 
         # graph operators
         # Edge = start vertex to end vertex
@@ -90,11 +88,9 @@ class GraphConvNet2(nn.Module):
         E_start = Variable(E_start, requires_grad=False)
         E_end = Variable(E_end, requires_grad=False)
 
-        x = x_emb
         for layer in range(self.L // 2):
             gnn_layer = self.gnn_cells[layer]
             x = gnn_layer(x, E_start, E_end)  # V x Hfinal
-            self.tracker.append(x)
 
         # FC
         x = self.fc(x)
@@ -102,7 +98,7 @@ class GraphConvNet2(nn.Module):
         return x
 
     def loss(self, y, y_target):
-
+        # L2 loss
         loss = nn.MSELoss()(y, y_target)
 
         return loss
@@ -122,9 +118,3 @@ class GraphConvNet2(nn.Module):
 
     def nb_param(self):
         return self.nb_param
-
-    def add_tracker(self, tracker):
-        self.tracker = tracker
-
-    def get_tracker(self):
-        return self.tracker
