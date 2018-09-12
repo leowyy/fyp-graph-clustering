@@ -23,47 +23,48 @@ class variable_size_graph():
         u0 = task_parameters['u0']
 
         # create block model graph and put random signal on it
-        W,c=block.unbalanced_block_model(nb_of_clust,clust_size_min,clust_size_max,p,q)
-        u=np.random.randint(vocab_size,size=W.shape[0])
+        W, c = block.unbalanced_block_model(nb_of_clust, clust_size_min, clust_size_max, p, q)
+        u = np.random.randint(vocab_size, size=W.shape[0])
     
         # add the subgraph to be detected
-        W,c=block.add_a_block(W0, W, c, nb_of_clust, q)
-        u=np.concatenate((u, u0), axis=0)
+        W, c = block.add_a_block(W0, W, c, nb_of_clust, q)
+        u = np.concatenate((u, u0), axis=0)
 
         # shuffle
-        W,c,idx=block.schuffle(W,c)
-        u=u[idx]
-        u=torch.from_numpy(u)
-        u=u.long()
+        W, c, idx = block.schuffle(W, c)
+        u = u[idx]
+        u = torch.from_numpy(u)
+        u = u.long()
 
         # add self loop
         if self_loop:
             for i in range(W.shape[0]):
-                W[i,i]=1
+                W[i, i] = 1
 
         # create the target
-        target= (c==nb_of_clust).astype(float)
-        target=torch.from_numpy(target)
-        target=target.long()
+        target = (c == nb_of_clust).astype(float)
+        target = torch.from_numpy(target)
+        target = target.long()
 
         # mapping matrices
-        W_coo=sp.coo_matrix(W)
-        nb_edges=W_coo.nnz
-        nb_vertices=W.shape[0]
-        edge_to_starting_vertex=sp.coo_matrix( ( np.ones(nb_edges) ,(np.arange(nb_edges), W_coo.row) ),
-                                               shape=(nb_edges, nb_vertices) )
-        edge_to_ending_vertex=sp.coo_matrix( ( np.ones(nb_edges) ,(np.arange(nb_edges), W_coo.col) ),
-                                               shape=(nb_edges, nb_vertices) )
+        W_coo = sp.coo_matrix(W)
+        nb_edges = W_coo.nnz
+        nb_vertices = W.shape[0]
+        edge_to_starting_vertex = sp.coo_matrix((np.ones(nb_edges),(np.arange(nb_edges), W_coo.row)),
+                                                shape=(nb_edges, nb_vertices))
+        edge_to_ending_vertex = sp.coo_matrix((np.ones(nb_edges),(np.arange(nb_edges), W_coo.col)),
+                                              shape=(nb_edges, nb_vertices))
 
         # attribute
-        #self.adj_matrix=torch.from_numpy(W).type(default_type)   
-        #self.edge_to_starting_vertex=torch.from_numpy(edge_to_starting_vertex.toarray()).type(default_type)
-        #self.edge_to_ending_vertex=torch.from_numpy(edge_to_ending_vertex.toarray()).type(default_type)   
-        self.adj_matrix=W  
-        self.edge_to_starting_vertex=edge_to_starting_vertex
-        self.edge_to_ending_vertex=edge_to_ending_vertex  
-        self.signal=u
-        self.target=target
+        # self.adj_matrix=torch.from_numpy(W).type(default_type)
+        # self.edge_to_starting_vertex=torch.from_numpy(edge_to_starting_vertex.toarray()).type(default_type)
+        # self.edge_to_ending_vertex=torch.from_numpy(edge_to_ending_vertex.toarray()).type(default_type)
+
+        self.adj_matrix = W
+        self.edge_to_starting_vertex = edge_to_starting_vertex
+        self.edge_to_ending_vertex = edge_to_ending_vertex
+        self.signal = u
+        self.target = target
 
 
 class graph_semi_super_clu():
@@ -85,17 +86,17 @@ class graph_semi_super_clu():
         # add self loop
         if self_loop:
             for i in range(W.shape[0]):
-                W[i,i]=1
+                W[i, i] = 1
         
         # shuffle
-        W,c,idx = block.schuffle(W,c)
+        W, c, idx = block.schuffle(W, c)
         
         # signal on block model
         u = np.zeros(c.shape[0])
         for r in range(nb_of_clust):
-            cluster = np.where(c==r)[0]
+            cluster = np.where(c == r)[0]
             s = cluster[np.random.randint(cluster.shape[0])]
-            u[s] = r+1
+            u[s] = r + 1
 
         # target
         target = c
@@ -107,20 +108,20 @@ class graph_semi_super_clu():
         target = target.long()
         
         # mapping matrices
-        W_coo=sp.coo_matrix(W)
-        nb_edges=W_coo.nnz
-        nb_vertices=W.shape[0]
-        edge_to_starting_vertex=sp.coo_matrix( ( np.ones(nb_edges) ,(np.arange(nb_edges), W_coo.row) ),
-                                               shape=(nb_edges, nb_vertices) )
-        edge_to_ending_vertex=sp.coo_matrix( ( np.ones(nb_edges) ,(np.arange(nb_edges), W_coo.col) ),
-                                               shape=(nb_edges, nb_vertices) )
+        W_coo = sp.coo_matrix(W)
+        nb_edges = W_coo.nnz
+        nb_vertices = W.shape[0]
+        edge_to_starting_vertex = sp.coo_matrix((np.ones(nb_edges),(np.arange(nb_edges), W_coo.row)),
+                                                shape=(nb_edges, nb_vertices))
+        edge_to_ending_vertex = sp.coo_matrix((np.ones(nb_edges), (np.arange(nb_edges), W_coo.col)),
+                                              shape=(nb_edges, nb_vertices))
 
         # attribute
-        #self.adj_matrix=torch.from_numpy(W).type(default_type)   
-        #self.edge_to_starting_vertex=torch.from_numpy(edge_to_starting_vertex.toarray()).type(default_type)
-        #self.edge_to_ending_vertex=torch.from_numpy(edge_to_ending_vertex.toarray()).type(default_type)   
-        self.adj_matrix=W  
-        self.edge_to_starting_vertex=edge_to_starting_vertex
-        self.edge_to_ending_vertex=edge_to_ending_vertex  
-        self.signal=u
-        self.target=target
+        # self.adj_matrix=torch.from_numpy(W).type(default_type)
+        # self.edge_to_starting_vertex=torch.from_numpy(edge_to_starting_vertex.toarray()).type(default_type)
+        # self.edge_to_ending_vertex=torch.from_numpy(edge_to_ending_vertex.toarray()).type(default_type)
+        self.adj_matrix = W
+        self.edge_to_starting_vertex = edge_to_starting_vertex
+        self.edge_to_ending_vertex = edge_to_ending_vertex
+        self.signal = u
+        self.target = target
