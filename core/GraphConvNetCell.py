@@ -68,7 +68,7 @@ class GraphConvNetcell(nn.Module):
         Vix = self.Vi1(x)  # V x H_out
         Vjx = self.Vj1(x)  # V x H_out
         x1 = torch.mm(E_end, Vix) + torch.mm(E_start, Vjx) + self.bv1  # E x H_out
-        x1 = F.sigmoid(x1)
+        x1 = torch.sigmoid(x1)
         Uix = self.Ui1(x)  # V x H_out
         x2 = torch.mm(E_start, Uix)  # V x H_out
         Ujx = self.Uj1(x)  # V x H_out
@@ -81,7 +81,7 @@ class GraphConvNetcell(nn.Module):
         Vix = self.Vi2(x)  # V x H_out
         Vjx = self.Vj2(x)  # V x H_out
         x1 = torch.mm(E_end, Vix) + torch.mm(E_start, Vjx) + self.bv2  # E x H_out
-        x1 = F.sigmoid(x1)
+        x1 = torch.sigmoid(x1)
         Uix = self.Ui2(x)  # V x H_out
         x2 = torch.mm(E_start, Uix)  # V x H_out
         Ujx = self.Uj2(x)  # V x H_out
