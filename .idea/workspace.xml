@@ -2,20 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c77c5ea6-97cc-4fe8-9972-2ba1a0ca9024" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/results/embeddings1.pkl" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/results/embeddings2.pkl" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/results/mnist_net.pkl" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/results/mnist_net2.pkl" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/results/mnist_spectral1/net1.pkl" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/results/mnist_spectral1/net2.pkl" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/results/mnist_spectral1/net3.pkl" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/results/mnist_spectral1/net4.pkl" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/results/mnist_spectral1/net5.pkl" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/results/mnist_tsne1/net1.pkl" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/results/mnist_tsne1/net2.pkl" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/results/mnist_tsne1/net3.pkl" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/results/mnist_tsne1/net4.pkl" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/results/mnist_tsne1/net5.pkl" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -60,7 +48,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DataEmbeddingGraph.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DataEmbeddingGraph.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/DataEmbeddingGraph.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="630">
@@ -68,6 +56,16 @@
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="10" column="17" lean-forward="true" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -133,7 +131,6 @@
         <option value="$PROJECT_DIR$/core/OurConvNetCell.py" />
         <option value="$PROJECT_DIR$/core/DimReducion.py" />
         <option value="$PROJECT_DIR$/core/GraphConvNet.py" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/data/get_mnist_data.py" />
         <option value="$PROJECT_DIR$/data/mnist_data_loader.py" />
         <option value="$PROJECT_DIR$/util/plot_embedding.py" />
@@ -147,6 +144,7 @@
         <option value="$PROJECT_DIR$/core/SemiSuperCluGraph.py" />
         <option value="$PROJECT_DIR$/core/DataEmbeddingGraph.py" />
         <option value="$PROJECT_DIR$/core/GraphConvNetCell.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -178,31 +176,6 @@
             <path>
               <item name="fyp-graph-clustering" type="b2602c69:ProjectViewProjectNode" />
               <item name="fyp-graph-clustering" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="fyp-graph-clustering" type="b2602c69:ProjectViewProjectNode" />
-              <item name="fyp-graph-clustering" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="fyp-graph-clustering" type="b2602c69:ProjectViewProjectNode" />
-              <item name="fyp-graph-clustering" type="462c0819:PsiDirectoryNode" />
-              <item name="data" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="fyp-graph-clustering" type="b2602c69:ProjectViewProjectNode" />
-              <item name="fyp-graph-clustering" type="462c0819:PsiDirectoryNode" />
-              <item name="experiments" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="fyp-graph-clustering" type="b2602c69:ProjectViewProjectNode" />
-              <item name="fyp-graph-clustering" type="462c0819:PsiDirectoryNode" />
-              <item name="results" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="fyp-graph-clustering" type="b2602c69:ProjectViewProjectNode" />
-              <item name="fyp-graph-clustering" type="462c0819:PsiDirectoryNode" />
-              <item name="util" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -256,7 +229,7 @@
     <frame x="-1197" y="302" width="1149" height="778" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23404256" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23404256" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -502,13 +475,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/util/plot_embedding.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
@@ -625,6 +591,14 @@
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="17" lean-forward="true" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
+          <folding />
         </state>
       </provider>
     </entry>
