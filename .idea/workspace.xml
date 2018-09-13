@@ -2,31 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c77c5ea6-97cc-4fe8-9972-2ba1a0ca9024" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/data/adj_matrix.csv" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/data/checkpoint.pth.tar" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/data/embedding.pkl" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/data/mnist/processed/test.pt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/data/mnist/processed/training.pt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/data/mnist/raw/t10k-images-idx3-ubyte" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/data/mnist/raw/t10k-labels-idx1-ubyte" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/data/mnist/raw/train-images-idx3-ubyte" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/data/mnist/raw/train-labels-idx1-ubyte" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/data/set_100_clustering_maps_p05_q01_size5_25_2017-10-31_10-25-00_.txt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/data/set_100_subgraphs_p05_size20_Voc3_2017-10-31_10-23-00_.txt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/results/embeddings1.pkl" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/results/embeddings2.pkl" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/results/mnist_net.pkl" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/results/mnist_net2.pkl" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/results/mnist_spectral1/net1.pkl" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/results/mnist_spectral1/net2.pkl" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/results/mnist_spectral1/net3.pkl" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/results/mnist_spectral1/net4.pkl" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/results/mnist_spectral1/net5.pkl" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/results/mnist_tsne1/net1.pkl" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/results/mnist_tsne1/net2.pkl" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/results/mnist_tsne1/net3.pkl" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/results/mnist_tsne1/net4.pkl" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/results/mnist_tsne1/net5.pkl" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -265,6 +241,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1197" y="302" width="1149" height="778" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23404256" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
