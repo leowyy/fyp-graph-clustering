@@ -6,10 +6,13 @@ from timeit import default_timer as timer
 
 class DataEmbeddingGraph(object):
     def __init__(self, X, labels, reduction_method='spectral'):
+        # Unrolled image vectors
+        X_unrolled = X.view(X.shape[0], -1).numpy()
+
         # Get affinity matrix
         embedder = manifold.SpectralEmbedding(n_components=2, random_state=0,
                                               eigen_solver="arpack")
-        W = embedder._get_affinity_matrix(X)
+        W = embedder._get_affinity_matrix(X_unrolled)
         W = sp.coo_matrix(W)  # sparse matrix
 
         if reduction_method == 'spectral':
@@ -21,7 +24,7 @@ class DataEmbeddingGraph(object):
 
         # Get embedding matrix
         start = timer()
-        y = embedder.fit_transform(X)
+        y = embedder.fit_transform(X_unrolled)
         end = timer()
 
         # Get edge information
@@ -33,7 +36,7 @@ class DataEmbeddingGraph(object):
                                               shape=(nb_edges, nb_vertices))
 
         # Save as attributes
-        self.signal = X  # data matrix
+        self.data = X  # data matrix
         self.target = y  # embedding matrix
         self.labels = labels  # labels
         self.adj_matrix = W  # affinity matrix

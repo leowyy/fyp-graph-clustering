@@ -4,10 +4,10 @@ import torch.nn as nn
 import numpy as np
 
 
-class GraphConvNetcell(nn.Module):
+class GraphConvNetCell(nn.Module):
 
     def __init__(self, dim_in, dim_out):
-        super(GraphConvNetcell, self).__init__()
+        super(GraphConvNetCell, self).__init__()
 
         # conv1
         self.Ui1 = nn.Linear(dim_in, dim_out, bias=False)
@@ -33,9 +33,9 @@ class GraphConvNetcell(nn.Module):
         self.R = nn.Linear(dim_in, dim_out, bias=False)
 
         # init
-        self.init_weights_OurConvNetcell(dim_in, dim_out, 1)
+        self.init_weights_OurConvNetCell(dim_in, dim_out, 1)
 
-    def init_weights_OurConvNetcell(self, dim_in, dim_out, gain):
+    def init_weights_OurConvNetCell(self, dim_in, dim_out, gain):
         # conv1
         scale = gain * np.sqrt(2.0 / dim_in)
         self.Ui1.weight.data.uniform_(-scale, scale)

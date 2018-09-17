@@ -3,27 +3,24 @@ from torch.autograd import Variable
 import torch.nn as nn
 import numpy as np
 
-from core.GraphConvNetCell import GraphConvNetcell
+from core.GraphConvNetCell import GraphConvNetCell
 
 
 if torch.cuda.is_available():
-    print('cuda available')
     dtypeFloat = torch.cuda.FloatTensor
     dtypeLong = torch.cuda.LongTensor
 else:
-    print('cuda not available')
     dtypeFloat = torch.FloatTensor
     dtypeLong = torch.LongTensor
 
 
 class GraphConvNet2(nn.Module):
 
-    def __init__(self, net_parameters, task_parameters):
+    def __init__(self, net_parameters):
 
         super(GraphConvNet2, self).__init__()
 
         # parameters
-        flag_task = task_parameters['flag_task']
         D = net_parameters['D']
         n_components = net_parameters['n_components']
         H = net_parameters['H']
@@ -41,7 +38,7 @@ class GraphConvNet2(nn.Module):
         list_of_gnn_cells = []  # list of NN cells
         for layer in range(L // 2):
             Hin, Hout = net_layers_extended[2 * layer], net_layers_extended[2 * layer + 2]
-            list_of_gnn_cells.append(GraphConvNetcell(Hin, Hout))
+            list_of_gnn_cells.append(GraphConvNetCell(Hin, Hout))
 
         # register the cells for pytorch
         self.gnn_cells = nn.ModuleList(list_of_gnn_cells)
@@ -61,7 +58,6 @@ class GraphConvNet2(nn.Module):
         # class variables
         self.L = L
         self.net_layers_extended = net_layers_extended
-        self.flag_task = flag_task
 
     def init_weights_Graph_OurConvNet(self, Fin_fc, Fout_fc, gain):
 
@@ -70,9 +66,11 @@ class GraphConvNet2(nn.Module):
         self.fc.bias.data.fill_(0)
 
     def forward(self, G):
+        # Data matrix
+        x = G.data
 
-        # signal
-        x = G.signal  # V-dim
+        # Unroll the image vector
+        x = x.view(x.shape[0], -1)
 
         # Pass raw data matrix X directly as input
         x = Variable(torch.FloatTensor(x).type(dtypeFloat), requires_grad=False)
