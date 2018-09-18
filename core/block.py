@@ -62,7 +62,7 @@ def add_a_block(W0, W, c, nb_of_clust, q):
     return W_new, c_new
 
 
-def schuffle(W,c):
+def schuffle(W, c):
     # relabel the vertices at random
     idx = np.random.permutation(W.shape[0])
     W_new = W[idx, :]

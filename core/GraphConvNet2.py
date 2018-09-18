@@ -50,10 +50,9 @@ class GraphConvNet2(nn.Module):
         # init
         self.init_weights_Graph_OurConvNet(Hfinal, n_components, 1)
 
-        # print
-        print('\nnb of hidden layers=', L)
-        print('dim of layers (w/ embed dim)=', net_layers_extended)
-        print('\n')
+        # print('\nnb of hidden layers=', L)
+        # print('dim of layers (w/ embed dim)=', net_layers_extended)
+        # print('\n')
 
         # class variables
         self.L = L

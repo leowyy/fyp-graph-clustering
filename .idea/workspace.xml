@@ -2,15 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c77c5ea6-97cc-4fe8-9972-2ba1a0ca9024" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/core/SimpleConvNet.py" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/core/DataEmbeddingGraph.py" afterPath="$PROJECT_DIR$/core/DataEmbeddingGraph.py" />
-      <change beforePath="$PROJECT_DIR$/core/GraphConvNet.py" afterPath="$PROJECT_DIR$/core/GraphConvNet.py" />
       <change beforePath="$PROJECT_DIR$/core/GraphConvNet2.py" afterPath="$PROJECT_DIR$/core/GraphConvNet2.py" />
-      <change beforePath="$PROJECT_DIR$/core/GraphConvNetCell.py" afterPath="$PROJECT_DIR$/core/GraphConvNetCell.py" />
-      <change beforePath="$PROJECT_DIR$/data/.gitkeep" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/core/block.py" afterPath="$PROJECT_DIR$/core/block.py" />
+      <change beforePath="$PROJECT_DIR$/evaluation_test.ipynb" afterPath="$PROJECT_DIR$/evaluation_test.ipynb" />
+      <change beforePath="$PROJECT_DIR$/prepare_test_set.ipynb" afterPath="$PROJECT_DIR$/prepare_test_set.ipynb" />
       <change beforePath="$PROJECT_DIR$/train_mnist_spectral.ipynb" afterPath="$PROJECT_DIR$/train_mnist_spectral.ipynb" />
-      <change beforePath="$PROJECT_DIR$/train_mnist_tsne.ipynb" afterPath="$PROJECT_DIR$/train_mnist_tsne.ipynb" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -21,26 +17,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="block.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/block.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="33" column="31" lean-forward="false" selection-start-line="33" selection-start-column="31" selection-end-line="33" selection-end-column="31" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GraphConvNet.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/GraphConvNet.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="12" lean-forward="false" selection-start-line="0" selection-start-column="12" selection-end-line="0" selection-end-column="12" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="GraphConvNetCell.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/GraphConvNetCell.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -56,8 +32,8 @@
       <file leaf-file-name="GraphConvNet2.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/GraphConvNet2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="563">
-              <caret line="49" column="8" lean-forward="false" selection-start-line="49" selection-start-column="8" selection-end-line="50" selection-end-column="67" />
+            <state relative-caret-position="884">
+              <caret line="52" column="0" lean-forward="false" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -65,25 +41,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SimpleConvNet.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SimpleConvNet.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/SimpleConvNet.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="32" column="0" lean-forward="true" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+            <state relative-caret-position="544">
+              <caret line="32" column="0" lean-forward="false" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DataEmbeddingGraph.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/DataEmbeddingGraph.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="489">
-              <caret line="39" column="19" lean-forward="false" selection-start-line="39" selection-start-column="19" selection-end-line="39" selection-end-column="19" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -101,21 +65,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="draw_random_subset.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="draw_random_subset.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/util/draw_random_subset.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="135">
               <caret line="11" column="34" lean-forward="false" selection-start-line="11" selection-start-column="34" selection-end-line="11" selection-end-column="34" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="mnist_data_loader.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/util/mnist_data_loader.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="570">
-              <caret line="39" column="0" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -162,7 +116,6 @@
         <option value="$PROJECT_DIR$/data/mnist_data_loader.py" />
         <option value="$PROJECT_DIR$/util/plot_embedding.py" />
         <option value="$PROJECT_DIR$/util/draw_random_subset.py" />
-        <option value="$PROJECT_DIR$/core/block.py" />
         <option value="$PROJECT_DIR$/core/DimReduction.py" />
         <option value="$PROJECT_DIR$/core/graph_generator.py" />
         <option value="$PROJECT_DIR$/core/VariableGraph.py" />
@@ -171,9 +124,10 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/core/GraphConvNetCell.py" />
         <option value="$PROJECT_DIR$/core/GraphConvNet.py" />
+        <option value="$PROJECT_DIR$/core/SimpleConvNet.py" />
         <option value="$PROJECT_DIR$/core/DataEmbeddingGraph.py" />
         <option value="$PROJECT_DIR$/core/GraphConvNet2.py" />
-        <option value="$PROJECT_DIR$/core/SimpleConvNet.py" />
+        <option value="$PROJECT_DIR$/core/block.py" />
       </list>
     </option>
   </component>
@@ -592,21 +546,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/block.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="33" column="31" lean-forward="false" selection-start-line="33" selection-start-column="31" selection-end-line="33" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/VariableSizeGraph.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="20" lean-forward="true" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/core/graph_generator.py" />
     <entry file="file://$PROJECT_DIR$/core/DimReduction.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -633,21 +572,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/util/draw_random_subset.py">
+    <entry file="file://$PROJECT_DIR$/core/GraphConvNetCell.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="11" column="34" lean-forward="false" selection-start-line="11" selection-start-column="34" selection-end-line="11" selection-end-column="34" />
+        <state relative-caret-position="270">
+          <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/GraphConvNet2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="884">
+          <caret line="52" column="0" lean-forward="false" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/VariableSizeGraph.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="10" column="20" lean-forward="true" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/DataEmbeddingGraph.py">
+    <entry file="file://$PROJECT_DIR$/core/block.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="489">
-          <caret line="39" column="19" lean-forward="false" selection-start-line="39" selection-start-column="19" selection-end-line="39" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="219">
+          <caret line="60" column="25" lean-forward="false" selection-start-line="60" selection-start-column="25" selection-end-line="60" selection-end-column="25" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -659,6 +616,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/core/DataEmbeddingGraph.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/SimpleConvNet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="32" column="0" lean-forward="false" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/util/mnist_data_loader.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="570">
@@ -667,33 +644,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/GraphConvNet2.py">
+    <entry file="file://$PROJECT_DIR$/util/draw_random_subset.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="563">
-          <caret line="49" column="8" lean-forward="false" selection-start-line="49" selection-start-column="8" selection-end-line="50" selection-end-column="67" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/GraphConvNetCell.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/SimpleConvNet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="32" column="0" lean-forward="true" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="135">
+          <caret line="11" column="34" lean-forward="false" selection-start-line="11" selection-start-column="34" selection-end-line="11" selection-end-column="34" />
+          <folding />
         </state>
       </provider>
     </entry>
