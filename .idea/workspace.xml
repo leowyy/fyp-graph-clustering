@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="c77c5ea6-97cc-4fe8-9972-2ba1a0ca9024" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/core/GraphConvNet2.py" afterPath="$PROJECT_DIR$/core/GraphConvNet2.py" />
-      <change beforePath="$PROJECT_DIR$/train_mnist_spectral.ipynb" afterPath="$PROJECT_DIR$/train_mnist_spectral.ipynb" />
+      <change beforePath="$PROJECT_DIR$/core/SimpleConvNet.py" afterPath="$PROJECT_DIR$/core/SimpleConvNet.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -26,11 +26,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GraphConvNet2.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="GraphConvNet2.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/GraphConvNet2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="106" column="8" lean-forward="false" selection-start-line="106" selection-start-column="8" selection-end-line="106" selection-end-column="8" />
+            <state relative-caret-position="360">
+              <caret line="102" column="0" lean-forward="false" selection-start-line="102" selection-start-column="0" selection-end-line="105" selection-end-column="90" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -38,11 +38,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SimpleConvNet.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="SimpleConvNet.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/core/SimpleConvNet.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="32" column="0" lean-forward="false" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+            <state relative-caret-position="1080">
+              <caret line="72" column="50" lean-forward="false" selection-start-line="72" selection-start-column="50" selection-end-line="72" selection-end-column="50" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -121,10 +121,10 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/core/GraphConvNetCell.py" />
         <option value="$PROJECT_DIR$/core/GraphConvNet.py" />
-        <option value="$PROJECT_DIR$/core/SimpleConvNet.py" />
         <option value="$PROJECT_DIR$/core/DataEmbeddingGraph.py" />
         <option value="$PROJECT_DIR$/core/block.py" />
         <option value="$PROJECT_DIR$/core/GraphConvNet2.py" />
+        <option value="$PROJECT_DIR$/core/SimpleConvNet.py" />
       </list>
     </option>
   </component>
@@ -587,16 +587,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/SimpleConvNet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="32" column="0" lean-forward="false" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/util/mnist_data_loader.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="570">
@@ -614,8 +604,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/core/GraphConvNet2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="106" column="8" lean-forward="false" selection-start-line="106" selection-start-column="8" selection-end-line="106" selection-end-column="8" />
+        <state relative-caret-position="360">
+          <caret line="102" column="0" lean-forward="false" selection-start-line="102" selection-start-column="0" selection-end-line="105" selection-end-column="90" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/SimpleConvNet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1080">
+          <caret line="72" column="50" lean-forward="false" selection-start-line="72" selection-start-column="50" selection-end-line="72" selection-end-column="50" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>
