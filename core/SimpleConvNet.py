@@ -74,6 +74,8 @@ class SimpleConvNet(nn.Module):
         distances_2 = y[W.row, :] - y[W.col, :]
         loss = torch.mean(torch.pow(distances_1.norm(dim=1) - distances_2.norm(dim=1), 2))
 
+        return loss
+    
     def update(self, lr):
 
         update = torch.optim.Adam(self.parameters(), lr=lr)
