@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c77c5ea6-97cc-4fe8-9972-2ba1a0ca9024" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/evaluation_test.ipynb" afterPath="$PROJECT_DIR$/evaluation_test.ipynb" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/train_mnist_tsne_pca.ipynb" />
+      <change beforePath="$PROJECT_DIR$/core/GraphConvNet2.py" afterPath="$PROJECT_DIR$/core/GraphConvNet2.py" />
+      <change beforePath="$PROJECT_DIR$/evaluation_test.ipynb" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/train_mnist_tsne.ipynb" afterPath="$PROJECT_DIR$/train_mnist_tsne.ipynb" />
+      <change beforePath="$PROJECT_DIR$/train_mnist_tsne_old.ipynb" afterPath="" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -29,7 +32,7 @@
       <file leaf-file-name="GraphConvNet2.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/GraphConvNet2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
+            <state relative-caret-position="1455">
               <caret line="102" column="0" lean-forward="false" selection-start-line="102" selection-start-column="0" selection-end-line="105" selection-end-column="90" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
@@ -42,7 +45,7 @@
         <entry file="file://$PROJECT_DIR$/core/SimpleConvNet.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="446">
-              <caret line="68" column="0" lean-forward="true" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
+              <caret line="68" column="0" lean-forward="false" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -159,7 +162,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -181,6 +183,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scratches" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -227,7 +230,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="49" y="72" width="1362" height="781" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.196868" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -275,14 +277,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/core/DimReduction.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/core/GraphConvNetCell.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="885">
@@ -608,7 +602,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/core/GraphConvNet2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
+        <state relative-caret-position="1455">
           <caret line="102" column="0" lean-forward="false" selection-start-line="102" selection-start-column="0" selection-end-line="105" selection-end-column="90" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
@@ -627,10 +621,17 @@
     <entry file="file://$PROJECT_DIR$/core/SimpleConvNet.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="446">
-          <caret line="68" column="0" lean-forward="true" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
+          <caret line="68" column="0" lean-forward="false" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation_test.ipynb">
+      <provider selected="true" editor-type-id="ipnb-editor">
+        <state>
+          <selected id="0" />
         </state>
       </provider>
     </entry>

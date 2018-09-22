@@ -108,9 +108,7 @@ class GraphConvNet2(nn.Module):
         return loss
 
     def update(self, lr):
-
         update = torch.optim.Adam(self.parameters(), lr=lr)
-
         return update
 
     def update_learning_rate(self, optimizer, lr):
