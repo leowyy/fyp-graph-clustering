@@ -3,9 +3,11 @@ import scipy.sparse as sp
 from sklearn import manifold
 from timeit import default_timer as timer
 
+from core.DimReduction import DimReduction
+
 
 class DataEmbeddingGraph(object):
-    def __init__(self, X, labels, reduction_method='spectral'):
+    def __init__(self, X, labels, method='spectral'):
         # Unrolled image vectors
         X_unrolled = X.view(X.shape[0], -1).numpy()
 
@@ -15,16 +17,13 @@ class DataEmbeddingGraph(object):
         W = embedder._get_affinity_matrix(X_unrolled)
         W = sp.coo_matrix(W)  # sparse matrix
 
-        if reduction_method == 'spectral':
-            pass
-        elif reduction_method == 'tsne':
-            embedder = manifold.TSNE(n_components=2, init='pca', random_state=0)
-        else:
-            raise ValueError('Solver type was not recognised.')
+        # Reduction method
+        dim_red = DimReduction(n_components=2)
+        int_labels = [int(l) for l in labels]
 
         # Get embedding matrix
         start = timer()
-        y = embedder.fit_transform(X_unrolled)
+        y = dim_red.fit_transform(X_unrolled, method, int_labels)
         end = timer()
 
         # Get edge information
