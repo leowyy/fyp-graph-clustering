@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c77c5ea6-97cc-4fe8-9972-2ba1a0ca9024" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/experiments/oracle_embedding.py" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/core/DataEmbeddingGraph.py" afterPath="$PROJECT_DIR$/core/DataEmbeddingGraph.py" />
-      <change beforePath="$PROJECT_DIR$/core/DimReduction.py" afterPath="$PROJECT_DIR$/core/DimReduction.py" />
       <change beforePath="$PROJECT_DIR$/evaluation_test.ipynb" afterPath="$PROJECT_DIR$/evaluation_test.ipynb" />
-      <change beforePath="$PROJECT_DIR$/experiments/oracle_embedding.ipynb" afterPath="$PROJECT_DIR$/experiments/oracle_embedding.ipynb" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -79,8 +74,8 @@
       <file leaf-file-name="DimReduction.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/core/DimReduction.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" column="56" lean-forward="false" selection-start-line="12" selection-start-column="56" selection-end-line="12" selection-end-column="56" />
+            <state relative-caret-position="262">
+              <caret line="18" column="96" lean-forward="false" selection-start-line="18" selection-start-column="96" selection-end-line="18" selection-end-column="96" />
               <folding>
                 <element signature="e#0#43#0" expanded="true" />
               </folding>
@@ -102,7 +97,7 @@
         <entry file="file://$PROJECT_DIR$/core/DataEmbeddingGraph.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="255">
-              <caret line="17" column="45" lean-forward="true" selection-start-line="17" selection-start-column="45" selection-end-line="17" selection-end-column="45" />
+              <caret line="17" column="45" lean-forward="false" selection-start-line="17" selection-start-column="45" selection-end-line="17" selection-end-column="45" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -190,16 +185,6 @@
               <item name="fyp-graph-clustering" type="b2602c69:ProjectViewProjectNode" />
               <item name="fyp-graph-clustering" type="462c0819:PsiDirectoryNode" />
               <item name="core" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="fyp-graph-clustering" type="b2602c69:ProjectViewProjectNode" />
-              <item name="fyp-graph-clustering" type="462c0819:PsiDirectoryNode" />
-              <item name="experiments" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="fyp-graph-clustering" type="b2602c69:ProjectViewProjectNode" />
-              <item name="fyp-graph-clustering" type="462c0819:PsiDirectoryNode" />
-              <item name="util" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -654,7 +639,7 @@
     <entry file="file://$PROJECT_DIR$/core/DataEmbeddingGraph.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
-          <caret line="17" column="45" lean-forward="true" selection-start-line="17" selection-start-column="45" selection-end-line="17" selection-end-column="45" />
+          <caret line="17" column="45" lean-forward="false" selection-start-line="17" selection-start-column="45" selection-end-line="17" selection-end-column="45" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
@@ -663,8 +648,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/core/DimReduction.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="56" lean-forward="false" selection-start-line="12" selection-start-column="56" selection-end-line="12" selection-end-column="56" />
+        <state relative-caret-position="262">
+          <caret line="18" column="96" lean-forward="false" selection-start-line="18" selection-start-column="96" selection-end-line="18" selection-end-column="96" />
           <folding>
             <element signature="e#0#43#0" expanded="true" />
           </folding>
