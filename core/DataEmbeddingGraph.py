@@ -23,7 +23,10 @@ class DataEmbeddingGraph(object):
 
         # Get embedding matrix
         start = timer()
-        y = dim_red.fit_transform(X_unrolled, method, int_labels)
+        if method is None:
+            y = None
+        else:
+            y = dim_red.fit_transform(X_unrolled, method, int_labels)
         end = timer()
 
         # Get edge information

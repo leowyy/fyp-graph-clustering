@@ -1,5 +1,6 @@
 import numpy as np
 from timeit import default_timer as timer
+import torch
 
 from sklearn import neighbors
 from sklearn.manifold.t_sne import trustworthiness
@@ -39,7 +40,10 @@ def evaluate_net_metrics(all_test_data, net):
     for i in range(n_test):
         G = all_test_data[i]
         time_start = timer()
-        y_pred = net.forward(G).detach().numpy()
+        if torch.cuda.is_available():   
+            y_pred = net.forward(G).cpu().detach().numpy()
+        else:    
+            y_pred = net.forward(G).detach().numpy()
         time_end = timer()
         time_tracker[i] = time_end - time_start
 
