@@ -32,6 +32,7 @@ def evaluate_net_metrics(all_test_data, net):
     Obtains the average trustworthiness, 1-NN accuracy and time taken to compute
     all_test_data should be a list of DataEmbeddingGraph objects
     """
+    net.eval()
     n_test = len(all_test_data)
     trust_tracker = np.zeros((n_test,))
     one_nn_tracker = np.zeros((n_test,))
