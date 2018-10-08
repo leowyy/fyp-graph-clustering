@@ -23,6 +23,8 @@ def draw_random_usps_samples(data_dir, n_samples=None, train=True):
         random_idx = np.random.choice(list(range(X.shape[0])), n_samples, replace=False)
         X = X[random_idx, :]
         labels = labels[random_idx]
+    else:
+        n_samples = len(labels)
 
     X = X.reshape(-1, 1, 16, 16).transpose((0, 2, 3, 1))  # convert to HWC
 
