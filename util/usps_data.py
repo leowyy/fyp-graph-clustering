@@ -32,8 +32,8 @@ def draw_random_usps_samples(data_dir, n_samples=None, train=True):
         transforms.ToPILImage(mode='F'),
         transforms.Resize((28, 28)),
         transforms.ToTensor(),
-        transforms.Normalize((0.25448,), (0.3846,)),
-        # transforms.Normalize((0.1307,), (0.3081,)),
+        #transforms.Normalize((0.25448,), (0.3846,)),
+        transforms.Normalize((0.1307,), (0.3081,)),
     ])
 
     # Resize input images to 28x28
