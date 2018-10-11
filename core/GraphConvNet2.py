@@ -68,7 +68,7 @@ class GraphConvNet2(nn.Module):
         # Data matrix
         x = G.data
 
-        # Unroll the image vector
+        # Unroll into single vector
         x = x.view(x.shape[0], -1)
 
         # Pass raw data matrix X directly as input

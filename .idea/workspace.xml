@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c77c5ea6-97cc-4fe8-9972-2ba1a0ca9024" name="Default" comment="" />
+    <list default="true" id="c77c5ea6-97cc-4fe8-9972-2ba1a0ca9024" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/core/DataEmbeddingGraph.py" afterPath="$PROJECT_DIR$/core/DataEmbeddingGraph.py" />
+      <change beforePath="$PROJECT_DIR$/core/GraphConvNet2.py" afterPath="$PROJECT_DIR$/core/GraphConvNet2.py" />
+      <change beforePath="$PROJECT_DIR$/train_usps_net_preprocessed.ipynb" afterPath="$PROJECT_DIR$/train_usps_net_preprocessed.ipynb" />
+      <change beforePath="$PROJECT_DIR$/util/evaluation_metrics.py" afterPath="$PROJECT_DIR$/util/evaluation_metrics.py" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -11,11 +17,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="GraphConvNet2.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="GraphConvNet2.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/GraphConvNet2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1268">
-              <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="21" />
+            <state relative-caret-position="1050">
+              <caret line="70" column="35" lean-forward="false" selection-start-line="70" selection-start-column="35" selection-end-line="70" selection-end-column="35" />
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DataEmbeddingGraph.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/core/DataEmbeddingGraph.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="11" column="51" lean-forward="true" selection-start-line="11" selection-start-column="51" selection-end-line="11" selection-end-column="51" />
               <folding />
             </state>
           </provider>
@@ -46,7 +64,7 @@
       <file leaf-file-name="DimReduction.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/DimReduction.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="262">
+            <state relative-caret-position="255">
               <caret line="18" column="96" lean-forward="false" selection-start-line="18" selection-start-column="96" selection-end-line="18" selection-end-column="96" />
               <folding>
                 <element signature="e#0#43#0" expanded="true" />
@@ -58,7 +76,7 @@
       <file leaf-file-name="usps_data.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/util/usps_data.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="344">
+            <state relative-caret-position="345">
               <caret line="26" column="30" lean-forward="false" selection-start-line="26" selection-start-column="30" selection-end-line="26" selection-end-column="30" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
@@ -70,8 +88,8 @@
       <file leaf-file-name="evaluation_metrics.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/util/evaluation_metrics.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="268">
-              <caret line="44" column="58" lean-forward="false" selection-start-line="44" selection-start-column="58" selection-end-line="44" selection-end-column="58" />
+            <state relative-caret-position="-263">
+              <caret line="30" column="21" lean-forward="false" selection-start-line="30" selection-start-column="21" selection-end-line="30" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -80,7 +98,7 @@
       <file leaf-file-name="mnist_data_loader.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/util/mnist_data_loader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="67">
+            <state relative-caret-position="105">
               <caret line="8" column="51" lean-forward="false" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="51" />
               <folding />
             </state>
@@ -126,15 +144,15 @@
         <option value="$PROJECT_DIR$/core/GraphConvNetCell.py" />
         <option value="$PROJECT_DIR$/core/GraphConvNet.py" />
         <option value="$PROJECT_DIR$/core/block.py" />
-        <option value="$PROJECT_DIR$/core/GraphConvNet2.py" />
         <option value="$PROJECT_DIR$/core/SimpleConvNet.py" />
         <option value="$PROJECT_DIR$/experiments/test_clustering.ipynb" />
         <option value="$PROJECT_DIR$/experiments/oracle_embedding.py" />
-        <option value="$PROJECT_DIR$/core/DataEmbeddingGraph.py" />
         <option value="$PROJECT_DIR$/core/DimReduction.py" />
         <option value="$PROJECT_DIR$/util/evaluate_net_metrics.py" />
-        <option value="$PROJECT_DIR$/util/evaluation_metrics.py" />
         <option value="$PROJECT_DIR$/util/usps_data.py" />
+        <option value="$PROJECT_DIR$/core/DataEmbeddingGraph.py" />
+        <option value="$PROJECT_DIR$/core/GraphConvNet2.py" />
+        <option value="$PROJECT_DIR$/util/evaluation_metrics.py" />
       </list>
     </option>
   </component>
@@ -159,6 +177,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -191,7 +210,6 @@
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -268,21 +286,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/core/GraphConvNet2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/DataEmbeddingGraph.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="585">
-          <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/core/block.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -316,7 +319,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1320">
           <caret line="93" column="0" lean-forward="false" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -350,7 +355,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1320">
           <caret line="93" column="0" lean-forward="false" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -397,7 +404,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1395">
           <caret line="93" column="0" lean-forward="false" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -531,16 +540,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/DataEmbeddingGraph.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="9" column="52" lean-forward="false" selection-start-line="8" selection-start-column="6" selection-end-line="9" selection-end-column="52" />
-          <folding>
-            <element signature="e#0#18#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/experiments/oracle_embedding.ipynb">
       <provider selected="true" editor-type-id="ipnb-editor">
         <state>
@@ -552,7 +551,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
           <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -560,15 +558,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="7" column="4" lean-forward="false" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="88" />
-          <folding>
-            <element signature="e#0#12#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/core/DimReduction.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="262">
+        <state relative-caret-position="255">
           <caret line="18" column="96" lean-forward="false" selection-start-line="18" selection-start-column="96" selection-end-line="18" selection-end-column="96" />
           <folding>
             <element signature="e#0#43#0" expanded="true" />
@@ -578,23 +573,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/util/mnist_data_loader.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="67">
+        <state relative-caret-position="105">
           <caret line="8" column="51" lean-forward="false" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/util/evaluation_metrics.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="268">
-          <caret line="44" column="58" lean-forward="false" selection-start-line="44" selection-start-column="58" selection-end-line="44" selection-end-column="58" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/util/usps_data.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="344">
+        <state relative-caret-position="345">
           <caret line="26" column="30" lean-forward="false" selection-start-line="26" selection-start-column="30" selection-end-line="26" selection-end-column="30" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
@@ -602,10 +589,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/experiments/prepare_mnist_test_set.ipynb">
+      <provider selected="true" editor-type-id="ipnb-editor">
+        <state>
+          <selected id="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/experiments/improvement_test.ipynb">
+      <provider selected="true" editor-type-id="ipnb-editor">
+        <state>
+          <selected id="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/util/evaluation_metrics.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-263">
+          <caret line="30" column="21" lean-forward="false" selection-start-line="30" selection-start-column="21" selection-end-line="30" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/core/GraphConvNet2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1268">
-          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="21" />
+        <state relative-caret-position="1050">
+          <caret line="70" column="35" lean-forward="false" selection-start-line="70" selection-start-column="35" selection-end-line="70" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/DataEmbeddingGraph.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="11" column="51" lean-forward="true" selection-start-line="11" selection-start-column="51" selection-end-line="11" selection-end-column="51" />
           <folding />
         </state>
       </provider>

@@ -8,7 +8,7 @@ from core.DimReduction import DimReduction
 
 class DataEmbeddingGraph(object):
     def __init__(self, X, labels, method='spectral'):
-        # Unrolled image vectors
+        # Unrolled into single vector
         X_unrolled = X.view(X.shape[0], -1).numpy()
 
         # Get affinity matrix
