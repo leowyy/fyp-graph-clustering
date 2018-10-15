@@ -15,15 +15,15 @@ def nearest_neighbours_generalisation_accuracy(X, y, n_neighbors=1):
     """
     kf = KFold(n_splits=10)
     kf.get_n_splits(X)
-    errors = []
+    scores = []
     for train_index, test_index in kf.split(X):
         X_train, X_test = X[train_index], X[test_index]
         y_train, y_test = y[train_index], y[test_index]
         clf = neighbors.KNeighborsClassifier(n_neighbors)
         clf.fit(X_train, y_train)
         y_pred = clf.predict(X_test)
-        errors.append(accuracy_score(y_test, y_pred))
-    return np.average(errors)
+        scores.append(accuracy_score(y_test, y_pred))
+    return np.average(scores)
 
 
 def evaluate_net_metrics(all_test_data, net):
