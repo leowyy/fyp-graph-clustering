@@ -2,12 +2,18 @@ import numpy as np
 import scipy.sparse as sp
 from sklearn import manifold
 from timeit import default_timer as timer
+import torch
 
 from core.DimReduction import DimReduction
 
 
 class DataEmbeddingGraph(object):
     def __init__(self, X, labels, method='spectral'):
+        # Convert to torch if numpy array
+        if type(X) is np.ndarray:
+            X = torch.from_numpy(X)
+            X = X.type(torch.FloatTensor)
+
         # Unrolled into single vector
         X_unrolled = X.view(X.shape[0], -1).numpy()
 
