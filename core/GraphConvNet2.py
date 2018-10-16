@@ -112,7 +112,6 @@ class GraphConvNet2(nn.Module):
         return update
 
     def update_learning_rate(self, optimizer, lr):
-
         for param_group in optimizer.param_groups:
             param_group['lr'] = lr
 
