@@ -2,12 +2,20 @@ from torchvision import transforms
 import torchvision.datasets as datasets
 
 
-def get_train_set(data_dir):
+def get_train_set(data_dir, augment):
     # define transform
-    train_transform = transforms.Compose([
-        transforms.ToTensor(),
-        transforms.Normalize((0.1307,), (0.3081,)),
-    ])
+    if augment:
+        train_transform = transforms.Compose([
+            transforms.Resize((32, 32)),
+            transforms.Grayscale(3),
+            transforms.ToTensor(),
+            #transforms.Normalize((0.1307,), (0.3081,)),
+        ])
+    else:
+        train_transform = transforms.Compose([
+            transforms.ToTensor(),
+            #transforms.Normalize((0.1307,), (0.3081,)),
+        ])
 
     train_data = datasets.MNIST(
         root=data_dir, train=True,
@@ -16,7 +24,7 @@ def get_train_set(data_dir):
     return train_data
 
 
-def get_test_set(data_dir):
+def get_test_set(data_dir, augment):
     """
     Params
     ------
@@ -27,10 +35,18 @@ def get_test_set(data_dir):
     """
 
     # define transform
-    transform = transforms.Compose([
-        transforms.ToTensor(),
-        transforms.Normalize((0.1307,), (0.3081,)),
-    ])
+    if augment:
+        transform = transforms.Compose([
+            transforms.Resize((32, 32)),
+            transforms.Grayscale(3),
+            transforms.ToTensor(),
+            #transforms.Normalize((0.1307,), (0.3081,)),
+        ])
+    else:
+        transform = transforms.Compose([
+            transforms.ToTensor(),
+            #transforms.Normalize((0.1307,), (0.3081,)),
+        ])
 
     test_data = datasets.MNIST(
         root=data_dir, train=False,

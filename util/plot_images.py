@@ -4,16 +4,11 @@ from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 import numpy as np
 from socket import timeout
 import urllib
-# from urllib.request import Request, urlopen  # Python 3
 from urllib.error import HTTPError, URLError
 
 
 def get_image_from_url(url):
     try:
-        # q = Request(url)
-        # agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'
-        # q.add_header('User-Agent', agent)
-        # response = urlopen(q)
         response = urllib.request.urlopen(url, timeout=10, headers='abc')
     except (HTTPError, URLError):
         return None
