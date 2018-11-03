@@ -16,7 +16,7 @@ def get_train_set(data_dir, augment):
         train_transform = transforms.Compose([
             transforms.ToPILImage(mode='F'),
             transforms.ToTensor(),
-            #transforms.Normalize((0.1307,), (0.3081,)),
+            transforms.Normalize((0.1307,), (0.3081,)),
         ])
 
     train_data = USPS(
@@ -49,7 +49,7 @@ def get_test_set(data_dir, augment):
         transform = transforms.Compose([
             transforms.ToPILImage(mode='F'),
             transforms.ToTensor(),
-            #transforms.Normalize((0.1307,), (0.3081,)),
+            transforms.Normalize((0.1307,), (0.3081,)),
         ])
 
     test_data = USPS(

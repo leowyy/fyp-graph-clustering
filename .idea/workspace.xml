@@ -2,21 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c77c5ea6-97cc-4fe8-9972-2ba1a0ca9024" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/util/plot_bokeh_embedding.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/util/usps_data_loader.py" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/20 newsgroups LDA viz.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/evaluation_test.ipynb" afterPath="$PROJECT_DIR$/evaluation_test.ipynb" />
-      <change beforePath="$PROJECT_DIR$/experiments/20news_test.ipynb" afterPath="$PROJECT_DIR$/experiments/20news_test.ipynb" />
-      <change beforePath="$PROJECT_DIR$/experiments/fasttext.ipynb" afterPath="" />
       <change beforePath="$PROJECT_DIR$/experiments/fasttext_test.ipynb" afterPath="$PROJECT_DIR$/experiments/fasttext_test.ipynb" />
-      <change beforePath="$PROJECT_DIR$/experiments/improvement_test.ipynb" afterPath="$PROJECT_DIR$/archive/improvement_test.ipynb" />
-      <change beforePath="$PROJECT_DIR$/experiments/oracle_embedding.ipynb" afterPath="$PROJECT_DIR$/archive/oracle_embedding.ipynb" />
-      <change beforePath="$PROJECT_DIR$/train_mnist_net.ipynb" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/train_net_preprocessed.ipynb" afterPath="$PROJECT_DIR$/train_net_preprocessed.ipynb" />
-      <change beforePath="$PROJECT_DIR$/util/mnist_data_loader.py" afterPath="$PROJECT_DIR$/util/mnist_data_loader.py" />
-      <change beforePath="$PROJECT_DIR$/util/plot_images.py" afterPath="$PROJECT_DIR$/util/plot_images.py" />
-      <change beforePath="$PROJECT_DIR$/util/usps_data.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/experiments/transfer_learning_tutorial.ipynb" afterPath="$PROJECT_DIR$/experiments/transfer_learning_tutorial.ipynb" />
+      <change beforePath="$PROJECT_DIR$/util/usps_data_loader.py" afterPath="$PROJECT_DIR$/util/usps_data_loader.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -40,7 +29,7 @@
       <file leaf-file-name="mnist_data_loader.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/util/mnist_data_loader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="412">
+            <state relative-caret-position="690">
               <caret line="47" column="13" lean-forward="false" selection-start-line="47" selection-start-column="13" selection-end-line="47" selection-end-column="13" />
               <folding>
                 <element signature="e#0#34#0" expanded="true" />
@@ -52,30 +41,8 @@
       <file leaf-file-name="usps.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/util/usps.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="104">
+            <state relative-caret-position="375">
               <caret line="32" column="72" lean-forward="false" selection-start-line="32" selection-start-column="16" selection-end-line="32" selection-end-column="72" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="usps_data_loader.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/util/usps_data_loader.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" column="34" lean-forward="false" selection-start-line="11" selection-start-column="34" selection-end-line="11" selection-end-column="34" />
-              <folding>
-                <element signature="e#0#34#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="cifar_data_loader.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/util/cifar_data_loader.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-835">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -94,8 +61,8 @@
       <file leaf-file-name="plot_bokeh_embedding.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/util/plot_bokeh_embedding.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="495">
-              <caret line="33" column="0" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+            <state relative-caret-position="45">
+              <caret line="5" column="24" lean-forward="false" selection-start-line="5" selection-start-column="24" selection-end-line="5" selection-end-column="24" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -103,21 +70,45 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="evaluation_metrics.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="evaluation_metrics.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/util/evaluation_metrics.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="915">
-              <caret line="69" column="38" lean-forward="false" selection-start-line="69" selection-start-column="38" selection-end-line="69" selection-end-column="38" />
+            <state relative-caret-position="660">
+              <caret line="52" column="67" lean-forward="false" selection-start-line="52" selection-start-column="53" selection-end-line="52" selection-end-column="67" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DimReduction.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/DimReduction.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="18" column="96" lean-forward="false" selection-start-line="18" selection-start-column="23" selection-end-line="18" selection-end-column="96" />
+              <folding>
+                <element signature="e#0#43#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="plot_images.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/util/plot_images.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="15">
+              <caret line="10" column="8" lean-forward="false" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="draw_random_subset.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="draw_random_subset.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/util/draw_random_subset.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="5" column="43" lean-forward="false" selection-start-line="5" selection-start-column="32" selection-end-line="5" selection-end-column="43" />
+            <state relative-caret-position="120">
+              <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -181,8 +172,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="16" />
-    <option name="y" value="29" />
+    <option name="x" value="69" />
+    <option name="y" value="23" />
     <option name="width" value="1188" />
     <option name="height" value="764" />
   </component>
@@ -202,6 +193,7 @@
     </navigator>
     <panes>
       <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -238,7 +230,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -286,9 +277,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="16" y="29" width="1188" height="764" extended-state="0" />
+    <frame x="69" y="23" width="1188" height="764" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29305914" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29305914" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -345,9 +337,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1320">
           <caret line="93" column="0" lean-forward="false" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#12#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -356,7 +345,7 @@
         <state relative-caret-position="240">
           <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
           <folding>
-            <element signature="e#0#43#0" expanded="false" />
+            <element signature="e#0#43#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -394,9 +383,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1395">
           <caret line="93" column="0" lean-forward="false" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#12#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -405,7 +391,7 @@
         <state relative-caret-position="240">
           <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
           <folding>
-            <element signature="e#0#43#0" expanded="false" />
+            <element signature="e#0#43#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -540,23 +526,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/DimReduction.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="8" column="8" lean-forward="false" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="8" />
-          <folding>
-            <element signature="e#0#43#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/core/GraphConvNet2.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="60" column="21" lean-forward="false" selection-start-line="60" selection-start-column="21" selection-end-line="60" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#12#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -572,27 +545,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="405">
           <caret line="27" column="45" lean-forward="false" selection-start-line="27" selection-start-column="45" selection-end-line="27" selection-end-column="45" />
-          <folding>
-            <element signature="e#0#18#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/util/draw_random_subset.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="5" column="43" lean-forward="false" selection-start-line="5" selection-start-column="32" selection-end-line="5" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/util/plot_images.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-37">
-          <caret line="10" column="8" lean-forward="false" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
-          <folding>
-            <element signature="e#0#31#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -606,7 +558,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/util/usps.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
+        <state relative-caret-position="375">
           <caret line="32" column="72" lean-forward="false" selection-start-line="32" selection-start-column="16" selection-end-line="32" selection-end-column="72" />
           <folding />
         </state>
@@ -614,15 +566,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/util/cifar_data_loader.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-835">
+        <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/util/mnist_data_loader.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="412">
+        <state relative-caret-position="690">
           <caret line="47" column="13" lean-forward="false" selection-start-line="47" selection-start-column="13" selection-end-line="47" selection-end-column="13" />
           <folding>
             <element signature="e#0#34#0" expanded="true" />
@@ -630,28 +581,35 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/util/usps_random_data.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="34" column="12" lean-forward="false" selection-start-line="34" selection-start-column="12" selection-end-line="34" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/util/data_sampler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="39" column="20" lean-forward="false" selection-start-line="37" selection-start-column="4" selection-end-line="52" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/util/usps_random_data.py" />
+    <entry file="file://$PROJECT_DIR$/util/data_sampler.py" />
     <entry file="file://$PROJECT_DIR$/util/usps_data_loader.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
+        <state relative-caret-position="150">
           <caret line="11" column="34" lean-forward="false" selection-start-line="11" selection-start-column="34" selection-end-line="11" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/SemiSuperCluGraph.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="43" column="22" lean-forward="false" selection-start-line="43" selection-start-column="17" selection-end-line="43" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/VariableSizeGraph.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="10" column="20" lean-forward="true" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/util/evaluation_metrics.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="660">
+          <caret line="52" column="67" lean-forward="false" selection-start-line="52" selection-start-column="53" selection-end-line="52" selection-end-column="67" />
           <folding>
-            <element signature="e#0#34#0" expanded="true" />
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -666,34 +624,36 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/util/plot_bokeh_embedding.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="33" column="0" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+        <state relative-caret-position="45">
+          <caret line="5" column="24" lean-forward="false" selection-start-line="5" selection-start-column="24" selection-end-line="5" selection-end-column="24" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/SemiSuperCluGraph.py">
+    <entry file="file://$PROJECT_DIR$/core/DimReduction.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="43" column="22" lean-forward="false" selection-start-line="43" selection-start-column="17" selection-end-line="43" selection-end-column="22" />
+        <state relative-caret-position="255">
+          <caret line="18" column="96" lean-forward="false" selection-start-line="18" selection-start-column="23" selection-end-line="18" selection-end-column="96" />
+          <folding>
+            <element signature="e#0#43#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/util/plot_images.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="10" column="8" lean-forward="false" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/VariableSizeGraph.py">
+    <entry file="file://$PROJECT_DIR$/util/draw_random_subset.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="10" column="20" lean-forward="true" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/util/evaluation_metrics.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="915">
-          <caret line="69" column="38" lean-forward="false" selection-start-line="69" selection-start-column="38" selection-end-line="69" selection-end-column="38" />
+        <state relative-caret-position="120">
+          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
           <folding />
         </state>
       </provider>
