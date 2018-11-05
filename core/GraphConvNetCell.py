@@ -83,8 +83,8 @@ class GraphConvNetCell(nn.Module):
         x1 = torch.mm(E_end, Vix) + torch.mm(E_start, Vjx) + self.bv2  # E x H_out
         x1 = torch.sigmoid(x1)
         Uix = self.Ui2(x)  # V x H_out
-        x2 = torch.mm(E_start, Uix)  # V x H_out
         Ujx = self.Uj2(x)  # V x H_out
+        x2 = torch.mm(E_start, Ujx)  # V x H_out
         x = Uix + torch.mm(E_end.t(), x1 * x2) + self.bu2  # V x H_out
         # bn2
         x = self.bn2(x)
