@@ -7,6 +7,7 @@ import torch
 from learn_embedding import train
 from core.EmbeddingDataSet import EmbeddingDataSet
 from core.GraphConvNet2 import GraphConvNet2
+from core.SimpleNet import SimpleNet
 
 
 def save_metadata(checkpoint_dir, task_parameters, net_parameters, opt_parameters):
@@ -28,13 +29,13 @@ def save_train_log(checkpoint_dir, tab_results):
         pickle.dump(tab_results, f)
 
 
-def main(input_dir, output_dir, dataset_name):
+def main(input_dir, output_dir, dataset_name, net_type):
     dataset = EmbeddingDataSet(dataset_name, input_dir)
     dataset.prepare_train_data()
     dataset.summarise()
 
     task_parameters = {}
-    task_parameters['net_type'] = 'graph_net'
+    task_parameters['net_type'] = net_type
     task_parameters['loss_function'] = 'composite_loss'
     task_parameters['n_components'] = 2
     task_parameters['val_flag'] = False
@@ -53,7 +54,7 @@ def main(input_dir, output_dir, dataset_name):
     opt_parameters['save_flag'] = True
     opt_parameters['decay_rate'] = 1.25
 
-    if 1 == 1:  # fast debugging
+    if 2 == 1:  # fast debugging
         opt_parameters['max_iters'] = 5
         opt_parameters['batch_iters'] = 1
 
@@ -65,7 +66,11 @@ def main(input_dir, output_dir, dataset_name):
     print('Saving results into: {}'.format(checkpoint_dir))
 
     # Initialise network
-    net = GraphConvNet2(net_parameters)
+    if net_type == 'graph':
+        net = GraphConvNet2(net_parameters)
+    elif net_type == 'simple':
+        net = SimpleNet(net_parameters)
+
     if torch.cuda.is_available():
         net.cuda()
 
@@ -81,9 +86,11 @@ if __name__ == "__main__":
     parser.add_argument('-i', '--input_dir', type=str, help='input dir')
     parser.add_argument('-o', '--output_dir', type=str, help='output dir')
     parser.add_argument('-d', '--dataset_name', type=str, help='name of dataset')
+    parser.add_argument('-net', '--net_type', type=str, help='type of network')
     args = parser.parse_args()
 
     print("Input directory: {}".format(args.input_dir))
     print("Output directory: {}".format(args.output_dir))
     print("Dataset name: {}".format(args.dataset_name))
-    main(args.input_dir, args.output_dir, args.dataset_name)
+    print("Network type: {}".format(args.net_type))
+    main(args.input_dir, args.output_dir, args.dataset_name, args.net_type)
