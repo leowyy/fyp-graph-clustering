@@ -1,3 +1,4 @@
+import pickle
 import argparse
 import os
 import pathlib
@@ -5,6 +6,25 @@ from core.EmbeddingDataSet import EmbeddingDataSet
 from core.GraphConvNet2 import GraphConvNet2
 import torch
 from learn_embedding import train
+
+
+def save_metadata(checkpoint_dir, task_parameters, net_parameters, opt_parameters):
+    metadata_filename = os.path.join(checkpoint_dir, "experiment_metadata.txt")
+    with open(metadata_filename, 'w') as f:
+        f.write('-----------------------\n')
+        f.write('\n'.join(["%s = %s" % (k, v) for k, v in task_parameters.items()]))
+
+        f.write('\n-----------------------\n')
+        f.write('\n'.join(["%s = %s" % (k, v) for k, v in net_parameters.items()]))
+
+        f.write('\n-----------------------\n')
+        f.write('\n'.join(["%s = %s" % (k, v) for k, v in opt_parameters.items()]))
+
+
+def save_train_log(checkpoint_dir, tab_results):
+    logs_filename = os.path.join(checkpoint_dir, "experiment_results.pkl")
+    with open(logs_filename, 'wb') as f:
+        pickle.dump(tab_results, f)
 
 
 def main(input_dir, output_dir, dataset_name):
@@ -36,17 +56,23 @@ def main(input_dir, output_dir, dataset_name):
         opt_parameters['max_iters'] = 5
         opt_parameters['batch_iters'] = 1
 
+    # Create checkpoint dir
     subdirs = [x[0] for x in os.walk(output_dir) if dataset_name in x[0]]
     run_number = str(len(subdirs) + 1)
-    checkpoint_dir = os.path.join(output_dir, dataset_name + '_'  + run_number)
+    checkpoint_dir = os.path.join(output_dir, dataset_name + '_' + run_number)
     pathlib.Path(checkpoint_dir).mkdir(exist_ok=True)  # create the directory if it doesn't exist
     print('Saving results into: {}'.format(checkpoint_dir))
 
+    # Initialise network
     net = GraphConvNet2(net_parameters)
     if torch.cuda.is_available():
         net.cuda()
 
-    train(net, dataset.all_train_data, opt_parameters, task_parameters['loss_function'], checkpoint_dir)
+    tab_results = train(net, dataset.all_train_data, opt_parameters, task_parameters['loss_function'], checkpoint_dir)
+
+    if opt_parameters['save_flag']:
+        save_metadata(checkpoint_dir, task_parameters, net_parameters, opt_parameters)
+        save_train_log(checkpoint_dir, tab_results)
 
 
 if __name__ == "__main__":

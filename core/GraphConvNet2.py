@@ -20,6 +20,8 @@ class GraphConvNet2(nn.Module):
 
         super(GraphConvNet2, self).__init__()
 
+        self.name = 'graph_net'
+
         # parameters
         D = net_parameters['D']
         n_components = net_parameters['n_components']

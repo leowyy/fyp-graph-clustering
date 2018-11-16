@@ -31,9 +31,11 @@ def train(net, all_train_data, opt_parameters, loss_function, checkpoint_dir):
 
     # Statistics
     t_start = time.time()
+    t_start_total = time.time()
     average_loss_old = 1e10
     running_loss = 0.0
     running_total = 0
+    tab_results = []
 
     for iteration in range(1, max_iters+1):
         net.train()
@@ -79,12 +81,16 @@ def train(net, all_train_data, opt_parameters, loss_function, checkpoint_dir):
             running_total = 0
 
             # print results
-            print('\niteration= %d, loss(%diter)= %.8f, lr= %.8f, time(%diter)= %.2f' %
+            print('iteration= %d, loss(%diter)= %.8f, lr= %.8f, time(%diter)= %.2f' %
                   (iteration, batch_iters, average_loss, lr, batch_iters, t_stop))
+            tab_results.append([iteration, average_loss, time.time() - t_start_total])
 
         if iteration % checkpoint_interval == 0:
-                filename = os.path.join(checkpoint_dir + '_' + str(iteration) + '.pkl')
-                save_checkpoint({
-                    'state_dict': net.state_dict(),
-                    'optimizer' : optimizer.state_dict(),
-                }, filename)
+            print('Saving checkpoint at iteration = {}\n'.format(iteration))
+            filename = os.path.join(checkpoint_dir, net.name + '_' + str(iteration) + '.pkl')
+            save_checkpoint({
+                'state_dict': net.state_dict(),
+                'optimizer' : optimizer.state_dict(),
+            }, filename)
+
+    return tab_results
