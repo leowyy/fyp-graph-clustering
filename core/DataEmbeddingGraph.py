@@ -25,14 +25,13 @@ class DataEmbeddingGraph(object):
 
         # Reduction method
         dim_red = DimReduction(n_components=2)
-        int_labels = [int(l) for l in labels]
 
         # Get embedding matrix
         start = timer()
         if method is None:
             y = None
         else:
-            y = dim_red.fit_transform(X_unrolled, method, int_labels)
+            y = dim_red.fit_transform(X_unrolled, method)
         end = timer()
 
         # Get edge information
