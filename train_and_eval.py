@@ -1,11 +1,12 @@
+import os
 import pickle
 import argparse
-import os
 import pathlib
+import torch
+
+from learn_embedding import train
 from core.EmbeddingDataSet import EmbeddingDataSet
 from core.GraphConvNet2 import GraphConvNet2
-import torch
-from learn_embedding import train
 
 
 def save_metadata(checkpoint_dir, task_parameters, net_parameters, opt_parameters):

@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c77c5ea6-97cc-4fe8-9972-2ba1a0ca9024" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/core/SimpleNet.py" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/core/EmbeddingDataSet.py" afterPath="$PROJECT_DIR$/core/EmbeddingDataSet.py" />
       <change beforePath="$PROJECT_DIR$/core/GraphConvNet2.py" afterPath="$PROJECT_DIR$/core/GraphConvNet2.py" />
-      <change beforePath="$PROJECT_DIR$/learn_embedding.py" afterPath="$PROJECT_DIR$/learn_embedding.py" />
       <change beforePath="$PROJECT_DIR$/train_and_eval.py" afterPath="$PROJECT_DIR$/train_and_eval.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -40,21 +42,39 @@
       <file leaf-file-name="GraphConvNet2.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/GraphConvNet2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="140">
-              <caret line="22" column="27" lean-forward="false" selection-start-line="22" selection-start-column="27" selection-end-line="22" selection-end-column="27" />
+            <state relative-caret-position="1005">
+              <caret line="72" column="8" lean-forward="true" selection-start-line="72" selection-start-column="8" selection-end-line="73" selection-end-column="34" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="train_and_eval.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SimpleNet.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/core/SimpleNet.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="510">
+              <caret line="38" column="35" lean-forward="true" selection-start-line="38" selection-start-column="35" selection-end-line="38" selection-end-column="35" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SimpleConvNet.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/SimpleConvNet.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-184">
+              <caret line="57" column="18" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="train_and_eval.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/train_and_eval.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="900">
-              <caret line="60" column="38" lean-forward="true" selection-start-line="60" selection-start-column="38" selection-end-line="60" selection-end-column="38" />
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="-456">
+              <caret line="0" column="9" lean-forward="false" selection-start-line="0" selection-start-column="9" selection-end-line="0" selection-end-column="9" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -62,11 +82,9 @@
       <file leaf-file-name="EmbeddingDataSet.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/EmbeddingDataSet.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="356">
-              <caret line="85" column="0" lean-forward="false" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="0">
+              <caret line="0" column="9" lean-forward="false" selection-start-line="0" selection-start-column="9" selection-end-line="0" selection-end-column="9" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -74,9 +92,11 @@
       <file leaf-file-name="DataEmbeddingGraph.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/DataEmbeddingGraph.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
+            <state relative-caret-position="285">
               <caret line="19" column="29" lean-forward="false" selection-start-line="19" selection-start-column="29" selection-end-line="19" selection-end-column="29" />
-              <folding />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -84,31 +104,11 @@
       <file leaf-file-name="learn_embedding.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/learn_embedding.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1144">
+            <state relative-caret-position="1196">
               <caret line="95" column="22" lean-forward="false" selection-start-line="95" selection-start-column="22" selection-end-line="95" selection-end-column="22" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="plot_images.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/util/plot_images.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="10" column="8" lean-forward="false" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="draw_random_subset.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/util/draw_random_subset.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -168,10 +168,11 @@
         <option value="$PROJECT_DIR$/train.py" />
         <option value="$USER_HOME$/anaconda3/envs/py36/lib/python3.6/site-packages/sklearn/externals/joblib/externals/cloudpickle/cloudpickle.py" />
         <option value="$PROJECT_DIR$/core/DataEmbeddingGraph.py" />
-        <option value="$PROJECT_DIR$/core/EmbeddingDataSet.py" />
-        <option value="$PROJECT_DIR$/core/GraphConvNet2.py" />
         <option value="$PROJECT_DIR$/learn_embedding.py" />
         <option value="$PROJECT_DIR$/train_and_eval.py" />
+        <option value="$PROJECT_DIR$/core/EmbeddingDataSet.py" />
+        <option value="$PROJECT_DIR$/core/GraphConvNet2.py" />
+        <option value="$PROJECT_DIR$/core/SimpleNet.py" />
       </list>
     </option>
   </component>
@@ -344,13 +345,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/core/block.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="22" lean-forward="false" selection-start-line="16" selection-start-column="22" selection-end-line="16" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/core/graph_generator.py" />
     <entry file="file://$PROJECT_DIR$/core/GraphConvNetCell.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -443,24 +437,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/GraphConvNet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="12" lean-forward="false" selection-start-line="0" selection-start-column="12" selection-end-line="0" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/evaluation_test.ipynb">
       <provider selected="true" editor-type-id="ipnb-editor">
         <state>
           <selected id="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/SimpleConvNet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1110">
-          <caret line="78" column="25" lean-forward="false" selection-start-line="78" selection-start-column="25" selection-end-line="78" selection-end-column="25" />
         </state>
       </provider>
     </entry>
@@ -628,25 +608,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/core/DataEmbeddingGraph.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
+        <state relative-caret-position="285">
           <caret line="19" column="29" lean-forward="false" selection-start-line="19" selection-start-column="29" selection-end-line="19" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/EmbeddingDataSet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="85" column="0" lean-forward="false" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
           <folding>
-            <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/learn_embedding.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1144">
+        <state relative-caret-position="1196">
           <caret line="95" column="22" lean-forward="false" selection-start-line="95" selection-start-column="22" selection-end-line="95" selection-end-column="22" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
@@ -654,21 +626,51 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/GraphConvNet2.py">
+    <entry file="file://$PROJECT_DIR$/core/GraphConvNet.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="22" column="27" lean-forward="false" selection-start-line="22" selection-start-column="27" selection-end-line="22" selection-end-column="27" />
+        <state relative-caret-position="0">
+          <caret line="0" column="12" lean-forward="false" selection-start-line="0" selection-start-column="12" selection-end-line="0" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/EmbeddingDataSet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="9" lean-forward="false" selection-start-line="0" selection-start-column="9" selection-end-line="0" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/SimpleConvNet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-184">
+          <caret line="57" column="18" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/train_and_eval.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="900">
-          <caret line="60" column="38" lean-forward="true" selection-start-line="60" selection-start-column="38" selection-end-line="60" selection-end-column="38" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="-456">
+          <caret line="0" column="9" lean-forward="false" selection-start-line="0" selection-start-column="9" selection-end-line="0" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/GraphConvNet2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1005">
+          <caret line="72" column="8" lean-forward="true" selection-start-line="72" selection-start-column="8" selection-end-line="73" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/SimpleNet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="38" column="35" lean-forward="true" selection-start-line="38" selection-start-column="35" selection-end-line="38" selection-end-column="35" />
+          <folding />
         </state>
       </provider>
     </entry>

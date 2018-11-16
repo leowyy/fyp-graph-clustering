@@ -97,9 +97,7 @@ class GraphConvNet2(nn.Module):
         return x
 
     def loss(self, y, y_target):
-        # L2 loss
-        loss = nn.MSELoss()(y, y_target)
-
+        loss = nn.MSELoss()(y, y_target) # L2 loss
         return loss
 
     def pairwise_loss(self, y, y_target, W):
