@@ -70,10 +70,14 @@ def main(input_dir, output_dir, dataset_name, net_type):
         net = GraphConvNet2(net_parameters)
     elif net_type == 'simple':
         net = SimpleNet(net_parameters)
+        opt_parameters['max_iters'] = 2000
+        opt_parameters['batch_iters'] = 100
 
     if torch.cuda.is_available():
         net.cuda()
-
+    
+    print("Number of network parameters = {}".format(net.nb_param))
+    
     tab_results = train(net, dataset.all_train_data, opt_parameters, task_parameters['loss_function'], checkpoint_dir)
 
     if opt_parameters['save_flag']:

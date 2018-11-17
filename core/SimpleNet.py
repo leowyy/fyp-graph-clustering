@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from torch.autograd import Variable
 
 
@@ -21,15 +22,17 @@ class SimpleNet(nn.Module):
 
         self.name = 'simple_net'
 
-        n_units_1 = 300
-        n_units_2 = 50
+        n_units_1 = 500
+        n_units_2 = 500
+        n_units_3 = 2000
+        #n_units_4 = 500
         input_size = net_parameters['D']
         n_components = net_parameters['n_components']
 
         self.fc1 = nn.Linear(input_size, n_units_1)
         self.fc2 = nn.Linear(n_units_1, n_units_2)
-        self.fc3 = nn.Linear(n_units_2, n_components)
-
+        self.fc3 = nn.Linear(n_units_2, n_units_3)
+        self.fc4 = nn.Linear(n_units_3, n_components)
 
     def forward(self, G):
         # Data matrix
@@ -41,9 +44,10 @@ class SimpleNet(nn.Module):
         # Pass raw data matrix X directly as input
         x = Variable(torch.FloatTensor(x).type(dtypeFloat), requires_grad=False)
 
-        out = self.fc1(x)
-        out = self.fc2(out)
-        out = self.fc3(out)
+        out = F.relu(self.fc1(x))
+        out = F.relu(self.fc2(out))
+        out = F.relu(self.fc3(out))
+        out = self.fc4(out)
         return out
 
     def loss(self, y, y_target):
