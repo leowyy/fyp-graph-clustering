@@ -36,7 +36,7 @@ def main(input_dir, output_dir, dataset_name, net_type):
 
     task_parameters = {}
     task_parameters['net_type'] = net_type
-    task_parameters['loss_function'] = 'composite_loss'
+    task_parameters['loss_function'] = 'tsne_loss'
     task_parameters['n_components'] = 2
     task_parameters['val_flag'] = False
 
@@ -53,10 +53,6 @@ def main(input_dir, output_dir, dataset_name, net_type):
     opt_parameters['batch_iters'] = 10
     opt_parameters['save_flag'] = True
     opt_parameters['decay_rate'] = 1.25
-
-    if 2 == 1:  # fast debugging
-        opt_parameters['max_iters'] = 5
-        opt_parameters['batch_iters'] = 1
 
     # Create checkpoint dir
     subdirs = [x[0] for x in os.walk(output_dir) if dataset_name in x[0]]
@@ -79,6 +75,10 @@ def main(input_dir, output_dir, dataset_name, net_type):
     print("Number of network parameters = {}".format(net.nb_param))
     
     tab_results = train(net, dataset.all_train_data, opt_parameters, task_parameters['loss_function'], checkpoint_dir)
+
+    if 2 == 1:  # fast debugging
+        opt_parameters['max_iters'] = 5
+        opt_parameters['batch_iters'] = 1
 
     if opt_parameters['save_flag']:
         save_metadata(checkpoint_dir, task_parameters, net_parameters, opt_parameters)

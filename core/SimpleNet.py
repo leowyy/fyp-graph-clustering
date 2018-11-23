@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.autograd import Variable
+from core.tsne_torch_loss import tsne_torch_loss
 
 
 if torch.cuda.is_available():
@@ -61,6 +62,11 @@ class SimpleNet(nn.Module):
         distances_2 = y[W.row, :] - y[W.col, :]
         loss = torch.mean(torch.pow(distances_1.norm(dim=1) - distances_2.norm(dim=1), 2))
 
+        return loss
+
+    def tsne_loss(self, P, y):
+        loss = tsne_torch_loss(P, y)
+        
         return loss
 
     def update(self, lr):

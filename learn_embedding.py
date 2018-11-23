@@ -2,6 +2,7 @@ import os
 import time
 import torch
 from torch.autograd import Variable
+from core.tsne_torch_loss import compute_joint_probabilities
 
 
 if torch.cuda.is_available():
@@ -37,9 +38,18 @@ def train(net, all_train_data, opt_parameters, loss_function, checkpoint_dir):
     running_total = 0
     tab_results = []
 
+    if loss_function == 'tsne_loss':
+        all_P = []
+        for G in all_train_data:
+            X = G.data.view(G.data.shape[0], -1).numpy()
+            P = compute_joint_probabilities(X, verbose=0, perplexity=30)
+            P = P.reshape((X.shape[0], X.shape[0]))
+            P = torch.from_numpy(P).type(dtypeFloat)
+            all_P.append(P)
+
     for iteration in range(1, max_iters+1):
         net.train()
-        for G in all_train_data:
+        for i, G in enumerate(all_train_data):
             # Forward pass
             y_pred = net.forward(G)
 
@@ -54,6 +64,8 @@ def train(net, all_train_data, opt_parameters, loss_function, checkpoint_dir):
                 loss1 = net.loss(y_pred, y_true)
                 loss2 = net.pairwise_loss(y_pred, y_true, G.adj_matrix)
                 loss = 0.5 * loss1 + 0.5 * loss2
+            elif loss_function == 'tsne_loss':
+                loss = net.tsne_loss(all_P[i], y_pred)
 
             loss_train = loss.data[0]
             running_loss += loss_train
