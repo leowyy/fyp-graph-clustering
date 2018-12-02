@@ -7,6 +7,7 @@ import torch
 from learn_embedding import train
 from core.EmbeddingDataSet import EmbeddingDataSet
 from core.GraphConvNet2 import GraphConvNet2
+from core.OldGraphConvNet2 import OldGraphConvNet2
 from core.SimpleNet import SimpleNet
 
 
@@ -49,8 +50,8 @@ def main(input_dir, output_dir, dataset_name, net_type):
     # optimization parameters
     opt_parameters = {}
     opt_parameters['learning_rate'] = 0.00075  # ADAM
-    opt_parameters['max_iters'] = 200
-    opt_parameters['batch_iters'] = 10
+    opt_parameters['max_iters'] = 800
+    opt_parameters['batch_iters'] = 50
     opt_parameters['save_flag'] = True
     opt_parameters['decay_rate'] = 1.25
 
@@ -64,10 +65,12 @@ def main(input_dir, output_dir, dataset_name, net_type):
     # Initialise network
     if net_type == 'graph':
         net = GraphConvNet2(net_parameters)
+    elif net_type == 'old_graph':
+        net = OldGraphConvNet2(net_parameters)
     elif net_type == 'simple':
         net = SimpleNet(net_parameters)
-        opt_parameters['max_iters'] = 2000
-        opt_parameters['batch_iters'] = 100
+        opt_parameters['max_iters'] = 800
+        opt_parameters['batch_iters'] = 50
 
     if torch.cuda.is_available():
         net.cuda()
