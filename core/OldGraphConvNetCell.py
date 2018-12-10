@@ -4,10 +4,10 @@ import torch.nn as nn
 import numpy as np
 
 
-class GraphConvNetCell(nn.Module):
+class OldGraphConvNetCell(nn.Module):
 
     def __init__(self, dim_in, dim_out):
-        super(GraphConvNetCell, self).__init__()
+        super(OldGraphConvNetCell, self).__init__()
 
         # conv1
         self.Ui1 = nn.Linear(dim_in, dim_out, bias=False)
@@ -69,9 +69,9 @@ class GraphConvNetCell(nn.Module):
         Vjx = self.Vj1(x)  # V x H_out
         x1 = torch.mm(E_end, Vix) + torch.mm(E_start, Vjx) + self.bv1  # E x H_out
         x1 = torch.sigmoid(x1)
-        Ujx = self.Uj1(x)  # V x H_out
-        x2 = torch.mm(E_start, Ujx)  # V x H_out   
         Uix = self.Ui1(x)  # V x H_out
+        x2 = torch.mm(E_start, Uix)  # V x H_out
+        Ujx = self.Uj1(x)  # V x H_out
         x = Uix + torch.mm(E_end.t(), x1 * x2) + self.bu1  # V x H_out
         # bn1
         x = self.bn1(x)
@@ -81,10 +81,10 @@ class GraphConvNetCell(nn.Module):
         Vix = self.Vi2(x)  # V x H_out
         Vjx = self.Vj2(x)  # V x H_out
         x1 = torch.mm(E_end, Vix) + torch.mm(E_start, Vjx) + self.bv2  # E x H_out
-        x1 = torch.sigmoid(x1)
-        Ujx = self.Uj2(x)  # V x H_out
-        x2 = torch.mm(E_start, Ujx)  # V x H_out
+        x1 = torch.sigmoid(x1)        
         Uix = self.Ui2(x)  # V x H_out
+        x2 = torch.mm(E_start, Uix)  # V x H_out
+        Ujx = self.Uj2(x)  # V x H_out
         x = Uix + torch.mm(E_end.t(), x1 * x2) + self.bu2  # V x H_out
         # bn2
         x = self.bn2(x)

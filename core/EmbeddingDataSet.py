@@ -5,16 +5,16 @@ from core.DataEmbeddingGraph import DataEmbeddingGraph
 
 
 class EmbeddingDataSet():
-    train_dir = {'mnist': 'set_20000_mnist_tsne.pkl',
-                 'usps': 'set_7291_usps_tsne.pkl',
+    train_dir = {'mnist': 'mnist_train_tsne.pkl',
+                 'usps': 'usps_train_tsne.pkl',
                  '20news': '20news_train_tsne.pkl',
                  'yux': 'yux_train_tsne_shuffle.pkl',
                  'fasttext': 'fasttext_train_tsne.pkl',
                  'mnist_embeddings': 'mnist_embeddings_train.pkl',
                  'imagenet': 'imagenet_train.pkl'}
 
-    test_dir = {'mnist': 'set_100_mnist_spectral_size_200_500.pkl',
-                'usps': 'set_100_usps_spectral_size_200_500.pkl',
+    test_dir = {'mnist': 'mnist_test_tsne.pkl',
+                'usps': 'usps_test_tsne.pkl',
                 '20news': None,
                 'yux': None,
                 'fasttext': None,

@@ -8,7 +8,7 @@ from core.DimReduction import DimReduction
 
 
 class DataEmbeddingGraph(object):
-    def __init__(self, X, labels, method='spectral'):
+    def __init__(self, X, labels, method=None):
         # Convert to torch if numpy array
         if type(X) is np.ndarray:
             X = torch.from_numpy(X)

@@ -6,15 +6,15 @@ def get_train_set(data_dir, augment):
     # define transform
     if augment:
         train_transform = transforms.Compose([
-            transforms.Resize((32, 32)),
-            transforms.Grayscale(3),
+            #transforms.Resize((32, 32)),
+            #transforms.Grayscale(3),
             transforms.ToTensor(),
-            #transforms.Normalize((0.1307,), (0.3081,)),
+            transforms.Normalize((0.1307,), (0.3081,)),
         ])
     else:
         train_transform = transforms.Compose([
             transforms.ToTensor(),
-            #transforms.Normalize((0.1307,), (0.3081,)),
+            transforms.Normalize((0.1307,), (0.3081,)),
         ])
 
     train_data = datasets.MNIST(
@@ -37,15 +37,15 @@ def get_test_set(data_dir, augment):
     # define transform
     if augment:
         transform = transforms.Compose([
-            transforms.Resize((32, 32)),
-            transforms.Grayscale(3),
+            #transforms.Resize((32, 32)),
+            #transforms.Grayscale(3),
             transforms.ToTensor(),
-            #transforms.Normalize((0.1307,), (0.3081,)),
+            transforms.Normalize((0.1307,), (0.3081,)),
         ])
     else:
         transform = transforms.Compose([
             transforms.ToTensor(),
-            #transforms.Normalize((0.1307,), (0.3081,)),
+            transforms.Normalize((0.1307,), (0.3081,)),
         ])
 
     test_data = datasets.MNIST(

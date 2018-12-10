@@ -3,7 +3,7 @@ from torch.autograd import Variable
 import torch.nn as nn
 import numpy as np
 
-from core.GraphConvNetCell import GraphConvNetCell
+from core.OldGraphConvNetCell import OldGraphConvNetCell
 from core.tsne_torch_loss import tsne_torch_loss
 
 
@@ -15,11 +15,11 @@ else:
     dtypeLong = torch.LongTensor
 
 
-class GraphConvNet2(nn.Module):
+class OldGraphConvNet2(nn.Module):
 
     def __init__(self, net_parameters):
 
-        super(GraphConvNet2, self).__init__()
+        super(OldGraphConvNet2, self).__init__()
 
         self.name = 'graph_net'
 
@@ -41,7 +41,7 @@ class GraphConvNet2(nn.Module):
         list_of_gnn_cells = []  # list of NN cells
         for layer in range(L // 2):
             Hin, Hout = net_layers_extended[2 * layer], net_layers_extended[2 * layer + 2]
-            list_of_gnn_cells.append(GraphConvNetCell(Hin, Hout))
+            list_of_gnn_cells.append(OldGraphConvNetCell(Hin, Hout))
 
         # register the cells for pytorch
         self.gnn_cells = nn.ModuleList(list_of_gnn_cells)
