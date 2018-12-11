@@ -105,13 +105,13 @@ def compute_joint_probabilities(samples, batch_size=10000, d=2, perplexity=30, t
     return P
 
 
-def tsne_torch_loss(P, activations):
+def tsne_torch_loss(P, X_emb):
     d = 2
     n = P.shape[1]
     v = d - 1. # degrees of freedom
     eps = 10e-15 # needs to be at least 10e-8 to get anything after Q /= K.sum(Q)
-    sum_act = torch.sum(activations.pow(2), dim=1)
-    Q = torch.reshape(sum_act, [-1, 1]) + -2 *torch.mm(activations, torch.t(activations))
+    sum_act = torch.sum(X_emb.pow(2), dim=1)
+    Q = torch.reshape(sum_act, [-1, 1]) + -2 * torch.mm(X_emb, torch.t(X_emb))
     Q = (sum_act + Q) / v
     Q = torch.pow(1 + Q, -(v + 1) / 2)
     Q *= 1 - torch.eye(n).type(dtypeFloat)
