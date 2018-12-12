@@ -21,6 +21,7 @@ def save_checkpoint(state, filename):
 
 def train(net, embedding_dataset, opt_parameters, loss_function, checkpoint_dir):
     # Optimization parameters
+    metric = opt_parameters['distance_metric']
     lr = opt_parameters['learning_rate']
     max_iters = opt_parameters['max_iters']
     batch_iters = opt_parameters['batch_iters']
@@ -50,7 +51,7 @@ def train(net, embedding_dataset, opt_parameters, loss_function, checkpoint_dir)
             all_P = []
             for G in embedding_dataset.all_train_data:
                 X = G.data.view(G.data.shape[0], -1).numpy()
-                P = compute_joint_probabilities(X, verbose=0, perplexity=30)
+                P = compute_joint_probabilities(X, verbose=0, perplexity=30, metric=metric)
                 P = P.reshape((X.shape[0], X.shape[0]))
                 P = torch.from_numpy(P).type(dtypeFloat)
                 all_P.append(P)
@@ -72,9 +73,9 @@ def train(net, embedding_dataset, opt_parameters, loss_function, checkpoint_dir)
                 loss2 = net.pairwise_loss(y_pred, y_true, G.adj_matrix)
                 loss = 0.5 * loss1 + 0.5 * loss2
             elif loss_function == 'tsne_loss':
-                loss = net.tsne_loss(all_P[i], y_pred)
+                loss = net.tsne_loss(all_P[i], y_pred, metric=metric)
             elif loss_function =='tsne_graph_loss':
-                loss1 = net.tsne_loss(all_P[i], y_pred)
+                loss1 = net.tsne_loss(all_P[i], y_pred, metric=metric)
                 loss2 = net.graph_cut_loss(G.adj_matrix, y_pred)
                 loss = 0.5 * loss1 + 0.5 * loss2
                 running_tsne_loss += loss1.item()

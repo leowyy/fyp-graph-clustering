@@ -109,8 +109,8 @@ class GraphConvNet2(nn.Module):
 
         return loss
     
-    def tsne_loss(self, P, y):
-        loss = tsne_torch_loss(P, y)
+    def tsne_loss(self, P, y, metric='euclidean'):
+        loss = tsne_torch_loss(P, y, metric=metric)
         
         return loss
 

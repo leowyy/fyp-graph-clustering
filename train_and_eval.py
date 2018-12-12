@@ -37,7 +37,7 @@ def main(input_dir, output_dir, dataset_name, net_type):
 
     task_parameters = {}
     task_parameters['net_type'] = net_type
-    task_parameters['loss_function'] = 'tsne_loss'
+    task_parameters['loss_function'] = 'tsne_graph_loss'
     task_parameters['n_components'] = 2
     task_parameters['val_flag'] = False
 
@@ -54,6 +54,7 @@ def main(input_dir, output_dir, dataset_name, net_type):
     opt_parameters['batch_iters'] = 50
     opt_parameters['save_flag'] = True
     opt_parameters['decay_rate'] = 1.25
+    opt_parameters['distance_metric'] = 'cosine'
 
     # Create checkpoint dir
     subdirs = [x[0] for x in os.walk(output_dir) if dataset_name in x[0]]

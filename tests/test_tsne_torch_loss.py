@@ -16,23 +16,25 @@ else:
 
 class TestTorchLoss(unittest.TestCase):
     def test_loss_equal(self):
-        n_train = 500
-        n_dim = 100
-        X = np.random.rand(n_train, n_dim)
+        metrics = ['euclidean', 'cosine']
+        for metric in metrics:
+            n_train = 500
+            n_dim = 100
+            X = np.random.rand(n_train, n_dim)
 
-        embedder = TSNE(n_components=2, method='exact', perplexity=30)
-        X_emb = embedder.fit_transform(X)
-        loss_sklearn = embedder.kl_divergence_
+            embedder = TSNE(n_components=2, method='exact', metric=metric, perplexity=30)
+            X_emb = embedder.fit_transform(X)
+            loss_sklearn = embedder.kl_divergence_
 
-        P = compute_joint_probabilities(X, perplexity=30)
-        P = P.reshape((n_train, n_train))
-        P = torch.from_numpy(P).type(dtypeFloat)
-        activations = torch.from_numpy(X_emb).type(dtypeFloat)
-        loss_torch = tsne_torch_loss(P, activations)
+            P = compute_joint_probabilities(X, perplexity=30, metric=metric)
+            P = P.reshape((n_train, n_train))
+            P = torch.from_numpy(P).type(dtypeFloat)
+            activations = torch.from_numpy(X_emb).type(dtypeFloat)
+            loss_torch = tsne_torch_loss(P, activations, metric=metric)
 
-        print(loss_sklearn)
-        print(loss_torch)
-        np.testing.assert_almost_equal(loss_sklearn, loss_torch, decimal=2)
+            print(loss_sklearn)
+            print(loss_torch)
+            np.testing.assert_almost_equal(loss_sklearn, loss_torch, decimal=2)
 
 if __name__ == '__main__':
     unittest.main()

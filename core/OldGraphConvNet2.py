@@ -108,10 +108,10 @@ class OldGraphConvNet2(nn.Module):
         loss = torch.mean(torch.pow(distances_1.norm(dim=1) - distances_2.norm(dim=1), 2))
 
         return loss
-    
-    def tsne_loss(self, P, y):
-        loss = tsne_torch_loss(P, y)
-        
+
+    def tsne_loss(self, P, y, metric='euclidean'):
+        loss = tsne_torch_loss(P, y, metric=metric)
+
         return loss
 
     def graph_cut_loss(self, adj, y):
