@@ -5,6 +5,7 @@ import numpy as np
 
 from core.OldGraphConvNetCell import OldGraphConvNetCell
 from core.tsne_torch_loss import tsne_torch_loss
+from core.graph_cut_torch_loss import graph_cut_torch_loss
 
 
 if torch.cuda.is_available():
@@ -111,6 +112,11 @@ class OldGraphConvNet2(nn.Module):
     def tsne_loss(self, P, y):
         loss = tsne_torch_loss(P, y)
         
+        return loss
+
+    def graph_cut_loss(self, adj, y):
+        loss = graph_cut_torch_loss(adj, y)
+
         return loss
 
     def update(self, lr):

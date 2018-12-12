@@ -8,7 +8,7 @@ from core.DimReduction import DimReduction
 
 
 class DataEmbeddingGraph(object):
-    def __init__(self, X, labels, method=None):
+    def __init__(self, X, labels, method=None, W=None):
         # Convert to torch if numpy array
         if type(X) is np.ndarray:
             X = torch.from_numpy(X)
@@ -18,9 +18,10 @@ class DataEmbeddingGraph(object):
         X_unrolled = X.view(X.shape[0], -1).numpy()
 
         # Get affinity matrix
-        embedder = manifold.SpectralEmbedding(n_components=2, random_state=0,
-                                              eigen_solver="arpack")
-        W = embedder._get_affinity_matrix(X_unrolled)
+        if W is None:
+            embedder = manifold.SpectralEmbedding(n_components=2, random_state=0, eigen_solver="arpack")
+            W = embedder._get_affinity_matrix(X_unrolled)
+
         W = sp.coo_matrix(W)  # sparse matrix
 
         # Reduction method

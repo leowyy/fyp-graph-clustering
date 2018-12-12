@@ -37,7 +37,7 @@ def main(input_dir, output_dir, dataset_name, net_type):
 
     task_parameters = {}
     task_parameters['net_type'] = net_type
-    task_parameters['loss_function'] = 'tsne_loss'
+    task_parameters['loss_function'] = 'tsne_graph_loss'
     task_parameters['n_components'] = 2
     task_parameters['val_flag'] = False
 
@@ -76,12 +76,12 @@ def main(input_dir, output_dir, dataset_name, net_type):
         net.cuda()
     
     print("Number of network parameters = {}".format(net.nb_param))
-    
-    tab_results = train(net, dataset.all_train_data, opt_parameters, task_parameters['loss_function'], checkpoint_dir)
 
     if 2 == 1:  # fast debugging
         opt_parameters['max_iters'] = 5
         opt_parameters['batch_iters'] = 1
+
+    tab_results = train(net, dataset.all_train_data, opt_parameters, task_parameters['loss_function'], checkpoint_dir)
 
     if opt_parameters['save_flag']:
         save_metadata(checkpoint_dir, task_parameters, net_parameters, opt_parameters)
@@ -100,4 +100,5 @@ if __name__ == "__main__":
     print("Output directory: {}".format(args.output_dir))
     print("Dataset name: {}".format(args.dataset_name))
     print("Network type: {}".format(args.net_type))
+
     main(args.input_dir, args.output_dir, args.dataset_name, args.net_type)

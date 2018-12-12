@@ -34,11 +34,13 @@ def train(net, all_train_data, opt_parameters, loss_function, checkpoint_dir):
     t_start = time.time()
     t_start_total = time.time()
     average_loss_old = 1e10
+    running_tsne_loss = 0.0
+    running_graph_loss = 0.0
     running_loss = 0.0
     running_total = 0
     tab_results = []
 
-    if loss_function == 'tsne_loss':
+    if loss_function in ['tsne_loss', 'tsne_graph_loss']:
         all_P = []
         for G in all_train_data:
             X = G.data.view(G.data.shape[0], -1).numpy()
@@ -66,8 +68,15 @@ def train(net, all_train_data, opt_parameters, loss_function, checkpoint_dir):
                 loss = 0.5 * loss1 + 0.5 * loss2
             elif loss_function == 'tsne_loss':
                 loss = net.tsne_loss(all_P[i], y_pred)
+            elif loss_function =='tsne_graph_loss':
+                loss1 = net.tsne_loss(all_P[i], y_pred)
+                loss2 = net.graph_cut_loss(G.adj_matrix, y_pred)
+                loss = 0.5 * loss1 + 0.5 * loss2
 
-            loss_train = loss.data[0]
+                running_tsne_loss += loss1.item()
+                running_graph_loss += loss2.item()
+
+            loss_train = loss.item()
             running_loss += loss_train
             running_total += 1
 
@@ -89,13 +98,24 @@ def train(net, all_train_data, opt_parameters, loss_function, checkpoint_dir):
                 lr /= decay_rate
             average_loss_old = average_loss
             optimizer = net.update_learning_rate(optimizer, lr)
-            running_loss = 0.0
-            running_total = 0
 
             # print results
-            print('iteration= %d, loss(%diter)= %.8f, lr= %.8f, time(%diter)= %.2f' %
-                  (iteration, batch_iters, average_loss, lr, batch_iters, t_stop))
-            tab_results.append([iteration, average_loss, time.time() - t_start_total])
+            if loss_function == 'tsne_graph_loss':
+                average_tsne_loss = running_tsne_loss / running_total
+                average_graph_loss = running_graph_loss / running_total
+                running_tsne_loss = 0.0
+                running_graph_loss = 0.0
+                print('iteration= %d, loss(%diter)= %.8f, tsne_loss= %.8f, graph_loss= %.8f, '
+                      'lr= %.8f, time(%diter)= %.2f' %
+                      (iteration, batch_iters, average_loss, average_tsne_loss, average_graph_loss, lr, batch_iters, t_stop))
+                tab_results.append([iteration, average_loss, time.time() - t_start_total])
+            else:
+                print('iteration= %d, loss(%diter)= %.8f, lr= %.8f, time(%diter)= %.2f' %
+                      (iteration, batch_iters, average_loss, lr, batch_iters, t_stop))
+                tab_results.append([iteration, average_loss, time.time() - t_start_total])
+
+            running_loss = 0.0
+            running_total = 0
 
         if iteration % checkpoint_interval == 0:
             print('Saving checkpoint at iteration = {}\n'.format(iteration))
