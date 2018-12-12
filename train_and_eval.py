@@ -32,12 +32,12 @@ def save_train_log(checkpoint_dir, tab_results):
 
 def main(input_dir, output_dir, dataset_name, net_type):
     dataset = EmbeddingDataSet(dataset_name, input_dir)
-    dataset.prepare_train_data()
+    dataset.create_all_train_data(shuffle=True)
     dataset.summarise()
 
     task_parameters = {}
     task_parameters['net_type'] = net_type
-    task_parameters['loss_function'] = 'tsne_graph_loss'
+    task_parameters['loss_function'] = 'tsne_loss'
     task_parameters['n_components'] = 2
     task_parameters['val_flag'] = False
 
@@ -50,7 +50,7 @@ def main(input_dir, output_dir, dataset_name, net_type):
     # optimization parameters
     opt_parameters = {}
     opt_parameters['learning_rate'] = 0.00075  # ADAM
-    opt_parameters['max_iters'] = 800
+    opt_parameters['max_iters'] = 500
     opt_parameters['batch_iters'] = 50
     opt_parameters['save_flag'] = True
     opt_parameters['decay_rate'] = 1.25
@@ -81,7 +81,7 @@ def main(input_dir, output_dir, dataset_name, net_type):
         opt_parameters['max_iters'] = 5
         opt_parameters['batch_iters'] = 1
 
-    tab_results = train(net, dataset.all_train_data, opt_parameters, task_parameters['loss_function'], checkpoint_dir)
+    tab_results = train(net, dataset, opt_parameters, task_parameters['loss_function'], checkpoint_dir)
 
     if opt_parameters['save_flag']:
         save_metadata(checkpoint_dir, task_parameters, net_parameters, opt_parameters)

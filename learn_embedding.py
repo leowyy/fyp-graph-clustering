@@ -19,7 +19,7 @@ def save_checkpoint(state, filename):
     torch.save(state, filename)
 
 
-def train(net, all_train_data, opt_parameters, loss_function, checkpoint_dir):
+def train(net, embedding_dataset, opt_parameters, loss_function, checkpoint_dir):
     # Optimization parameters
     lr = opt_parameters['learning_rate']
     max_iters = opt_parameters['max_iters']
@@ -40,18 +40,23 @@ def train(net, all_train_data, opt_parameters, loss_function, checkpoint_dir):
     running_total = 0
     tab_results = []
 
-    if loss_function in ['tsne_loss', 'tsne_graph_loss']:
-        all_P = []
-        for G in all_train_data:
-            X = G.data.view(G.data.shape[0], -1).numpy()
-            P = compute_joint_probabilities(X, verbose=0, perplexity=30)
-            P = P.reshape((X.shape[0], X.shape[0]))
-            P = torch.from_numpy(P).type(dtypeFloat)
-            all_P.append(P)
-
     for iteration in range(1, max_iters+1):
+        # Set the net to training mode
         net.train()
-        for i, G in enumerate(all_train_data):
+
+        # Create a new set of data blocks
+        if loss_function in ['tsne_loss', 'tsne_graph_loss']:
+            embedding_dataset.create_all_train_data(shuffle=True)
+            all_P = []
+            for G in embedding_dataset.all_train_data:
+                X = G.data.view(G.data.shape[0], -1).numpy()
+                P = compute_joint_probabilities(X, verbose=0, perplexity=30)
+                P = P.reshape((X.shape[0], X.shape[0]))
+                P = torch.from_numpy(P).type(dtypeFloat)
+                all_P.append(P)
+
+        # Forward pass through all training data
+        for i, G in enumerate(embedding_dataset.all_train_data):
             # Forward pass
             y_pred = net.forward(G)
 
@@ -72,7 +77,6 @@ def train(net, all_train_data, opt_parameters, loss_function, checkpoint_dir):
                 loss1 = net.tsne_loss(all_P[i], y_pred)
                 loss2 = net.graph_cut_loss(G.adj_matrix, y_pred)
                 loss = 0.5 * loss1 + 0.5 * loss2
-
                 running_tsne_loss += loss1.item()
                 running_graph_loss += loss2.item()
 

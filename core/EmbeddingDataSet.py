@@ -1,6 +1,7 @@
 import os
 import pickle
 import numpy as np
+import torch
 from core.DataEmbeddingGraph import DataEmbeddingGraph
 
 
@@ -34,46 +35,55 @@ class EmbeddingDataSet():
 
         self.all_train_data = []
 
-    def prepare_train_data(self, max_train_size=None):
+        # Extract data from file contents
         data_root = os.path.join(self.data_dir, self.name)
         train_file = os.path.join(data_root, self.train_dir)
         with open(train_file, 'rb') as f:
             file_contents = pickle.load(f)
 
-        inputs = file_contents[0]
-        labels = file_contents[1]
-        X_emb = file_contents[2]
+        self.inputs = file_contents[0]
+        self.labels = file_contents[1]
+        self.X_emb = file_contents[2]
         if len(file_contents) > 3:
-            adj_matrix = file_contents[3]
+            self.adj_matrix = file_contents[3]
         else:
-            adj_matrix = None
+            self.adj_matrix = None
 
+        self.is_labelled = len(self.labels) != 0
+        self.is_graph = self.adj_matrix is not None
+        self.input_dim = np.prod(self.inputs.shape[1:])
+
+        if type(self.labels) is np.ndarray:
+            self.labels = torch.from_numpy(self.labels)
+            self.labels = self.labels.type(torch.FloatTensor)
+
+    def create_all_train_data(self, max_train_size=None, shuffle=False):
         if max_train_size is None:
-            max_train_size = inputs.shape[0]
-
-        self.is_labelled = len(labels) != 0
-        self.is_graph = adj_matrix is not None
-
+            max_train_size = self.inputs.shape[0]
         self.max_train_size = max_train_size
-        self.input_dim = np.prod(inputs.shape[1:])
 
         # Initialise all_train_data: list of DataEmbeddingGraph blocks
         i = 0
         labels_subset = []
         adj_subset = None
         self.all_train_data = []
-        while i <= self.max_train_size:
+
+        all_indices = np.arange(0, self.inputs.shape[0])
+        if shuffle:
+            np.random.shuffle(all_indices)
+
+        while i < self.max_train_size:
             # Draw a random training batch of variable size
             num_samples = np.random.randint(200, 500)
-            mask = list(range(i, min(i + num_samples, self.max_train_size)))
-            inputs_subset = inputs[mask]
-            X_emb_subset = X_emb[mask]
+            mask = all_indices[i: min(i + num_samples, self.max_train_size)]
+            inputs_subset = self.inputs[mask]
+            X_emb_subset = self.X_emb[mask]
             if self.is_labelled:
-                labels_subset = labels[mask]
+                labels_subset = self.labels[mask]
             if self.is_graph:
-                adj_subset = adj_matrix[mask, :][:, mask]
+                adj_subset = self.adj_matrix[mask, :][:, mask]
 
-            # Package into graph block
+            # Package data into graph block
             G = DataEmbeddingGraph(inputs_subset, labels_subset, method=None, W=adj_subset)
             G.target = X_emb_subset  # replace target with pre-computed embeddings
 
@@ -81,7 +91,6 @@ class EmbeddingDataSet():
             i += num_samples
 
         if self.all_train_data[-1].data.shape[0] < 200:
-            print('Removing the last block...')
             self.all_train_data = self.all_train_data[:-1]
 
     def summarise(self):
@@ -96,5 +105,5 @@ if __name__ == "__main__":
     name = 'cora'
     data_dir = '/Users/signapoop/desktop/data'
     dataset = EmbeddingDataSet(name, data_dir)
-    dataset.prepare_train_data()
+    dataset.create_all_train_data()
     dataset.summarise()

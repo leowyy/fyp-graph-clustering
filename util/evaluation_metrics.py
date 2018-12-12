@@ -56,13 +56,13 @@ def evaluate_net_metrics(all_test_data, net):
     return np.average(trust_tracker), np.average(one_nn_tracker), np.average(five_nn_tracker), np.average(time_tracker)
 
 
-def evaluate_embedding_metrics(all_test_data, method):
+def evaluate_embedding_metrics(all_test_data, embedder):
     """
-    Given an embedding method,
+    Given an embedder,
     Obtains the average trustworthiness, NN accuracy and time taken to compute
     all_test_data should be a list of DataEmbeddingGraph objects
     """
-    dim_red = DimReduction(n_components=2)
+    #dim_red = DimReduction(n_components=2)
     n_test = len(all_test_data)
     trust_tracker = np.zeros((n_test,))
     one_nn_tracker = np.zeros((n_test,))
@@ -73,7 +73,8 @@ def evaluate_embedding_metrics(all_test_data, method):
         G = all_test_data[i]
         X = G.data.view(G.data.shape[0], -1).numpy()  # unroll into a single vector
         time_start = timer()
-        X_emb = dim_red.fit_transform(X, method)
+        #X_emb = dim_red.fit_transform(X, method)
+        X_emb = embedder.fit_transform(X)
         time_end = timer()
         time_tracker[i] = time_end - time_start
 
