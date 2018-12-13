@@ -21,6 +21,7 @@ def save_checkpoint(state, filename):
 
 def train(net, embedding_dataset, opt_parameters, loss_function, checkpoint_dir):
     # Optimization parameters
+    split_batches = opt_parameters['split_batches']
     metric = opt_parameters['distance_metric']
     lr = opt_parameters['learning_rate']
     max_iters = opt_parameters['max_iters']
@@ -48,7 +49,7 @@ def train(net, embedding_dataset, opt_parameters, loss_function, checkpoint_dir)
 
         # Create a new set of data blocks
         if loss_function in ['tsne_loss', 'tsne_graph_loss']:
-            embedding_dataset.create_all_train_data(shuffle=True)
+            embedding_dataset.create_all_train_data(split_batches=split_batches, shuffle=True)
             all_P = []
             for G in embedding_dataset.all_train_data:
                 X = G.data.view(G.data.shape[0], -1).numpy()

@@ -44,8 +44,19 @@ def get_oldest_net(output_dir):
 
 
 def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
+    # optimization parameters
+    opt_parameters = {}
+    opt_parameters['learning_rate'] = 0.00075  # ADAM
+    opt_parameters['max_iters'] = 500
+    opt_parameters['batch_iters'] = 50
+    opt_parameters['save_flag'] = True
+    opt_parameters['decay_rate'] = 1.25
+    opt_parameters['start_epoch'] = 0
+    opt_parameters['distance_metric'] = 'cosine'
+    opt_parameters['split_batches'] = False  # Set to true if training on subgraphs
+
     dataset = EmbeddingDataSet(dataset_name, input_dir)
-    dataset.create_all_train_data(shuffle=True)
+    dataset.create_all_train_data(split_batches=opt_parameters['split_batches'], shuffle=True)
     dataset.summarise()
 
     task_parameters = {}
@@ -59,16 +70,6 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
     net_parameters['D'] = dataset.input_dim  # input dimension
     net_parameters['H'] = 50  # number of hidden units
     net_parameters['L'] = 10  # number of hidden layers
-
-    # optimization parameters
-    opt_parameters = {}
-    opt_parameters['learning_rate'] = 0.00075  # ADAM
-    opt_parameters['max_iters'] = 500
-    opt_parameters['batch_iters'] = 50
-    opt_parameters['save_flag'] = True
-    opt_parameters['decay_rate'] = 1.25
-    opt_parameters['start_epoch'] = 0
-    opt_parameters['distance_metric'] = 'cosine'
 
     # Initialise network
     if net_type == 'graph':
@@ -85,7 +86,7 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
         net.cuda()
         device = 'cuda'
 
-    if resume_folder != '':
+    if resume_folder != 'NA':
         checkpoint_dir = os.path.join(output_dir, resume_folder)
         net_filename, start_epoch = get_oldest_net(checkpoint_dir)
         checkpoint = torch.load(net_filename, map_location=device)
@@ -102,8 +103,8 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
     print('Saving results into: {}'.format(checkpoint_dir))
     print("Number of network parameters = {}".format(net.nb_param))
 
-    if 2 == 1:  # fast debugging
-        opt_parameters['max_iters'] = 5
+    if 1 == 1:  # fast debugging
+        opt_parameters['max_iters'] = 10
         opt_parameters['batch_iters'] = 1
 
     tab_results = train(net, dataset, opt_parameters, task_parameters['loss_function'], checkpoint_dir)
