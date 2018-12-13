@@ -11,8 +11,8 @@ from core.OldGraphConvNet2 import OldGraphConvNet2
 from core.SimpleNet import SimpleNet
 
 
-def save_metadata(checkpoint_dir, task_parameters, net_parameters, opt_parameters):
-    metadata_filename = os.path.join(checkpoint_dir, "experiment_metadata.txt")
+def save_metadata(checkpoint_dir, task_parameters, net_parameters, opt_parameters, epoch_num):
+    metadata_filename = os.path.join(checkpoint_dir, "experiment_metadata_{}.txt".format(epoch_num))
     with open(metadata_filename, 'w') as f:
         f.write('-----------------------\n')
         f.write('\n'.join(["%s = %s" % (k, v) for k, v in task_parameters.items()]))
@@ -24,20 +24,33 @@ def save_metadata(checkpoint_dir, task_parameters, net_parameters, opt_parameter
         f.write('\n'.join(["%s = %s" % (k, v) for k, v in opt_parameters.items()]))
 
 
-def save_train_log(checkpoint_dir, tab_results):
-    logs_filename = os.path.join(checkpoint_dir, "experiment_results.pkl")
+def save_train_log(checkpoint_dir, tab_results, epoch_num):
+    logs_filename = os.path.join(checkpoint_dir, "experiment_results_{}.pkl".format(epoch_num))
     with open(logs_filename, 'wb') as f:
         pickle.dump(tab_results, f)
 
 
-def main(input_dir, output_dir, dataset_name, net_type):
+def get_oldest_net(output_dir):
+    filenames = os.listdir(output_dir)
+    max_iteration = 0
+    target_file = ''
+    for fname in filenames:
+        if '_net_' in fname:
+            iteration_num = int(fname.split('_')[-1][:-4])
+            if iteration_num > max_iteration:
+                max_iteration = iteration_num
+                target_file = fname
+    return os.path.join(output_dir, target_file), max_iteration
+
+
+def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
     dataset = EmbeddingDataSet(dataset_name, input_dir)
     dataset.create_all_train_data(shuffle=True)
     dataset.summarise()
 
     task_parameters = {}
     task_parameters['net_type'] = net_type
-    task_parameters['loss_function'] = 'tsne_loss'
+    task_parameters['loss_function'] = 'tsne_graph_loss'
     task_parameters['n_components'] = 2
     task_parameters['val_flag'] = False
 
@@ -54,14 +67,8 @@ def main(input_dir, output_dir, dataset_name, net_type):
     opt_parameters['batch_iters'] = 50
     opt_parameters['save_flag'] = True
     opt_parameters['decay_rate'] = 1.25
+    opt_parameters['start_epoch'] = 0
     opt_parameters['distance_metric'] = 'cosine'
-
-    # Create checkpoint dir
-    subdirs = [x[0] for x in os.walk(output_dir) if dataset_name in x[0]]
-    run_number = str(len(subdirs) + 1)
-    checkpoint_dir = os.path.join(output_dir, dataset_name + '_' + run_number)
-    pathlib.Path(checkpoint_dir).mkdir(exist_ok=True)  # create the directory if it doesn't exist
-    print('Saving results into: {}'.format(checkpoint_dir))
 
     # Initialise network
     if net_type == 'graph':
@@ -73,9 +80,26 @@ def main(input_dir, output_dir, dataset_name, net_type):
         opt_parameters['max_iters'] = 1000
         opt_parameters['batch_iters'] = 50
 
+    device = 'cpu'
     if torch.cuda.is_available():
         net.cuda()
-    
+        device = 'cuda'
+
+    if resume_folder != '':
+        checkpoint_dir = os.path.join(output_dir, resume_folder)
+        net_filename, start_epoch = get_oldest_net(checkpoint_dir)
+        checkpoint = torch.load(net_filename, map_location=device)
+        print("Resuming training from: {}".format(net_filename))
+        net.load_state_dict(checkpoint['state_dict'])
+        opt_parameters['start_epoch'] = start_epoch
+    else:
+        # Create checkpoint dir
+        subdirs = [x[0] for x in os.walk(output_dir) if dataset_name in x[0]]
+        run_number = str(len(subdirs) + 1)
+        checkpoint_dir = os.path.join(output_dir, dataset_name + '_' + run_number)
+        pathlib.Path(checkpoint_dir).mkdir(exist_ok=True)  # create the directory if it doesn't exist
+
+    print('Saving results into: {}'.format(checkpoint_dir))
     print("Number of network parameters = {}".format(net.nb_param))
 
     if 2 == 1:  # fast debugging
@@ -84,9 +108,11 @@ def main(input_dir, output_dir, dataset_name, net_type):
 
     tab_results = train(net, dataset, opt_parameters, task_parameters['loss_function'], checkpoint_dir)
 
+    end_epoch = opt_parameters['start_epoch'] + opt_parameters['max_iters']
+
     if opt_parameters['save_flag']:
-        save_metadata(checkpoint_dir, task_parameters, net_parameters, opt_parameters)
-        save_train_log(checkpoint_dir, tab_results)
+        save_metadata(checkpoint_dir, task_parameters, net_parameters, opt_parameters, end_epoch)
+        save_train_log(checkpoint_dir, tab_results, end_epoch)
 
 
 if __name__ == "__main__":
@@ -95,11 +121,13 @@ if __name__ == "__main__":
     parser.add_argument('-o', '--output_dir', type=str, help='output dir')
     parser.add_argument('-d', '--dataset_name', type=str, help='name of dataset')
     parser.add_argument('-net', '--net_type', type=str, help='type of network')
+    parser.add_argument('-r', '--resume_folder', type=str, default='NA', help='folder to resume from')
     args = parser.parse_args()
 
     print("Input directory: {}".format(args.input_dir))
     print("Output directory: {}".format(args.output_dir))
     print("Dataset name: {}".format(args.dataset_name))
     print("Network type: {}".format(args.net_type))
+    print("Resume from folder: {}".format(args.resume_folder))
 
-    main(args.input_dir, args.output_dir, args.dataset_name, args.net_type)
+    main(args.input_dir, args.output_dir, args.dataset_name, args.net_type, args.resume_folder)

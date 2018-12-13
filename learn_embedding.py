@@ -26,6 +26,7 @@ def train(net, embedding_dataset, opt_parameters, loss_function, checkpoint_dir)
     max_iters = opt_parameters['max_iters']
     batch_iters = opt_parameters['batch_iters']
     decay_rate = opt_parameters['decay_rate']
+    start_epoch = opt_parameters['start_epoch']
     checkpoint_interval = max_iters / 5
 
     # Optimizer
@@ -41,7 +42,7 @@ def train(net, embedding_dataset, opt_parameters, loss_function, checkpoint_dir)
     running_total = 0
     tab_results = []
 
-    for iteration in range(1, max_iters+1):
+    for iteration in range(start_epoch+1, start_epoch+max_iters+1):
         # Set the net to training mode
         net.train()
 
@@ -77,7 +78,8 @@ def train(net, embedding_dataset, opt_parameters, loss_function, checkpoint_dir)
             elif loss_function =='tsne_graph_loss':
                 loss1 = net.tsne_loss(all_P[i], y_pred, metric=metric)
                 loss2 = net.graph_cut_loss(G.adj_matrix, y_pred)
-                loss = 0.5 * loss1 + 0.5 * loss2
+                alpha = 0.1
+                loss = (1-alpha) * loss1 + alpha * loss2
                 running_tsne_loss += loss1.item()
                 running_graph_loss += loss2.item()
 
