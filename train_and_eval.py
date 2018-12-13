@@ -37,7 +37,7 @@ def main(input_dir, output_dir, dataset_name, net_type):
 
     task_parameters = {}
     task_parameters['net_type'] = net_type
-    task_parameters['loss_function'] = 'tsne_graph_loss'
+    task_parameters['loss_function'] = 'tsne_loss'
     task_parameters['n_components'] = 2
     task_parameters['val_flag'] = False
 
@@ -70,7 +70,7 @@ def main(input_dir, output_dir, dataset_name, net_type):
         net = OldGraphConvNet2(net_parameters)
     elif net_type == 'simple':
         net = SimpleNet(net_parameters)
-        opt_parameters['max_iters'] = 800
+        opt_parameters['max_iters'] = 1000
         opt_parameters['batch_iters'] = 50
 
     if torch.cuda.is_available():
