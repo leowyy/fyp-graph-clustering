@@ -3,10 +3,74 @@ from timeit import default_timer as timer
 import torch
 
 from sklearn import neighbors
-from sklearn.manifold.t_sne import trustworthiness
+from sklearn.metrics.pairwise import pairwise_distances
 from sklearn.model_selection import KFold
 from sklearn.metrics import accuracy_score
 from core.DimReduction import DimReduction
+
+
+def trustworthiness(X, X_embedded, n_neighbors=5, metric='euclidean', precomputed=False):
+    """Expresses to what extent the local structure is retained.
+
+    The trustworthiness is within [0, 1]. It is defined as
+
+    .. math::
+
+        T(k) = 1 - \frac{2}{nk (2n - 3k - 1)} \sum^n_{i=1}
+            \sum_{j \in U^{(k)}_i} (r(i, j) - k)
+
+    where :math:`r(i, j)` is the rank of the embedded datapoint j
+    according to the pairwise distances between the embedded datapoints,
+    :math:`U^{(k)}_i` is the set of points that are in the k nearest
+    neighbors in the embedded space but not in the original space.
+
+    * "Neighborhood Preservation in Nonlinear Projection Methods: An
+      Experimental Study"
+      J. Venna, S. Kaski
+    * "Learning a Parametric Embedding by Preserving Local Structure"
+      L.J.P. van der Maaten
+
+    Parameters
+    ----------
+    X : array, shape (n_samples, n_features) or (n_samples, n_samples)
+        If the metric is 'precomputed' X must be a square distance
+        matrix. Otherwise it contains a sample per row.
+
+    X_embedded : array, shape (n_samples, n_components)
+        Embedding of the training data in low-dimensional space.
+
+    n_neighbors : int, optional (default: 5)
+        Number of neighbors k that will be considered.
+
+    precomputed : bool, optional (default: False)
+        Set this flag if X is a precomputed square distance matrix.
+
+    Returns
+    -------
+    trustworthiness : float
+        Trustworthiness of the low-dimensional embedding.
+    """
+    if precomputed:
+        dist_X = X
+    elif metric == 'cosine':
+        dist_X = pairwise_distances(X, metric='cosine')
+    else:
+        dist_X = pairwise_distances(X, squared=True)
+    dist_X_embedded = pairwise_distances(X_embedded, squared=True)
+    ind_X = np.argsort(dist_X, axis=1)
+    ind_X_embedded = np.argsort(dist_X_embedded, axis=1)[:, 1:n_neighbors + 1]
+
+    n_samples = X.shape[0]
+    t = 0.0
+    ranks = np.zeros(n_neighbors)
+    for i in range(n_samples):
+        for j in range(n_neighbors):
+            ranks[j] = np.where(ind_X[i] == ind_X_embedded[i, j])[0][0]
+        ranks -= n_neighbors
+        t += np.sum(ranks[ranks > 0])
+    t = 1.0 - t * (2.0 / (n_samples * n_neighbors *
+                          (2.0 * n_samples - 3.0 * n_neighbors - 1.0)))
+    return t
 
 
 def nearest_neighbours_generalisation_accuracy(X, y, n_neighbors=1):
@@ -26,7 +90,7 @@ def nearest_neighbours_generalisation_accuracy(X, y, n_neighbors=1):
     return np.average(scores)
 
 
-def evaluate_net_metrics(all_test_data, net):
+def evaluate_net_metrics(all_test_data, net, distance_metric='euclidean'):
     """
     Given a embedding net,
     Obtains the average trustworthiness, NN accuracy and time taken to compute
@@ -50,13 +114,13 @@ def evaluate_net_metrics(all_test_data, net):
         time_tracker[i] = time_end - time_start
 
         X = G.data.view(G.data.shape[0], -1).numpy()
-        trust_tracker[i] = trustworthiness(X, y_pred, n_neighbors=5)
+        trust_tracker[i] = trustworthiness(X, y_pred, n_neighbors=5, metric=distance_metric)
         one_nn_tracker[i] = nearest_neighbours_generalisation_accuracy(y_pred, G.labels.numpy(), 1)
         five_nn_tracker[i] = nearest_neighbours_generalisation_accuracy(y_pred, G.labels.numpy(), 5)
     return np.average(trust_tracker), np.average(one_nn_tracker), np.average(five_nn_tracker), np.average(time_tracker)
 
 
-def evaluate_embedding_metrics(all_test_data, embedder):
+def evaluate_embedding_metrics(all_test_data, embedder, distance_metric='euclidean'):
     """
     Given an embedder,
     Obtains the average trustworthiness, NN accuracy and time taken to compute
@@ -78,7 +142,7 @@ def evaluate_embedding_metrics(all_test_data, embedder):
         time_end = timer()
         time_tracker[i] = time_end - time_start
 
-        trust_tracker[i] = trustworthiness(X, X_emb, n_neighbors=5)
+        trust_tracker[i] = trustworthiness(X, X_emb, n_neighbors=5, metric=distance_metric)
         one_nn_tracker[i] = nearest_neighbours_generalisation_accuracy(X_emb, G.labels.numpy(), 1)
         five_nn_tracker[i] = nearest_neighbours_generalisation_accuracy(X_emb, G.labels.numpy(), 5)
     return np.average(trust_tracker), np.average(one_nn_tracker), np.average(five_nn_tracker), np.average(time_tracker)

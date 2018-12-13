@@ -105,25 +105,15 @@ def compute_joint_probabilities(samples, batch_size=10000, d=2, perplexity=30, m
     return P
 
 
-def cosine_distance(x1, x2=None, eps=1e-8):
-    x2 = x1 if x2 is None else x2
-    w1 = x1.norm(p=2, dim=1, keepdim=True)
-    w2 = w1 if x2 is x1 else x2.norm(p=2, dim=1, keepdim=True)
-    return 1 - torch.mm(x1, x2.t()) / (w1 * w2.t()).clamp(min=eps)
-
-
 def tsne_torch_loss(P, X_emb, metric='euclidean'):
     d = 2
     n = P.shape[1]
     v = d - 1.  # degrees of freedom
     eps = 10e-15  # needs to be at least 10e-8 to get anything after Q /= K.sum(Q)
 
-    if metric == 'euclidean':
+    if metric in ['euclidean', 'cosine']:
         sum_act = torch.sum(X_emb.pow(2), dim=1)
         Q = sum_act + torch.reshape(sum_act, [-1, 1]) + -2 * torch.mm(X_emb, torch.t(X_emb))
-
-    elif metric == 'cosine':
-        Q = cosine_distance(X_emb)
 
     Q = Q / v
     Q = torch.pow(1 + Q, -(v + 1) / 2)
