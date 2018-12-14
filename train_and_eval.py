@@ -53,7 +53,7 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
     opt_parameters['decay_rate'] = 1.25
     opt_parameters['start_epoch'] = 0
     opt_parameters['distance_metric'] = 'cosine'
-    opt_parameters['split_batches'] = True  # Set to true if training on subgraphs
+    opt_parameters['split_batches'] = False  # Set to true if training on subgraphs
 
     dataset = EmbeddingDataSet(dataset_name, input_dir)
     dataset.create_all_train_data(split_batches=opt_parameters['split_batches'], shuffle=True)
@@ -100,8 +100,8 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
         checkpoint_dir = os.path.join(output_dir, dataset_name + '_' + run_number)
         pathlib.Path(checkpoint_dir).mkdir(exist_ok=True)  # create the directory if it doesn't exist
 
-    print('Saving results into: {}'.format(checkpoint_dir))
     print("Number of network parameters = {}".format(net.nb_param))
+    print('Saving results into: {}'.format(checkpoint_dir))
 
     if 2 == 1:  # fast debugging
         opt_parameters['max_iters'] = 10
