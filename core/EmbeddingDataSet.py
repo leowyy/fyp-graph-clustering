@@ -54,10 +54,16 @@ class EmbeddingDataSet():
         self.input_dim = np.prod(self.inputs.shape[1:])
 
         if type(self.labels) is np.ndarray:
-            self.labels = torch.from_numpy(self.labels)
-            self.labels = self.labels.type(torch.FloatTensor)
+            self.labels = torch.from_numpy(self.labels).type(torch.FloatTensor)
 
-    def create_all_train_data(self, max_train_size=None, shuffle=False):
+    def create_all_train_data(self, max_train_size=None, split_batches=True, shuffle=False):
+        # If not split batches, train on full graph
+        if not split_batches:
+            G_all = DataEmbeddingGraph(self.inputs, self.labels, method=None, W=self.adj_matrix)
+            G_all.target = self.X_emb
+            self.all_train_data = [G_all]
+            return
+
         if max_train_size is None:
             max_train_size = self.inputs.shape[0]
         self.max_train_size = max_train_size
