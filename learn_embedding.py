@@ -43,6 +43,8 @@ def train(net, embedding_dataset, opt_parameters, loss_function, checkpoint_dir)
     running_total = 0
     tab_results = []
 
+    all_P_initialised = False
+
     # Hyperparameters
     alpha = 1  # Weight of graph edges to calculation of P
     beta = 0.1  # Weight of graph cut loss
@@ -53,14 +55,16 @@ def train(net, embedding_dataset, opt_parameters, loss_function, checkpoint_dir)
 
         # Create a new set of data blocks
         if loss_function in ['tsne_loss', 'tsne_graph_loss']:
-            embedding_dataset.create_all_train_data(split_batches=split_batches, shuffle=True)
-            all_P = []
-            for G in embedding_dataset.all_train_data:
-                X = G.data.view(G.data.shape[0], -1).numpy()
-                P = compute_joint_probabilities(X, perplexity=30, metric=metric, adj=G.adj_matrix, alpha=alpha, verbose=0)
-                P = P.reshape((X.shape[0], X.shape[0]))
-                P = torch.from_numpy(P).type(dtypeFloat)
-                all_P.append(P)
+            if split_batches or not all_P_initialised:
+                embedding_dataset.create_all_train_data(split_batches=split_batches, shuffle=True)
+                all_P = []
+                for G in embedding_dataset.all_train_data:
+                    X = G.data.view(G.data.shape[0], -1).numpy()
+                    P = compute_joint_probabilities(X, perplexity=30, metric=metric, adj=G.adj_matrix, alpha=alpha, verbose=0)
+                    P = P.reshape((X.shape[0], X.shape[0]))
+                    P = torch.from_numpy(P).type(dtypeFloat)
+                    all_P.append(P)
+                all_P_initialised = True
 
         # Forward pass through all training data
         for i, G in enumerate(embedding_dataset.all_train_data):
