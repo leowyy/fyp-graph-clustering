@@ -3,6 +3,7 @@ import time
 import torch
 from torch.autograd import Variable
 from core.tsne_torch_loss import compute_joint_probabilities
+from util.evaluation_metrics import trustworthiness, nearest_neighbours_generalisation_accuracy
 
 
 if torch.cuda.is_available():
@@ -19,7 +20,7 @@ def save_checkpoint(state, filename):
     torch.save(state, filename)
 
 
-def train(net, embedding_dataset, opt_parameters, loss_function, checkpoint_dir):
+def train(net, train_set, opt_parameters, loss_function, checkpoint_dir, val_set=None):
     # Optimization parameters
     split_batches = opt_parameters['split_batches']
     metric = opt_parameters['distance_metric']
@@ -56,9 +57,9 @@ def train(net, embedding_dataset, opt_parameters, loss_function, checkpoint_dir)
         # Create a new set of data blocks
         if loss_function in ['tsne_loss', 'tsne_graph_loss']:
             if split_batches or not all_P_initialised:
-                embedding_dataset.create_all_train_data(split_batches=split_batches, shuffle=True)
+                train_set.create_all_data(split_batches=split_batches, shuffle=True)
                 all_P = []
-                for G in embedding_dataset.all_train_data:
+                for G in train_set.all_data:
                     X = G.data.view(G.data.shape[0], -1).numpy()
                     P = compute_joint_probabilities(X, perplexity=30, metric=metric, adj=G.adj_matrix, alpha=alpha, verbose=0)
                     P = P.reshape((X.shape[0], X.shape[0]))
@@ -67,7 +68,7 @@ def train(net, embedding_dataset, opt_parameters, loss_function, checkpoint_dir)
                 all_P_initialised = True
 
         # Forward pass through all training data
-        for i, G in enumerate(embedding_dataset.all_train_data):
+        for i, G in enumerate(train_set.all_data):
             # Forward pass
             y_pred = net.forward(G)
 
@@ -132,6 +133,10 @@ def train(net, embedding_dataset, opt_parameters, loss_function, checkpoint_dir)
             running_loss = 0.0
             running_total = 0
 
+            if val_set is not None:
+                validate(net, val_set)
+
+
         if iteration % checkpoint_interval == 0:
             print('Saving checkpoint at iteration = {}\n'.format(iteration))
             filename = os.path.join(checkpoint_dir, net.name + '_' + str(iteration) + '.pkl')
@@ -141,3 +146,18 @@ def train(net, embedding_dataset, opt_parameters, loss_function, checkpoint_dir)
             }, filename)
 
     return tab_results
+
+
+def validate(net, val_set):
+    net.eval()
+    G_val = val_set.all_data[0]
+    if torch.cuda.is_available():
+        y_pred = net.forward(G_val).cpu().detach().numpy()
+    else:
+        y_pred = net.forward(G_val).detach().numpy()
+    trust_score = trustworthiness(G_val.data, y_pred, n_neighbors=5, metric='cosine')
+    one_nn_score = nearest_neighbours_generalisation_accuracy(y_pred, G_val.labels.numpy(), 1)
+    five_nn_score = nearest_neighbours_generalisation_accuracy(y_pred, G_val.labels.numpy(), 5)
+    print("Trustworthy score = {:.4f}".format(trust_score))
+    print("1-NN generalisation accuracy = {:.4f}".format(one_nn_score))
+    print("5-NN generalisation accuracy = {:.4f}\n".format(five_nn_score))
