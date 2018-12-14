@@ -22,9 +22,9 @@ class EmbeddingDataSet():
                 'fasttext': None,
                 'mnist_embeddings': None,
                 'imagenet': None,
-                'cora': None}
+                'cora': 'cora_test.pkl'}
 
-    def __init__(self, name, data_dir):
+    def __init__(self, name, data_dir, train=True):
         self.name = name
         self.data_dir = data_dir
         self.train_dir = EmbeddingDataSet.train_dir[name]
@@ -33,12 +33,16 @@ class EmbeddingDataSet():
         self.input_dim = None
         self.is_labelled = False
 
-        self.all_train_data = []
+        self.all_data = []
 
         # Extract data from file contents
         data_root = os.path.join(self.data_dir, self.name)
-        train_file = os.path.join(data_root, self.train_dir)
-        with open(train_file, 'rb') as f:
+        if train:
+            fname = os.path.join(data_root, self.train_dir)
+        else:
+            assert self.test_dir is not None
+            fname = os.path.join(data_root, self.test_dir)
+        with open(fname, 'rb') as f:
             file_contents = pickle.load(f)
 
         self.inputs = file_contents[0]
@@ -56,12 +60,12 @@ class EmbeddingDataSet():
         if type(self.labels) is np.ndarray:
             self.labels = torch.from_numpy(self.labels).type(torch.FloatTensor)
 
-    def create_all_train_data(self, max_train_size=None, split_batches=True, shuffle=False):
+    def create_all_data(self, max_train_size=None, split_batches=True, shuffle=False):
         # If not split batches, train on full graph
         if not split_batches:
             G_all = DataEmbeddingGraph(self.inputs, self.labels, method=None, W=self.adj_matrix)
             G_all.target = self.X_emb
-            self.all_train_data = [G_all]
+            self.all_data = [G_all]
             return
 
         if max_train_size is None:
@@ -72,7 +76,7 @@ class EmbeddingDataSet():
         i = 0
         labels_subset = []
         adj_subset = None
-        self.all_train_data = []
+        self.all_data = []
 
         all_indices = np.arange(0, self.inputs.shape[0])
         if shuffle:
@@ -80,7 +84,7 @@ class EmbeddingDataSet():
 
         while i < self.max_train_size:
             # Draw a random training batch of variable size
-            num_samples = np.random.randint(200, 500)
+            num_samples = np.random.randint(300, 600)
             mask = all_indices[i: min(i + num_samples, self.max_train_size)]
             inputs_subset = self.inputs[mask]
             X_emb_subset = self.X_emb[mask]
@@ -93,11 +97,11 @@ class EmbeddingDataSet():
             G = DataEmbeddingGraph(inputs_subset, labels_subset, method=None, W=adj_subset)
             G.target = X_emb_subset  # replace target with pre-computed embeddings
 
-            self.all_train_data.append(G)
+            self.all_data.append(G)
             i += num_samples
 
-        if self.all_train_data[-1].data.shape[0] < 200:
-            self.all_train_data = self.all_train_data[:-1]
+        if self.all_data[-1].data.shape[0] < 300:
+            self.all_data = self.all_data[:-1]
 
     def summarise(self):
         print("Name of dataset = {}".format(self.name))
@@ -111,5 +115,5 @@ if __name__ == "__main__":
     name = 'cora'
     data_dir = '/Users/signapoop/desktop/data'
     dataset = EmbeddingDataSet(name, data_dir)
-    dataset.create_all_train_data()
+    dataset.create_all_data()
     dataset.summarise()

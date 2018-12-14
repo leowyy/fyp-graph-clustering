@@ -53,17 +53,17 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
     opt_parameters['decay_rate'] = 1.25
     opt_parameters['start_epoch'] = 0
     opt_parameters['distance_metric'] = 'cosine'
-    opt_parameters['split_batches'] = False  # Set to true if training on subgraphs
+    opt_parameters['split_batches'] = True  # Set to true if training on subgraphs
 
-    dataset = EmbeddingDataSet(dataset_name, input_dir)
-    dataset.create_all_train_data(split_batches=opt_parameters['split_batches'], shuffle=True)
+    dataset = EmbeddingDataSet(dataset_name, input_dir, train=True)
+    dataset.create_all_data(split_batches=opt_parameters['split_batches'], shuffle=True)
     dataset.summarise()
 
     task_parameters = {}
     task_parameters['net_type'] = net_type
-    task_parameters['loss_function'] = 'tsne_graph_loss'
+    task_parameters['loss_function'] = 'tsne_loss'
     task_parameters['n_components'] = 2
-    task_parameters['val_flag'] = False
+    task_parameters['val_flag'] = True
 
     net_parameters = {}
     net_parameters['n_components'] = task_parameters['n_components']
@@ -107,7 +107,13 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
         opt_parameters['max_iters'] = 10
         opt_parameters['batch_iters'] = 1
 
-    tab_results = train(net, dataset, opt_parameters, task_parameters['loss_function'], checkpoint_dir)
+    # Start training here
+    val_dataset=None
+    if task_parameters['val_flag']:
+        val_dataset = EmbeddingDataSet(dataset_name, input_dir, train=False)
+        val_dataset.create_all_data(split_batches=False)
+
+    tab_results = train(net, dataset, opt_parameters, task_parameters['loss_function'], checkpoint_dir, val_dataset)
 
     end_epoch = opt_parameters['start_epoch'] + opt_parameters['max_iters']
 
