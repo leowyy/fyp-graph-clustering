@@ -85,7 +85,7 @@ def x2p(X, u=15, metric='euclidean', tol=1e-4, print_iter=500, max_tries=50, ver
     return P, beta
 
 
-def compute_joint_probabilities(samples, batch_size=10000, d=2, perplexity=30, metric='euclidean', tol=1e-5, verbose=0):
+def compute_joint_probabilities(samples, batch_size=10000, d=2, perplexity=30, metric='euclidean', adj=None, alpha=1, tol=1e-5, verbose=0):
     # Initialize some variables
     n = samples.shape[0]
     batch_size = min(batch_size, n)
@@ -97,9 +97,18 @@ def compute_joint_probabilities(samples, batch_size=10000, d=2, perplexity=30, m
     for i, start in enumerate(range(0, n - batch_size + 1, batch_size)):
         curX = samples[start:start+batch_size]                    # select batch
         P[i], beta = x2p(curX, perplexity, metric, tol, verbose=verbose)  # compute affinities using fixed perplexity
-        P[i][np.isnan(P[i])] = 0                                  # make sure we don't have NaN's
+        P[i][np.isnan(P[i])] = 0                                   # make sure we don't have NaN's
         P[i] = (P[i] + P[i].T)  # / 2                              # make symmetric
-        P[i] = P[i] / P[i].sum()                                  # obtain estimation of joint probabilities
+        P[i] = P[i] / P[i].sum()                                   # obtain estimation of joint probabilities
+
+        # Augment with adjacency matrix
+        if adj is not None:
+            W = adj.toarray()
+            W = np.reshape(W, (P[i].shape))
+            W = 1 + alpha * W
+            P[i] = np.multiply(P[i], W)
+            P[i] = P[i] / P[i].sum()
+
         P[i] = np.maximum(P[i], np.finfo(P[i].dtype).eps)
 
     return P

@@ -43,6 +43,10 @@ def train(net, embedding_dataset, opt_parameters, loss_function, checkpoint_dir)
     running_total = 0
     tab_results = []
 
+    # Hyperparameters
+    alpha = 1  # Weight of graph edges to calculation of P
+    beta = 0.1  # Weight of graph cut loss
+
     for iteration in range(start_epoch+1, start_epoch+max_iters+1):
         # Set the net to training mode
         net.train()
@@ -53,7 +57,7 @@ def train(net, embedding_dataset, opt_parameters, loss_function, checkpoint_dir)
             all_P = []
             for G in embedding_dataset.all_train_data:
                 X = G.data.view(G.data.shape[0], -1).numpy()
-                P = compute_joint_probabilities(X, verbose=0, perplexity=30, metric=metric)
+                P = compute_joint_probabilities(X, perplexity=30, metric=metric, adj=G.adj_matrix, alpha=alpha, verbose=0)
                 P = P.reshape((X.shape[0], X.shape[0]))
                 P = torch.from_numpy(P).type(dtypeFloat)
                 all_P.append(P)
@@ -79,8 +83,7 @@ def train(net, embedding_dataset, opt_parameters, loss_function, checkpoint_dir)
             elif loss_function =='tsne_graph_loss':
                 loss1 = net.tsne_loss(all_P[i], y_pred, metric=metric)
                 loss2 = net.graph_cut_loss(G.adj_matrix, y_pred)
-                alpha = 0.1
-                loss = (1-alpha) * loss1 + alpha * loss2
+                loss = (1-beta) * loss1 + beta * loss2
                 running_tsne_loss += loss1.item()
                 running_graph_loss += loss2.item()
 
