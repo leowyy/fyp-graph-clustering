@@ -61,7 +61,7 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
 
     task_parameters = {}
     task_parameters['net_type'] = net_type
-    task_parameters['loss_function'] = 'tsne_loss'
+    task_parameters['loss_function'] = 'tsne_graph_loss'
     task_parameters['n_components'] = 2
     task_parameters['val_flag'] = False
 
