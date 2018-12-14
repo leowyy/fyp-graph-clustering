@@ -46,7 +46,7 @@ def train(net, embedding_dataset, opt_parameters, loss_function, checkpoint_dir)
     all_P_initialised = False
 
     # Hyperparameters
-    alpha = 1  # Weight of graph edges to calculation of P
+    alpha = 2  # Weight of graph edges to calculation of P
     beta = 0.1  # Weight of graph cut loss
 
     for iteration in range(start_epoch+1, start_epoch+max_iters+1):
