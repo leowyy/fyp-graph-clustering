@@ -20,10 +20,14 @@ def save_checkpoint(state, filename):
     torch.save(state, filename)
 
 
-def train(net, train_set, opt_parameters, loss_function, checkpoint_dir, val_set=None):
+def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
     # Optimization parameters
     split_batches = opt_parameters['split_batches']
     metric = opt_parameters['distance_metric']
+    alpha = opt_parameters['P_multiplier']
+    beta = opt_parameters['graph_cut_weight']
+    loss_function = opt_parameters['loss_function']
+
     lr = opt_parameters['learning_rate']
     max_iters = opt_parameters['max_iters']
     batch_iters = opt_parameters['batch_iters']
@@ -45,10 +49,6 @@ def train(net, train_set, opt_parameters, loss_function, checkpoint_dir, val_set
     tab_results = []
 
     all_P_initialised = False
-
-    # Hyperparameters
-    alpha = 1  # Weight of graph edges to calculation of P
-    beta = 0.1  # Weight of graph cut loss
 
     for iteration in range(start_epoch+1, start_epoch+max_iters+1):
         # Set the net to training mode
@@ -136,13 +136,12 @@ def train(net, train_set, opt_parameters, loss_function, checkpoint_dir, val_set
             if val_set is not None:
                 validate(net, val_set)
 
-
         if iteration % checkpoint_interval == 0:
             print('Saving checkpoint at iteration = {}\n'.format(iteration))
             filename = os.path.join(checkpoint_dir, net.name + '_' + str(iteration) + '.pkl')
             save_checkpoint({
                 'state_dict': net.state_dict(),
-                'optimizer' : optimizer.state_dict(),
+                'optimizer': optimizer.state_dict(),
             }, filename)
 
     return tab_results

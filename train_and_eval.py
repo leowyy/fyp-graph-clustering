@@ -1,5 +1,4 @@
 import os
-import pickle
 import argparse
 import pathlib
 import torch
@@ -9,38 +8,7 @@ from core.EmbeddingDataSet import EmbeddingDataSet
 from core.GraphConvNet2 import GraphConvNet2
 from core.OldGraphConvNet2 import OldGraphConvNet2
 from core.SimpleNet import SimpleNet
-
-
-def save_metadata(checkpoint_dir, task_parameters, net_parameters, opt_parameters, epoch_num):
-    metadata_filename = os.path.join(checkpoint_dir, "experiment_metadata_{}.txt".format(epoch_num))
-    with open(metadata_filename, 'w') as f:
-        f.write('-----------------------\n')
-        f.write('\n'.join(["%s = %s" % (k, v) for k, v in task_parameters.items()]))
-
-        f.write('\n-----------------------\n')
-        f.write('\n'.join(["%s = %s" % (k, v) for k, v in net_parameters.items()]))
-
-        f.write('\n-----------------------\n')
-        f.write('\n'.join(["%s = %s" % (k, v) for k, v in opt_parameters.items()]))
-
-
-def save_train_log(checkpoint_dir, tab_results, epoch_num):
-    logs_filename = os.path.join(checkpoint_dir, "experiment_results_{}.pkl".format(epoch_num))
-    with open(logs_filename, 'wb') as f:
-        pickle.dump(tab_results, f)
-
-
-def get_oldest_net(output_dir):
-    filenames = os.listdir(output_dir)
-    max_iteration = 0
-    target_file = ''
-    for fname in filenames:
-        if '_net_' in fname:
-            iteration_num = int(fname.split('_')[-1][:-4])
-            if iteration_num > max_iteration:
-                max_iteration = iteration_num
-                target_file = fname
-    return os.path.join(output_dir, target_file), max_iteration
+from util.training_utils import get_oldest_net, save_metadata, save_train_log
 
 
 def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
@@ -52,8 +20,12 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
     opt_parameters['save_flag'] = True
     opt_parameters['decay_rate'] = 1.25
     opt_parameters['start_epoch'] = 0
+
     opt_parameters['distance_metric'] = 'cosine'
     opt_parameters['split_batches'] = True  # Set to true if training on subgraphs
+    opt_parameters['P_multiplier'] = 1  # Weight of graph edges to calculation of P
+    opt_parameters['graph_cut_weight'] = 0.1  # Weight of graph cut loss
+    opt_parameters['loss_function'] = 'tsne_loss'
 
     dataset = EmbeddingDataSet(dataset_name, input_dir, train=True)
     dataset.create_all_data(split_batches=opt_parameters['split_batches'], shuffle=True)
@@ -61,7 +33,6 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
 
     task_parameters = {}
     task_parameters['net_type'] = net_type
-    task_parameters['loss_function'] = 'tsne_loss'
     task_parameters['n_components'] = 2
     task_parameters['val_flag'] = True
 
@@ -108,12 +79,12 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
         opt_parameters['batch_iters'] = 1
 
     # Start training here
-    val_dataset=None
+    val_dataset = None
     if task_parameters['val_flag']:
         val_dataset = EmbeddingDataSet(dataset_name, input_dir, train=False)
         val_dataset.create_all_data(split_batches=False)
 
-    tab_results = train(net, dataset, opt_parameters, task_parameters['loss_function'], checkpoint_dir, val_dataset)
+    tab_results = train(net, dataset, opt_parameters, checkpoint_dir, val_dataset)
 
     end_epoch = opt_parameters['start_epoch'] + opt_parameters['max_iters']
 
