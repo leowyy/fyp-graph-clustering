@@ -3,7 +3,8 @@ import time
 import torch
 from torch.autograd import Variable
 from core.tsne_torch_loss import compute_joint_probabilities
-from util.evaluation_metrics import trustworthiness, nearest_neighbours_generalisation_accuracy
+from core.graph_cut_torch_loss import covariance_constraint
+from util.evaluation_metrics import evaluate_net_metrics
 
 
 if torch.cuda.is_available():
@@ -27,6 +28,7 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
     alpha = opt_parameters['P_multiplier']
     beta = opt_parameters['graph_cut_weight']
     loss_function = opt_parameters['loss_function']
+    penalty_weight = opt_parameters['penalty_weight']
 
     lr = opt_parameters['learning_rate']
     max_iters = opt_parameters['max_iters']
@@ -44,6 +46,7 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
     average_loss_old = 1e10
     running_tsne_loss = 0.0
     running_graph_loss = 0.0
+    running_covariance_loss = 0.0
     running_loss = 0.0
     running_total = 0
     tab_results = []
@@ -73,8 +76,9 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
             y_pred = net.forward(G)
 
             # Target embedding matrix
-            y_true = G.target
-            y_true = Variable(torch.FloatTensor(y_true).type(dtypeFloat), requires_grad=False)
+            if loss_function in ["pairwise_loss", "composite_loss"]:
+                y_true = G.target
+                y_true = Variable(torch.FloatTensor(y_true).type(dtypeFloat), requires_grad=False)
 
             # Compute overall loss
             if loss_function == 'pairwise_loss':
@@ -88,9 +92,16 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
             elif loss_function =='tsne_graph_loss':
                 loss1 = net.tsne_loss(all_P[i], y_pred, metric=metric)
                 loss2 = net.graph_cut_loss(G.adj_matrix, y_pred)
-                loss = (1-beta) * loss1 + beta * loss2
+
+                if penalty_weight != 0:
+                    loss3 = covariance_constraint(G.adj_matrix, y_pred)
+                else:
+                    loss3 = 0
+
+                loss = (1-beta) * loss1 + beta * loss2 + penalty_weight * loss3
                 running_tsne_loss += loss1.item()
                 running_graph_loss += loss2.item()
+                running_covariance_loss += loss3.item()
 
             loss_train = loss.item()
             running_loss += loss_train
@@ -119,11 +130,13 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
             if loss_function == 'tsne_graph_loss':
                 average_tsne_loss = running_tsne_loss / running_total
                 average_graph_loss = running_graph_loss / running_total
+                average_cov_loss = running_covariance_loss / running_total
                 running_tsne_loss = 0.0
                 running_graph_loss = 0.0
-                print('iteration= %d, loss(%diter)= %.8f, tsne_loss= %.8f, graph_loss= %.8f, '
+                running_covariance_loss = 0.0
+                print('iteration= %d, loss(%diter)= %.8f, tsne_loss= %.8f, graph_loss= %.8f, cov_loss=%.8f, '
                       'lr= %.8f, time(%diter)= %.2f' %
-                      (iteration, batch_iters, average_loss, average_tsne_loss, average_graph_loss, lr, batch_iters, t_stop))
+                      (iteration, batch_iters, average_loss, average_tsne_loss, average_graph_loss, average_cov_loss, lr, batch_iters, t_stop))
                 tab_results.append([iteration, average_loss, time.time() - t_start_total])
             else:
                 print('iteration= %d, loss(%diter)= %.8f, lr= %.8f, time(%diter)= %.2f' %
@@ -149,14 +162,8 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
 
 def validate(net, val_set):
     net.eval()
-    G_val = val_set.all_data[0]
-    if torch.cuda.is_available():
-        y_pred = net.forward(G_val).cpu().detach().numpy()
-    else:
-        y_pred = net.forward(G_val).detach().numpy()
-    trust_score = trustworthiness(G_val.data, y_pred, n_neighbors=5, metric='cosine')
-    one_nn_score = nearest_neighbours_generalisation_accuracy(y_pred, G_val.labels.numpy(), 1)
-    five_nn_score = nearest_neighbours_generalisation_accuracy(y_pred, G_val.labels.numpy(), 5)
+    trust_score, one_nn_score, five_nn_score, time_elapsed = evaluate_net_metrics(val_set.all_data, net)
     print("Trustworthy score = {:.4f}".format(trust_score))
     print("1-NN generalisation accuracy = {:.4f}".format(one_nn_score))
     print("5-NN generalisation accuracy = {:.4f}\n".format(five_nn_score))
+    print("Average time to compute (s) = {:.4f}\n".format(time_elapsed))

@@ -102,7 +102,7 @@ def compute_joint_probabilities(samples, batch_size=10000, d=2, perplexity=30, m
         P[i] = P[i] / P[i].sum()                                   # obtain estimation of joint probabilities
 
         # Augment with adjacency matrix
-        if adj is not None:
+        if adj is not None and alpha !=0:
             W = adj.toarray()
             W = np.reshape(W, (P[i].shape))
             W = 1 + alpha * W

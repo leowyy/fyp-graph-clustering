@@ -6,23 +6,23 @@ from core.DataEmbeddingGraph import DataEmbeddingGraph
 
 
 class EmbeddingDataSet():
-    train_dir = {'mnist': 'mnist_train_tsne.pkl',
+    train_dir = {'mnist': 'mnist_train.pkl',
                  'usps': 'usps_train_tsne.pkl',
                  '20news': '20news_train_tsne.pkl',
                  'yux': 'yux_train_tsne_shuffle.pkl',
                  'fasttext': 'fasttext_train_tsne.pkl',
                  'mnist_embeddings': 'mnist_embeddings_train.pkl',
                  'imagenet': 'imagenet_train.pkl',
-                 'cora': 'cora_train.pkl'}
+                 'cora': 'cora_full.pkl'}
 
-    test_dir = {'mnist': 'mnist_test_tsne.pkl',
+    test_dir = {'mnist': 'mnist_test.pkl',
                 'usps': 'usps_test_tsne.pkl',
                 '20news': None,
                 'yux': None,
                 'fasttext': None,
                 'mnist_embeddings': None,
                 'imagenet': None,
-                'cora': 'cora_test.pkl'}
+                'cora': 'cora_full.pkl'}
 
     def __init__(self, name, data_dir, train=True):
         self.name = name
@@ -64,7 +64,7 @@ class EmbeddingDataSet():
         # If not split batches, train on full graph
         if not split_batches:
             G_all = DataEmbeddingGraph(self.inputs, self.labels, method=None, W=self.adj_matrix)
-            G_all.target = self.X_emb
+            # G_all.target = self.X_emb
             self.all_data = [G_all]
             return
 
@@ -87,7 +87,7 @@ class EmbeddingDataSet():
             num_samples = np.random.randint(300, 600)
             mask = all_indices[i: min(i + num_samples, self.max_train_size)]
             inputs_subset = self.inputs[mask]
-            X_emb_subset = self.X_emb[mask]
+            # X_emb_subset = self.X_emb[mask]
             if self.is_labelled:
                 labels_subset = self.labels[mask]
             if self.is_graph:
@@ -95,7 +95,7 @@ class EmbeddingDataSet():
 
             # Package data into graph block
             G = DataEmbeddingGraph(inputs_subset, labels_subset, method=None, W=adj_subset)
-            G.target = X_emb_subset  # replace target with pre-computed embeddings
+            # G.target = X_emb_subset  # replace target with pre-computed embeddings
 
             self.all_data.append(G)
             i += num_samples

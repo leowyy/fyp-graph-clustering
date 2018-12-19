@@ -21,10 +21,11 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
     opt_parameters['decay_rate'] = 1.25
     opt_parameters['start_epoch'] = 0
 
-    opt_parameters['distance_metric'] = 'cosine'
+    opt_parameters['distance_metric'] = 'euclidean'
     opt_parameters['split_batches'] = True  # Set to true if training on subgraphs
-    opt_parameters['P_multiplier'] = 1  # Weight of graph edges to calculation of P
-    opt_parameters['graph_cut_weight'] = 0.1  # Weight of graph cut loss
+    opt_parameters['P_multiplier'] = 0  # Weight of graph edges to the calculation of P
+    opt_parameters['graph_cut_weight'] = 1e-4  # Weight of graph cut loss
+    opt_parameters['penalty_weight'] = 1e5  # Weight of graph cut loss
     opt_parameters['loss_function'] = 'tsne_loss'
 
     dataset = EmbeddingDataSet(dataset_name, input_dir, train=True)
@@ -49,8 +50,8 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
         net = OldGraphConvNet2(net_parameters)
     elif net_type == 'simple':
         net = SimpleNet(net_parameters)
-        opt_parameters['max_iters'] = 1000
-        opt_parameters['batch_iters'] = 50
+        # opt_parameters['max_iters'] = 1000
+        # opt_parameters['batch_iters'] = 50
 
     device = 'cpu'
     if torch.cuda.is_available():
@@ -74,15 +75,15 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
     print("Number of network parameters = {}".format(net.nb_param))
     print('Saving results into: {}'.format(checkpoint_dir))
 
-    if 2 == 1:  # fast debugging
-        opt_parameters['max_iters'] = 10
+    if 1 == 1:  # fast debugging
+        opt_parameters['max_iters'] = 5
         opt_parameters['batch_iters'] = 1
 
     # Start training here
     val_dataset = None
     if task_parameters['val_flag']:
         val_dataset = EmbeddingDataSet(dataset_name, input_dir, train=False)
-        val_dataset.create_all_data(split_batches=False)
+        val_dataset.create_all_data(split_batches=True)
 
     tab_results = train(net, dataset, opt_parameters, checkpoint_dir, val_dataset)
 
