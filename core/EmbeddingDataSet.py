@@ -13,7 +13,7 @@ class EmbeddingDataSet():
                  'fasttext': 'fasttext_train_tsne.pkl',
                  'mnist_embeddings': 'mnist_embeddings_train.pkl',
                  'imagenet': 'imagenet_train.pkl',
-                 'cora': 'cora_full.pkl'}
+                 'cora': 'cora_subset.pkl'}
 
     test_dir = {'mnist': 'mnist_test.pkl',
                 'usps': 'usps_test_tsne.pkl',
@@ -22,7 +22,7 @@ class EmbeddingDataSet():
                 'fasttext': None,
                 'mnist_embeddings': None,
                 'imagenet': None,
-                'cora': 'cora_full.pkl'}
+                'cora': 'cora_subset.pkl'}
 
     def __init__(self, name, data_dir, train=True):
         self.name = name
