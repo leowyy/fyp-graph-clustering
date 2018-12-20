@@ -146,3 +146,23 @@ def evaluate_embedding_metrics(all_test_data, embedder, distance_metric='euclide
         one_nn_tracker[i] = nearest_neighbours_generalisation_accuracy(X_emb, G.labels.numpy(), 1)
         five_nn_tracker[i] = nearest_neighbours_generalisation_accuracy(X_emb, G.labels.numpy(), 5)
     return np.average(trust_tracker), np.average(one_nn_tracker), np.average(five_nn_tracker), np.average(time_tracker)
+
+
+def graph_trustworthiness(path_lengths, X_emb, n_neighbors=5):
+    dist_X_emb = pairwise_distances(X_emb, squared=True)
+    ind_X_emb = np.argsort(dist_X_emb, axis=1)[:, 1:n_neighbors + 1]
+
+    n_samples = X_emb.shape[0]
+    t = 0.0
+    min_sum = 0.0
+    max_sum = 0.0
+    ranks = np.zeros(n_neighbors)
+    for i in range(n_samples):
+        for j in range(n_neighbors):
+            ranks[j] = path_lengths[i][ind_X_emb[i, j]]
+        t += np.sum(ranks)
+        lengths_from_i = sorted(list(path_lengths[i].values()))
+        min_sum += sum(lengths_from_i[:n_neighbors])
+        max_sum += sum(lengths_from_i[-n_neighbors:])
+    t = 1.0 - (t - min_sum) / (max_sum - min_sum)
+    return t

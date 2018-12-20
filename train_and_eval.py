@@ -22,7 +22,7 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
     opt_parameters['start_epoch'] = 0
 
     opt_parameters['distance_metric'] = 'cosine'
-    opt_parameters['split_batches'] = False  # Set to true if training on subgraphs
+    opt_parameters['split_batches'] = True  # Set to true if training on subgraphs
     opt_parameters['P_multiplier'] = 0.7  # Weight of graph edges to the calculation of P
     opt_parameters['graph_cut_weight'] = 1e-4  # Weight of graph cut loss
     opt_parameters['penalty_weight'] = 1e5  # Weight of graph cut loss
@@ -83,7 +83,7 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
     val_dataset = None
     if task_parameters['val_flag']:
         val_dataset = EmbeddingDataSet(dataset_name, input_dir, train=False)
-        val_dataset.create_all_data(split_batches=False, shuffle=True)
+        val_dataset.create_all_data(split_batches=opt_parameters['split_batches'], shuffle=True)
 
     tab_results = train(net, dataset, opt_parameters, checkpoint_dir, val_dataset)
 

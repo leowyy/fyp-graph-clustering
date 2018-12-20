@@ -82,10 +82,13 @@ class EmbeddingDataSet():
         if shuffle:
             np.random.shuffle(all_indices)
 
-        while i < self.max_train_size:
-            # Draw a random training batch of variable size
-            num_samples = np.random.randint(300, 600)
-            mask = all_indices[i: min(i + num_samples, self.max_train_size)]
+        # Split equally
+        chunk_sizes = self.get_k_equal_chunks(self.max_train_size, k=3)
+
+        # TODO: Split randomly
+
+        for num_samples in chunk_sizes:
+            mask = all_indices[i: i + num_samples]
             inputs_subset = self.inputs[mask]
             # X_emb_subset = self.X_emb[mask]
             if self.is_labelled:
@@ -100,15 +103,17 @@ class EmbeddingDataSet():
             self.all_data.append(G)
             i += num_samples
 
-        if self.all_data[-1].data.shape[0] < 300:
-            self.all_data = self.all_data[:-1]
-
     def summarise(self):
         print("Name of dataset = {}".format(self.name))
         print("Input dimension = {}".format(self.input_dim))
         print("Number of training samples = {}".format(self.max_train_size))
         print("Training labels = {}".format(self.is_labelled))
         print("Graph information = {}".format(self.is_graph))
+
+    def get_k_equal_chunks(self, n, k):
+        # returns n % k sub-arrays of size n//k + 1 and the rest of size n//k
+        p, r = divmod(n, k)
+        return [p + 1 for _ in range(r)] + [p for _ in range(k - r)]
 
 
 if __name__ == "__main__":
