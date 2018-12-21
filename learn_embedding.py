@@ -1,9 +1,8 @@
 import os
 import time
 import torch
-from torch.autograd import Variable
-from core.tsne_torch_loss import compute_joint_probabilities
-from core.graph_cut_torch_loss import covariance_constraint
+from core.tsne_torch_loss import compute_joint_probabilities, tsne_torch_loss
+from core.graph_cut_torch_loss import covariance_constraint, graph_cut_torch_loss
 from util.evaluation_metrics import evaluate_net_metrics
 
 
@@ -23,7 +22,8 @@ def save_checkpoint(state, filename):
 
 def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
     # Optimization parameters
-    split_batches = opt_parameters['split_batches']
+    n_batches = opt_parameters['n_batches']
+    shuffle_flag = opt_parameters['shuffle_flag']
     metric = opt_parameters['distance_metric']
     alpha = opt_parameters['P_multiplier']
     beta = opt_parameters['graph_cut_weight']
@@ -54,13 +54,12 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
     all_P_initialised = False
 
     for iteration in range(start_epoch+1, start_epoch+max_iters+1):
-        # Set the net to training mode
-        net.train()
+        net.train()  # Set the net to training mode
 
         # Create a new set of data blocks
         if loss_function in ['tsne_loss', 'tsne_graph_loss']:
-            if split_batches or not all_P_initialised:
-                train_set.create_all_data(split_batches=split_batches, shuffle=True)
+            if n_batches > 1 or not all_P_initialised:
+                train_set.create_all_data(n_batches=n_batches, shuffle=shuffle_flag)
                 all_P = []
                 for G in train_set.all_data:
                     X = G.data.view(G.data.shape[0], -1).numpy()
@@ -72,39 +71,21 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
 
         # Forward pass through all training data
         for i, G in enumerate(train_set.all_data):
-            # Forward pass
             y_pred = net.forward(G)
 
-            # Target embedding matrix
-            if loss_function in ["pairwise_loss", "composite_loss"]:
-                y_true = G.target
-                y_true = Variable(torch.FloatTensor(y_true).type(dtypeFloat), requires_grad=False)
-
-            # Compute overall loss
-            if loss_function == 'pairwise_loss':
-                loss = net.pairwise_loss(y_pred, y_true, G.adj_matrix)
-            elif loss_function == 'composite_loss':
-                loss1 = net.loss(y_pred, y_true)
-                loss2 = net.pairwise_loss(y_pred, y_true, G.adj_matrix)
-                loss = 0.5 * loss1 + 0.5 * loss2
-            elif loss_function == 'tsne_loss':
-                loss = net.tsne_loss(all_P[i], y_pred, metric=metric)
+            if loss_function == 'tsne_loss':
+                loss = tsne_torch_loss(all_P[i], y_pred)
             elif loss_function =='tsne_graph_loss':
-                loss1 = net.tsne_loss(all_P[i], y_pred, metric=metric)
-                loss2 = net.graph_cut_loss(G.adj_matrix, y_pred)
-
-                if penalty_weight != 0:
-                    loss3 = covariance_constraint(G.adj_matrix, y_pred)
-                else:
-                    loss3 = 0
+                loss1 = tsne_torch_loss(all_P[i], y_pred)
+                loss2 = graph_cut_torch_loss(G.adj_matrix, y_pred)
+                loss3 = covariance_constraint(G.adj_matrix, y_pred)
 
                 loss = (1-beta) * loss1 + beta * loss2 + penalty_weight * loss3
                 running_tsne_loss += loss1.item()
                 running_graph_loss += loss2.item()
                 running_covariance_loss += loss3.item()
 
-            loss_train = loss.item()
-            running_loss += loss_train
+            running_loss += loss.item()
             running_total += 1
 
             # Backpropagate
@@ -112,7 +93,7 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
             optimizer.step()
             optimizer.zero_grad()
 
-        # learning rate, print results
+        # update learning rate, print results, perform validation
         if not iteration % batch_iters:
 
             # time
@@ -149,6 +130,7 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
             if val_set is not None:
                 validate(net, val_set)
 
+        # save checkpoint
         if iteration % checkpoint_interval == 0:
             print('Saving checkpoint at iteration = {}\n'.format(iteration))
             filename = os.path.join(checkpoint_dir, net.name + '_' + str(iteration) + '.pkl')
@@ -165,5 +147,5 @@ def validate(net, val_set):
     trust_score, one_nn_score, five_nn_score, time_elapsed = evaluate_net_metrics(val_set.all_data, net)
     print("Trustworthy score = {:.4f}".format(trust_score))
     print("1-NN generalisation accuracy = {:.4f}".format(one_nn_score))
-    print("5-NN generalisation accuracy = {:.4f}\n".format(five_nn_score))
-    print("Average time to compute (s) = {:.4f}\n".format(time_elapsed))
+    print("5-NN generalisation accuracy = {:.4f}".format(five_nn_score))
+    print("Average time to compute (s) = {:.4f}".format(time_elapsed))

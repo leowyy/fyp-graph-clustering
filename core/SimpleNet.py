@@ -65,17 +65,6 @@ class SimpleNet(nn.Module):
 
         return loss
 
-
-    def tsne_loss(self, P, y, metric='euclidean'):
-        loss = tsne_torch_loss(P, y, metric=metric)
-
-        return loss
-
-    def graph_cut_loss(self, adj, y):
-        loss = graph_cut_torch_loss(adj, y)
-
-        return loss
-
     def update(self, lr):
         update = torch.optim.Adam(self.parameters(), lr=lr)
 

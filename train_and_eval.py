@@ -5,8 +5,8 @@ import torch
 
 from learn_embedding import train
 from core.EmbeddingDataSet import EmbeddingDataSet
-from core.GraphConvNet2 import GraphConvNet2
-from core.OldGraphConvNet2 import OldGraphConvNet2
+from core.GraphConvNet import GraphConvNet
+from core.OldGraphConvNet import OldGraphConvNet
 from core.SimpleNet import SimpleNet
 from util.training_utils import get_oldest_net, save_metadata, save_train_log
 
@@ -15,21 +15,22 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
     # optimization parameters
     opt_parameters = {}
     opt_parameters['learning_rate'] = 0.00075  # ADAM
-    opt_parameters['max_iters'] = 800
+    opt_parameters['max_iters'] = 1000
     opt_parameters['batch_iters'] = 50
     opt_parameters['save_flag'] = True
     opt_parameters['decay_rate'] = 1.25
     opt_parameters['start_epoch'] = 0
 
     opt_parameters['distance_metric'] = 'cosine'
-    opt_parameters['split_batches'] = True  # Set to true if training on subgraphs
     opt_parameters['P_multiplier'] = 0.7  # Weight of graph edges to the calculation of P
     opt_parameters['graph_cut_weight'] = 1e-4  # Weight of graph cut loss
-    opt_parameters['penalty_weight'] = 1e5  # Weight of graph cut loss
+    opt_parameters['penalty_weight'] = 1e5  # Weight of covariance penalty
     opt_parameters['loss_function'] = 'tsne_loss'
+    opt_parameters['n_batches'] = 2
+    opt_parameters['shuffle_flag'] = True
 
     dataset = EmbeddingDataSet(dataset_name, input_dir, train=True)
-    dataset.create_all_data(split_batches=opt_parameters['split_batches'], shuffle=True)
+    dataset.create_all_data(n_batches=opt_parameters['n_batches'], shuffle=opt_parameters['shuffle_flag'])
     dataset.summarise()
 
     task_parameters = {}
@@ -45,9 +46,9 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
 
     # Initialise network
     if net_type == 'graph':
-        net = GraphConvNet2(net_parameters)
+        net = GraphConvNet(net_parameters)
     elif net_type == 'old_graph':
-        net = OldGraphConvNet2(net_parameters)
+        net = OldGraphConvNet(net_parameters)
     elif net_type == 'simple':
         net = SimpleNet(net_parameters)
         opt_parameters['max_iters'] = 1000
@@ -83,7 +84,7 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
     val_dataset = None
     if task_parameters['val_flag']:
         val_dataset = EmbeddingDataSet(dataset_name, input_dir, train=False)
-        val_dataset.create_all_data(split_batches=opt_parameters['split_batches'], shuffle=True)
+        val_dataset.create_all_data(n_batches=opt_parameters['n_batches'], shuffle=opt_parameters['shuffle_flag'])
 
     tab_results = train(net, dataset, opt_parameters, checkpoint_dir, val_dataset)
 

@@ -97,31 +97,30 @@ def compute_joint_probabilities(samples, batch_size=10000, d=2, perplexity=30, m
         elif metric == 'cosine':
             D = pairwise_distances(curX, metric=metric)
 
-        # Augment with adjacency matrix
+        # Augment distances with adjacency matrix
         if adj is not None and alpha != 0:
             W = adj.toarray()
             affinity = alpha * W * D
             D = D - affinity
 
-        P[i], beta = x2p(D, perplexity, tol, verbose=verbose)  # compute affinities using fixed perplexity
+        P[i], beta = x2p(D, perplexity, tol, verbose=verbose)      # compute affinities using fixed perplexity
         P[i][np.isnan(P[i])] = 0                                   # make sure we don't have NaN's
         P[i] = (P[i] + P[i].T)  # / 2                              # make symmetric
         P[i] = P[i] / P[i].sum()                                   # obtain estimation of joint probabilities
-
         P[i] = np.maximum(P[i], np.finfo(P[i].dtype).eps)
 
     return P
 
 
-def tsne_torch_loss(P, X_emb, metric='euclidean'):
+def tsne_torch_loss(P, X_emb):
     d = 2
     n = P.shape[1]
     v = d - 1.  # degrees of freedom
     eps = 10e-15  # needs to be at least 10e-8 to get anything after Q /= K.sum(Q)
 
-    if metric in ['euclidean', 'cosine']:
-        sum_act = torch.sum(X_emb.pow(2), dim=1)
-        Q = sum_act + torch.reshape(sum_act, [-1, 1]) + -2 * torch.mm(X_emb, torch.t(X_emb))
+    # Euclidean pairwise distances in the low-dimensional map
+    sum_act = torch.sum(X_emb.pow(2), dim=1)
+    Q = sum_act + torch.reshape(sum_act, [-1, 1]) + -2 * torch.mm(X_emb, torch.t(X_emb))
 
     Q = Q / v
     Q = torch.pow(1 + Q, -(v + 1) / 2)

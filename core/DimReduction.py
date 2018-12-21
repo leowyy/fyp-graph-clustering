@@ -1,16 +1,11 @@
 from sklearn import manifold, decomposition
-from experiments.oracle_embedding import oracle_embedding
 
 
 class DimReduction(object):
     def __init__(self, n_components):
         self.n_components = n_components
 
-    def fit_transform(self, X, method, labels=None):
-        if method == 'oracle':
-            return oracle_embedding(labels, shuffle=False)
-        elif method == 'oracle_shuffle':
-            return oracle_embedding(labels, shuffle=True)
+    def fit_transform(self, X, method):
 
         if method == 'spectral':
             embedder = manifold.SpectralEmbedding(n_components=self.n_components, random_state=0,

@@ -166,3 +166,17 @@ def graph_trustworthiness(path_lengths, X_emb, n_neighbors=5):
         max_sum += sum(lengths_from_i[-n_neighbors:])
     t = 1.0 - (t - min_sum) / (max_sum - min_sum)
     return t
+
+def get_net_projection(all_data, net):
+    all_y_pred = []
+    net.eval()
+
+    for G in all_data:
+        if torch.cuda.is_available():
+            y_pred = net.forward(G).cpu().detach().numpy()
+        else:
+            y_pred = net.forward(G).detach().numpy()
+        all_y_pred.append(y_pred)
+
+    return np.concatenate(all_y_pred, axis=0)
+

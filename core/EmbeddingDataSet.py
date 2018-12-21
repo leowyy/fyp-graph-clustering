@@ -1,26 +1,21 @@
 import os
 import pickle
 import numpy as np
-import torch
-from core.DataEmbeddingGraph import DataEmbeddingGraph
+from core.GraphDataBlock import GraphDataBlock
 
 
 class EmbeddingDataSet():
     train_dir = {'mnist': 'mnist_train.pkl',
                  'usps': 'usps_train_tsne.pkl',
                  '20news': '20news_train_tsne.pkl',
-                 'yux': 'yux_train_tsne_shuffle.pkl',
                  'fasttext': 'fasttext_train_tsne.pkl',
-                 'mnist_embeddings': 'mnist_embeddings_train.pkl',
                  'imagenet': 'imagenet_train.pkl',
                  'cora': 'cora_subset.pkl'}
 
     test_dir = {'mnist': 'mnist_test.pkl',
                 'usps': 'usps_test_tsne.pkl',
                 '20news': None,
-                'yux': None,
                 'fasttext': None,
-                'mnist_embeddings': None,
                 'imagenet': None,
                 'cora': 'cora_subset.pkl'}
 
@@ -29,7 +24,6 @@ class EmbeddingDataSet():
         self.data_dir = data_dir
         self.train_dir = EmbeddingDataSet.train_dir[name]
         self.test_dir = EmbeddingDataSet.test_dir[name]
-        self.max_train_size = None
         self.input_dim = None
         self.is_labelled = False
 
@@ -48,47 +42,32 @@ class EmbeddingDataSet():
         self.inputs = file_contents[0]
         self.labels = file_contents[1]
         self.X_emb = file_contents[2]
+        self.adj_matrix = None
         if len(file_contents) > 3:
             self.adj_matrix = file_contents[3]
-        else:
-            self.adj_matrix = None
 
         self.is_labelled = len(self.labels) != 0
         self.is_graph = self.adj_matrix is not None
         self.input_dim = np.prod(self.inputs.shape[1:])
 
-        if type(self.labels) is np.ndarray:
-            self.labels = torch.from_numpy(self.labels).type(torch.FloatTensor)
+        self.all_indices = np.arange(0, self.inputs.shape[0])
 
-    def create_all_data(self, max_train_size=None, split_batches=True, shuffle=False):
-        # If not split batches, train on full graph
-        if not split_batches:
-            G_all = DataEmbeddingGraph(self.inputs, self.labels, method=None, W=self.adj_matrix)
-            # G_all.target = self.X_emb
-            self.all_data = [G_all]
-            return
-
-        if max_train_size is None:
-            max_train_size = self.inputs.shape[0]
-        self.max_train_size = max_train_size
-
+    def create_all_data(self, n_batches=1, shuffle=False):
         # Initialise all_train_data: list of DataEmbeddingGraph blocks
         i = 0
         labels_subset = []
         adj_subset = None
         self.all_data = []
 
-        all_indices = np.arange(0, self.inputs.shape[0])
         if shuffle:
-            np.random.shuffle(all_indices)
+            np.random.shuffle(self.all_indices)
 
         # Split equally
-        chunk_sizes = self.get_k_equal_chunks(self.max_train_size, k=3)
-
-        # TODO: Split randomly
+        # TODO: Another option to split randomly
+        chunk_sizes = self.get_k_equal_chunks(self.inputs.shape[0], k=n_batches)
 
         for num_samples in chunk_sizes:
-            mask = all_indices[i: i + num_samples]
+            mask = self.all_indices[i: i + num_samples]
             inputs_subset = self.inputs[mask]
             # X_emb_subset = self.X_emb[mask]
             if self.is_labelled:
@@ -97,7 +76,7 @@ class EmbeddingDataSet():
                 adj_subset = self.adj_matrix[mask, :][:, mask]
 
             # Package data into graph block
-            G = DataEmbeddingGraph(inputs_subset, labels_subset, method=None, W=adj_subset)
+            G = GraphDataBlock(inputs_subset, labels=labels_subset, W=adj_subset)
             # G.target = X_emb_subset  # replace target with pre-computed embeddings
 
             self.all_data.append(G)
@@ -106,7 +85,7 @@ class EmbeddingDataSet():
     def summarise(self):
         print("Name of dataset = {}".format(self.name))
         print("Input dimension = {}".format(self.input_dim))
-        print("Number of training samples = {}".format(self.max_train_size))
+        print("Number of training samples = {}".format(self.inputs.shape[0]))
         print("Training labels = {}".format(self.is_labelled))
         print("Graph information = {}".format(self.is_graph))
 
@@ -114,6 +93,12 @@ class EmbeddingDataSet():
         # returns n % k sub-arrays of size n//k + 1 and the rest of size n//k
         p, r = divmod(n, k)
         return [p + 1 for _ in range(r)] + [p for _ in range(k - r)]
+
+    def get_current_inputs(self):
+        inputs = self.inputs[self.all_indices]
+        labels = self.labels[self.all_indices]
+        adj = self.adj_matrix[self.all_indices, :][:, self.all_indices]
+        return inputs, labels, adj
 
 
 if __name__ == "__main__":

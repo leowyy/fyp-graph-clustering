@@ -2,12 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c77c5ea6-97cc-4fe8-9972-2ba1a0ca9024" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/util/plot_graph_embedding.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/archive/GraphConvNet_archived.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/GraphDataBlock.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/DataEmbeddingGraph.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/DimReduction.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/DimReduction.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/EmbeddingDataSet.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/EmbeddingDataSet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/experiments/cora_exploration.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/experiments/cora_exploration.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/GraphConvNet2.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/GraphConvNet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/OldGraphConvNet2.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/OldGraphConvNet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/SimpleConvNet.py" beforeDir="false" afterPath="$PROJECT_DIR$/archive/SimpleConvNet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/SimpleNet.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/SimpleNet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/tsne_torch_loss.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/tsne_torch_loss.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiments/new_cora_test.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/experiments/new_cora_test.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiments/oracle_embedding.py" beforeDir="false" afterPath="$PROJECT_DIR$/archive/oracle_embedding.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiments/similarity_test.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiments/torch_pairwise_loss.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/learn_embedding.py" beforeDir="false" afterPath="$PROJECT_DIR$/learn_embedding.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/train_and_eval.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_and_eval.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/cifar_data_loader.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/util/evaluation_metrics.py" beforeDir="false" afterPath="$PROJECT_DIR$/util/evaluation_metrics.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/plot_images.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/svhn_data_loader.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/usps.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/usps_data_loader.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,24 +47,24 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="dummy" value="10" />
-          <entry key="py" value="4960" />
+          <entry key="dummy" value="33" />
+          <entry key="py" value="5543" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="10" />
-          <entry key="Python" value="4960" />
+          <entry key="PLAIN_TEXT" value="33" />
+          <entry key="Python" value="5543" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="53" />
+          <entry key="py" value="82" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Python" value="53" />
+          <entry key="Python" value="82" />
         </counts>
       </usages-collector>
     </session>
@@ -60,8 +77,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/tsne_torch_loss.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="269">
-              <caret line="96" column="32" selection-start-line="96" selection-start-column="32" selection-end-line="96" selection-end-column="32" />
+            <state relative-caret-position="251">
+              <caret line="114" column="28" selection-start-line="114" selection-start-column="28" selection-end-line="114" selection-end-column="28" />
               <folding>
                 <element signature="e#0#55#0" expanded="true" />
               </folding>
@@ -70,10 +87,34 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/GraphConvNetCell.py">
+        <entry file="file://$PROJECT_DIR$/core/graph_cut_torch_loss.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="712">
-              <caret line="96" selection-start-line="96" selection-end-line="96" />
+            <state relative-caret-position="360">
+              <caret line="24" column="36" selection-start-line="24" selection-start-column="36" selection-end-line="24" selection-end-column="36" />
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/GraphConvNet.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-172">
+              <caret line="22" column="26" selection-start-line="22" selection-start-column="26" selection-end-line="22" selection-end-column="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/OldGraphConvNet.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-172">
+              <caret line="22" column="29" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -81,53 +122,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/EmbeddingDataSet.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="89" column="39" selection-start-line="89" selection-start-column="39" selection-end-line="89" selection-end-column="39" />
-              <folding>
-                <element signature="e#0#9#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/util/plot_graph_embedding.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="13" selection-start-line="13" selection-end-line="13" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/util/evaluation_metrics.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="114">
-              <caret line="150" column="25" selection-start-line="150" selection-start-column="4" selection-end-line="150" selection-end-column="25" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/DataEmbeddingGraph.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="686">
-              <caret line="53" selection-start-line="53" selection-end-line="53" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/learn_embedding.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="64" column="44" lean-forward="true" selection-start-line="64" selection-start-column="44" selection-end-line="64" selection-end-column="44" />
+            <state relative-caret-position="1125">
+              <caret line="75" column="62" lean-forward="true" selection-start-line="75" selection-start-column="62" selection-end-line="75" selection-end-column="62" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -138,8 +134,23 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/train_and_eval.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="185">
-              <caret line="24" column="42" selection-start-line="24" selection-start-column="42" selection-end-line="24" selection-end-column="42" />
+            <state relative-caret-position="1125">
+              <caret line="75" column="4" selection-start-line="75" selection-start-column="4" selection-end-line="75" selection-end-column="4" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/learn_embedding.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="475">
+              <caret line="70" lean-forward="true" selection-start-line="70" selection-end-line="70" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -187,7 +198,6 @@
         <option value="$PROJECT_DIR$/core/SimpleConvNet.py" />
         <option value="$PROJECT_DIR$/experiments/test_clustering.ipynb" />
         <option value="$PROJECT_DIR$/experiments/oracle_embedding.py" />
-        <option value="$PROJECT_DIR$/core/DimReduction.py" />
         <option value="$PROJECT_DIR$/util/evaluate_net_metrics.py" />
         <option value="$PROJECT_DIR$/util/usps_data.py" />
         <option value="$PROJECT_DIR$/experiments/20news_lda.ipynb" />
@@ -200,27 +210,31 @@
         <option value="$USER_HOME$/anaconda3/envs/py36/lib/python3.6/site-packages/sklearn/externals/joblib/externals/cloudpickle/cloudpickle.py" />
         <option value="$PROJECT_DIR$/tests/test_tsne_loss.py" />
         <option value="$PROJECT_DIR$/core/graph_torch_loss.py" />
-        <option value="$PROJECT_DIR$/core/DataEmbeddingGraph.py" />
-        <option value="$PROJECT_DIR$/core/GraphConvNet2.py" />
-        <option value="$PROJECT_DIR$/core/OldGraphConvNet2.py" />
         <option value="$PROJECT_DIR$/tests/test_tsne_torch_loss.py" />
-        <option value="$PROJECT_DIR$/core/SimpleNet.py" />
         <option value="$PROJECT_DIR$/util/training_utils.py" />
-        <option value="$PROJECT_DIR$/core/graph_cut_torch_loss.py" />
-        <option value="$PROJECT_DIR$/learn_embedding.py" />
-        <option value="$PROJECT_DIR$/core/tsne_torch_loss.py" />
         <option value="$PROJECT_DIR$/util/plot_graph_embedding.py" />
         <option value="$PROJECT_DIR$/util/evaluation_metrics.py" />
+        <option value="$PROJECT_DIR$/core/DimReduction.py" />
+        <option value="$PROJECT_DIR$/core/tsne_torch_loss.py" />
+        <option value="$PROJECT_DIR$/core/SimpleNet.py" />
+        <option value="$PROJECT_DIR$/core/OldGraphConvNet2.py" />
+        <option value="$PROJECT_DIR$/core/GraphConvNet2.py" />
+        <option value="$PROJECT_DIR$/core/OldGraphConvNet.py" />
+        <option value="$PROJECT_DIR$/core/DataEmbeddingGraph.py" />
+        <option value="$PROJECT_DIR$/core/GraphBlock.py" />
         <option value="$PROJECT_DIR$/core/EmbeddingDataSet.py" />
         <option value="$PROJECT_DIR$/train_and_eval.py" />
+        <option value="$PROJECT_DIR$/core/graph_cut_torch_loss.py" />
+        <option value="$PROJECT_DIR$/core/GraphDataBlock.py" />
+        <option value="$PROJECT_DIR$/learn_embedding.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="63" />
-    <option name="y" value="49" />
+  <component name="ProjectFrameBounds" fullScreen="true">
+    <option name="x" value="48" />
+    <option name="y" value="23" />
     <option name="width" value="1378" />
-    <option name="height" value="915" />
+    <option name="height" value="877" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -243,11 +257,6 @@
             <path>
               <item name="fyp-graph-clustering" type="b2602c69:ProjectViewProjectNode" />
               <item name="fyp-graph-clustering" type="462c0819:PsiDirectoryNode" />
-              <item name="tests" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="fyp-graph-clustering" type="b2602c69:ProjectViewProjectNode" />
-              <item name="fyp-graph-clustering" type="462c0819:PsiDirectoryNode" />
               <item name="util" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -262,16 +271,16 @@
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/experiments" />
-      <recent name="$PROJECT_DIR$/core" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/archive" />
       <recent name="$PROJECT_DIR$/experiments" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/util" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/experiments" />
+      <recent name="$PROJECT_DIR$/core" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -419,15 +428,15 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="63" y="49" width="1378" height="915" extended-state="0" />
+    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49919742" visible="true" weight="0.21518055" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49919742" visible="true" weight="0.20577872" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" sideWeight="0.5008026" side_tool="true" weight="0.19401993" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32919255" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.36695018" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.2433735" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39907193" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -480,13 +489,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/block.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="60" column="25" selection-start-line="60" selection-start-column="25" selection-end-line="60" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/evaluation_test.ipynb">
       <provider selected="true" editor-type-id="ipnb-editor">
         <state>
@@ -533,26 +535,12 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/data/EmbeddingDataset.py" />
-    <entry file="file://$PROJECT_DIR$/experiments/oracle_embedding.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/util/usps_random_data.py" />
     <entry file="file://$PROJECT_DIR$/util/data_sampler.py" />
     <entry file="file://$PROJECT_DIR$/util/usps_data_loader.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
           <caret line="11" column="34" selection-start-line="11" selection-start-column="34" selection-end-line="11" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/SemiSuperCluGraph.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="43" column="22" selection-start-line="43" selection-start-column="17" selection-end-line="43" selection-end-column="22" />
         </state>
       </provider>
     </entry>
@@ -574,20 +562,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="156">
           <caret line="46" column="16" selection-start-line="46" selection-start-column="16" selection-end-line="46" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/DimReduction.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="18" column="96" selection-start-line="18" selection-start-column="23" selection-end-line="18" selection-end-column="96" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/SimpleConvNet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
-          <caret line="40" column="18" selection-start-line="40" selection-start-column="18" selection-end-line="40" selection-end-column="18" />
         </state>
       </provider>
     </entry>
@@ -615,88 +589,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/util/training_utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="142">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/GraphConvNet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1201">
-          <caret column="12" selection-start-column="12" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/GraphConvNet2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="111" selection-start-line="111" selection-end-line="114" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/anaconda3/envs/py36/lib/python3.6/site-packages/torch/nn/modules/module.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="643">
           <caret line="476" selection-start-line="476" selection-end-line="476" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/SimpleNet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="930">
-          <caret line="67" selection-start-line="67" selection-end-line="67" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/OldGraphConvNetCell.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1080">
-          <caret line="75" column="13" selection-start-line="75" selection-start-column="13" selection-end-line="75" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/DataEmbeddingGraph.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="686">
-          <caret line="53" selection-start-line="53" selection-end-line="53" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/OldGraphConvNet2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1498">
-          <caret line="107" column="90" selection-start-line="107" selection-start-column="8" selection-end-line="107" selection-end-column="90" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/GraphConvNetCell.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="712">
-          <caret line="96" selection-start-line="96" selection-end-line="96" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/graph_cut_torch_loss.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="55" selection-start-line="16" selection-start-column="55" selection-end-line="16" selection-end-column="55" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -707,37 +603,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/tsne_torch_loss.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="269">
-          <caret line="96" column="32" selection-start-line="96" selection-start-column="32" selection-end-line="96" selection-end-column="32" />
-          <folding>
-            <element signature="e#0#55#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/util/plot_embedding.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
           <caret line="24" selection-start-line="24" selection-end-line="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/util/plot_bokeh_embedding.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="2" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/util/evaluation_metrics.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="150" column="25" selection-start-line="150" selection-start-column="4" selection-end-line="150" selection-end-column="25" />
         </state>
       </provider>
     </entry>
@@ -751,16 +620,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/EmbeddingDataSet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="89" column="39" selection-start-line="89" selection-start-column="39" selection-end-line="89" selection-end-column="39" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/util/mnist_data_loader.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="756">
@@ -768,17 +627,166 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/core/OldGraphConvNetCell.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="69">
+          <caret line="75" column="13" selection-start-line="75" selection-start-column="13" selection-end-line="75" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/util/evaluation_metrics.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="176" column="13" selection-start-line="176" selection-start-column="13" selection-end-line="176" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/DimReduction.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="37" selection-start-line="7" selection-start-column="37" selection-end-line="7" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/archive/oracle_embedding.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/GraphConvNetCell.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="724">
+          <caret line="96" selection-start-line="96" selection-end-line="96" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/util/plot_bokeh_embedding.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="2" selection-end-column="31" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/tsne_torch_loss.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="251">
+          <caret line="114" column="28" selection-start-line="114" selection-start-column="28" selection-end-line="114" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#55#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/archive/GraphConvNet_archived.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-9">
+          <caret column="12" selection-start-column="12" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/SimpleNet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="838">
+          <caret line="65" column="19" selection-start-line="65" selection-start-column="19" selection-end-line="65" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/block.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="900">
+          <caret line="60" column="25" selection-start-line="60" selection-start-column="25" selection-end-line="60" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/util/training_utils.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/graph_cut_torch_loss.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="36" selection-start-line="24" selection-start-column="36" selection-end-line="24" selection-end-column="36" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/GraphConvNet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-172">
+          <caret line="22" column="26" selection-start-line="22" selection-start-column="26" selection-end-line="22" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/OldGraphConvNet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-172">
+          <caret line="22" column="29" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/EmbeddingDataSet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1125">
+          <caret line="75" column="62" lean-forward="true" selection-start-line="75" selection-start-column="62" selection-end-line="75" selection-end-column="62" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/GraphDataBlock.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="12" column="37" selection-start-line="12" selection-start-column="37" selection-end-line="12" selection-end-column="37" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/archive/SimpleConvNet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="40" column="18" selection-start-line="40" selection-start-column="18" selection-end-line="40" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/SemiSuperCluGraph.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="600">
+          <caret line="43" column="22" selection-start-line="43" selection-start-column="17" selection-end-line="43" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/train_and_eval.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="24" column="42" selection-start-line="24" selection-start-column="42" selection-end-line="24" selection-end-column="42" />
+        <state relative-caret-position="1125">
+          <caret line="75" column="4" selection-start-line="75" selection-start-column="4" selection-end-line="75" selection-end-column="4" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/learn_embedding.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="64" column="44" lean-forward="true" selection-start-line="64" selection-start-column="44" selection-end-line="64" selection-end-column="44" />
+        <state relative-caret-position="475">
+          <caret line="70" lean-forward="true" selection-start-line="70" selection-end-line="70" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
