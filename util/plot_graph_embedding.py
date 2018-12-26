@@ -1,9 +1,13 @@
 import numpy as np
+import scipy.sparse as sp
 import bokeh.plotting as bp
 from bokeh.plotting import show
 from bokeh.models.glyphs import Segment
 
-def plot_graph_embedding(X_emb, labels, adj):
+def plot_graph_embedding(X_emb, labels, adj, line_alpha=0.2):
+    labels = np.array([int(l) for l in labels])
+    adj = sp.coo_matrix(adj)
+
     # 20 colors
     colormap = np.array([
         "#1f77b4", "#aec7e8", "#ff7f0e", "#ffbb78", "#2ca02c",
@@ -43,7 +47,7 @@ def plot_graph_embedding(X_emb, labels, adj):
         )
     )
 
-    glyph = Segment(x0="x0", y0="y0", x1="x1", y1="y1", line_color="color", line_width=1, line_alpha=0.1)
+    glyph = Segment(x0="x0", y0="y0", x1="x1", y1="y1", line_color="color", line_width=1, line_alpha=line_alpha)
     plot_fig.add_glyph(source, glyph)
 
     plot_fig.circle(x='x', y='y', color='color', source=mySource)

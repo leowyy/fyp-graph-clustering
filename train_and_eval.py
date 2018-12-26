@@ -22,12 +22,11 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
     opt_parameters['start_epoch'] = 0
 
     opt_parameters['distance_metric'] = 'cosine'
-    opt_parameters['P_multiplier'] = 0.7  # Weight of graph edges to the calculation of P
-    opt_parameters['graph_cut_weight'] = 1e-4  # Weight of graph cut loss
-    opt_parameters['penalty_weight'] = 1e5  # Weight of covariance penalty
-    opt_parameters['loss_function'] = 'tsne_loss'
-    opt_parameters['n_batches'] = 2
-    opt_parameters['shuffle_flag'] = True
+    opt_parameters['distance_reduction'] = 0  # Multiplier to reduce distances of connected nodes
+    opt_parameters['graph_weight'] = 0.5  # Weight of graph cut loss
+    opt_parameters['loss_function'] = 'tsne_graph_loss'
+    opt_parameters['n_batches'] = 1
+    opt_parameters['shuffle_flag'] = False
 
     dataset = EmbeddingDataSet(dataset_name, input_dir, train=True)
     dataset.create_all_data(n_batches=opt_parameters['n_batches'], shuffle=opt_parameters['shuffle_flag'])
@@ -51,7 +50,7 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
         net = OldGraphConvNet(net_parameters)
     elif net_type == 'simple':
         net = SimpleNet(net_parameters)
-        opt_parameters['max_iters'] = 1000
+        opt_parameters['max_iters'] = 3000
         opt_parameters['batch_iters'] = 50
 
     device = 'cpu'

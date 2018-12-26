@@ -1,6 +1,7 @@
 from sklearn.metrics.pairwise import pairwise_distances
 import torch
 import numpy as np
+from util.graph_utils import get_shortest_path_matrix
 
 
 if torch.cuda.is_available():
@@ -78,7 +79,7 @@ def x2p(D, u=15, tol=1e-4, print_iter=500, max_tries=50, verbose=0):
     return P, beta
 
 
-def compute_joint_probabilities(samples, batch_size=10000, d=2, perplexity=30, metric='euclidean', adj=None, alpha=1, tol=1e-5, verbose=0):
+def compute_joint_probabilities(samples, batch_size=10000, d=2, perplexity=30, metric='euclidean', adj=None, alpha=0, tol=1e-5, verbose=0):
     # Initialize some variables
     n = samples.shape[0]
     batch_size = min(batch_size, n)
@@ -96,6 +97,10 @@ def compute_joint_probabilities(samples, batch_size=10000, d=2, perplexity=30, m
             D = pairwise_distances(curX, metric=metric, squared=True)
         elif metric == 'cosine':
             D = pairwise_distances(curX, metric=metric)
+        elif metric == 'shortest_path':
+            assert adj is not None and alpha == 0
+            D = get_shortest_path_matrix(adj)
+            alpha = 0
 
         # Augment distances with adjacency matrix
         if adj is not None and alpha != 0:
@@ -108,6 +113,10 @@ def compute_joint_probabilities(samples, batch_size=10000, d=2, perplexity=30, m
         P[i] = (P[i] + P[i].T)  # / 2                              # make symmetric
         P[i] = P[i] / P[i].sum()                                   # obtain estimation of joint probabilities
         P[i] = np.maximum(P[i], np.finfo(P[i].dtype).eps)
+
+    # Reshape to 2D torch tensor
+    P = P.reshape((n, n))
+    P = torch.from_numpy(P).type(dtypeFloat)
 
     return P
 

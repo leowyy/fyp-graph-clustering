@@ -6,7 +6,6 @@ from sklearn import neighbors
 from sklearn.metrics.pairwise import pairwise_distances
 from sklearn.model_selection import KFold
 from sklearn.metrics import accuracy_score
-from core.DimReduction import DimReduction
 
 
 def trustworthiness(X, X_embedded, n_neighbors=5, metric='euclidean', precomputed=False):
@@ -115,8 +114,8 @@ def evaluate_net_metrics(all_test_data, net, distance_metric='euclidean'):
 
         X = G.data.view(G.data.shape[0], -1).numpy()
         trust_tracker[i] = trustworthiness(X, y_pred, n_neighbors=5, metric=distance_metric)
-        one_nn_tracker[i] = nearest_neighbours_generalisation_accuracy(y_pred, G.labels.numpy(), 1)
-        five_nn_tracker[i] = nearest_neighbours_generalisation_accuracy(y_pred, G.labels.numpy(), 5)
+        one_nn_tracker[i] = nearest_neighbours_generalisation_accuracy(y_pred, G.labels, 1)
+        five_nn_tracker[i] = nearest_neighbours_generalisation_accuracy(y_pred, G.labels, 5)
     return np.average(trust_tracker), np.average(one_nn_tracker), np.average(five_nn_tracker), np.average(time_tracker)
 
 
@@ -143,12 +142,12 @@ def evaluate_embedding_metrics(all_test_data, embedder, distance_metric='euclide
         time_tracker[i] = time_end - time_start
 
         trust_tracker[i] = trustworthiness(X, X_emb, n_neighbors=5, metric=distance_metric)
-        one_nn_tracker[i] = nearest_neighbours_generalisation_accuracy(X_emb, G.labels.numpy(), 1)
-        five_nn_tracker[i] = nearest_neighbours_generalisation_accuracy(X_emb, G.labels.numpy(), 5)
+        one_nn_tracker[i] = nearest_neighbours_generalisation_accuracy(X_emb, G.labels, 1)
+        five_nn_tracker[i] = nearest_neighbours_generalisation_accuracy(X_emb, G.labels, 5)
     return np.average(trust_tracker), np.average(one_nn_tracker), np.average(five_nn_tracker), np.average(time_tracker)
 
 
-def graph_trustworthiness(path_lengths, X_emb, n_neighbors=5):
+def graph_trustworthiness(path_matrix, X_emb, n_neighbors=5):
     dist_X_emb = pairwise_distances(X_emb, squared=True)
     ind_X_emb = np.argsort(dist_X_emb, axis=1)[:, 1:n_neighbors + 1]
 
@@ -156,16 +155,29 @@ def graph_trustworthiness(path_lengths, X_emb, n_neighbors=5):
     t = 0.0
     min_sum = 0.0
     max_sum = 0.0
-    ranks = np.zeros(n_neighbors)
     for i in range(n_samples):
-        for j in range(n_neighbors):
-            ranks[j] = path_lengths[i][ind_X_emb[i, j]]
+        ranks = path_matrix[i][ind_X_emb[i, :]]
         t += np.sum(ranks)
-        lengths_from_i = sorted(list(path_lengths[i].values()))
-        min_sum += sum(lengths_from_i[:n_neighbors])
+        lengths_from_i = sorted(path_matrix[i])
+        min_sum += sum(lengths_from_i[1:n_neighbors + 1])
         max_sum += sum(lengths_from_i[-n_neighbors:])
     t = 1.0 - (t - min_sum) / (max_sum - min_sum)
     return t
+
+
+def neighborhood_preservation(path_matrix, X_emb, max_graph_dist=2):
+    dist_X_emb = pairwise_distances(X_emb, squared=True)
+    ind_X_emb = np.argsort(dist_X_emb, axis=1)[:, 1:]
+
+    n_samples = X_emb.shape[0]
+    t = 0.0
+    for i in range(n_samples):
+        graph_n = {k for k, v in enumerate(path_matrix[i]) if 0 < v <= max_graph_dist}
+        layout_n = set(ind_X_emb[i][:len(graph_n)])
+        intersection_size = len(graph_n.intersection(layout_n))
+        t += intersection_size / (2*len(graph_n) - intersection_size)
+    return t/n_samples
+
 
 def get_net_projection(all_data, net):
     all_y_pred = []
@@ -179,4 +191,3 @@ def get_net_projection(all_data, net):
         all_y_pred.append(y_pred)
 
     return np.concatenate(all_y_pred, axis=0)
-
