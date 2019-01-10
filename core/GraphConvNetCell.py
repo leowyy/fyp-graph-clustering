@@ -67,12 +67,17 @@ class GraphConvNetCell(nn.Module):
         # conv1
         Vix = self.Vi1(x)  # V x H_out
         Vjx = self.Vj1(x)  # V x H_out
-        x1 = torch.mm(E_end, Vix) + torch.mm(E_start, Vjx) + self.bv1  # E x H_out
+        x1 = torch.mm(E_end, Vix) + torch.mm(E_start, Vjx) + self.bv1  # E x H_out, edge gates
         x1 = torch.sigmoid(x1)
         Ujx = self.Uj1(x)  # V x H_out
         x2 = torch.mm(E_start, Ujx)  # V x H_out   
         Uix = self.Ui1(x)  # V x H_out
-        x = Uix + torch.mm(E_end.t(), x1 * x2) + self.bu1  # V x H_out
+        # x = Uix + torch.mm(E_end.t(), x1 * x2) + self.bu1  # V x H_out
+        indegree = torch.sum(E_end, dim=0) # V
+        indegree[indegree==0] = 1
+        sum_xj = torch.div(torch.mm(E_end.t(), x1 * x2).t(), indegree).t()
+        x = Uix + sum_xj + self.bu1
+
         # bn1
         x = self.bn1(x)
         # relu1
@@ -80,12 +85,13 @@ class GraphConvNetCell(nn.Module):
         # conv2
         Vix = self.Vi2(x)  # V x H_out
         Vjx = self.Vj2(x)  # V x H_out
-        x1 = torch.mm(E_end, Vix) + torch.mm(E_start, Vjx) + self.bv2  # E x H_out
+        x1 = torch.mm(E_end, Vix) + torch.mm(E_start, Vjx) + self.bv2  # E x H_out, edge gates
         x1 = torch.sigmoid(x1)
         Ujx = self.Uj2(x)  # V x H_out
         x2 = torch.mm(E_start, Ujx)  # V x H_out
         Uix = self.Ui2(x)  # V x H_out
-        x = Uix + torch.mm(E_end.t(), x1 * x2) + self.bu2  # V x H_out
+        sum_xj = torch.div(torch.mm(E_end.t(), x1 * x2).t(), indegree).t()
+        x = Uix + sum_xj + self.bu2  # V x H_out
         # bn2
         x = self.bn2(x)
         # addition

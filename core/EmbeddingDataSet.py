@@ -54,7 +54,7 @@ class EmbeddingDataSet():
 
         self.all_indices = np.arange(0, self.inputs.shape[0])
 
-    def create_all_data(self, n_batches=1, shuffle=False):
+    def create_all_data(self, n_batches=1, shuffle=False, sampling=False):
         # Initialise all_train_data: list of DataEmbeddingGraph blocks
         i = 0
         labels_subset = []
@@ -63,6 +63,8 @@ class EmbeddingDataSet():
 
         if shuffle:
             np.random.shuffle(self.all_indices)
+        else:
+            self.all_indices = np.arange(0, self.inputs.shape[0])
 
         # Split equally
         # TODO: Another option to split randomly
@@ -70,8 +72,14 @@ class EmbeddingDataSet():
 
         for num_samples in chunk_sizes:
             mask = self.all_indices[i: i + num_samples]
+
+            # Perform sampling to obtain local neighborhood of mini-batch
+            if sampling:
+                D_layers = [5, 10]  # max samples per layer
+                mask = self.sample_neighborhood(self.adj_matrix, mask, D_layers)
+
             inputs_subset = self.inputs[mask]
-            # X_emb_subset = self.X_emb[mask]
+
             if self.is_labelled:
                 labels_subset = self.labels[mask]
             if self.is_graph:
@@ -79,7 +87,6 @@ class EmbeddingDataSet():
 
             # Package data into graph block
             G = GraphDataBlock(inputs_subset, labels=labels_subset, W=adj_subset)
-            # G.target = X_emb_subset  # replace target with pre-computed embeddings
 
             self.all_data.append(G)
             i += num_samples
@@ -101,6 +108,24 @@ class EmbeddingDataSet():
         labels = self.labels[self.all_indices]
         adj = self.adj_matrix[self.all_indices, :][:, self.all_indices]
         return inputs, labels, adj
+
+    def sample_neighborhood(self, A, batch_indices, D_layers):
+        # A: the full adjacency matrix
+        # batch_indices: subset of all vertices
+        # D_layers: sampling strategy per layer, default [5, 10]
+
+        selected_indices = set(batch_indices)
+        for i in batch_indices:
+            one_hop_neighbors = np.nonzero(A[i, :])[0]
+            if len(one_hop_neighbors) > D_layers[0]:
+                one_hop_neighbors = np.random.choice(one_hop_neighbors, size=D_layers[0], replace=False)
+            selected_indices = selected_indices.union(one_hop_neighbors)
+            for j in one_hop_neighbors:
+                two_hop_neighbors = np.nonzero(A[j, :])[0]
+                if len(two_hop_neighbors) > D_layers[1]:
+                    two_hop_neighbors = np.random.choice(two_hop_neighbors, size=D_layers[1], replace=False)
+                selected_indices = selected_indices.union(two_hop_neighbors)
+        return np.array(list(selected_indices))
 
 
 if __name__ == "__main__":

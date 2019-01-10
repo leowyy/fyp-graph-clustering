@@ -15,7 +15,7 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
     # optimization parameters
     opt_parameters = {}
     opt_parameters['learning_rate'] = 0.00075  # ADAM
-    opt_parameters['max_iters'] = 1000
+    opt_parameters['max_iters'] = 700
     opt_parameters['batch_iters'] = 50
     opt_parameters['save_flag'] = True
     opt_parameters['decay_rate'] = 1.25
@@ -25,11 +25,12 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
     opt_parameters['distance_reduction'] = 0.7  # Multiplier to reduce distances of connected nodes
     opt_parameters['graph_weight'] = 0.5  # Weight of graph cut loss
     opt_parameters['loss_function'] = 'tsne_loss'
-    opt_parameters['n_batches'] = 2
-    opt_parameters['shuffle_flag'] = False
+    opt_parameters['n_batches'] = 24
+    opt_parameters['shuffle_flag'] = True
+    opt_parameters['sampling_flag'] = True
 
     dataset = EmbeddingDataSet(dataset_name, input_dir, train=True)
-    dataset.create_all_data(n_batches=opt_parameters['n_batches'], shuffle=opt_parameters['shuffle_flag'])
+    dataset.create_all_data(n_batches=opt_parameters['n_batches'], shuffle=opt_parameters['shuffle_flag'], sampling=opt_parameters['sampling_flag'])
     dataset.summarise()
 
     task_parameters = {}
@@ -41,7 +42,7 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
     net_parameters['n_components'] = task_parameters['n_components']
     net_parameters['D'] = dataset.input_dim  # input dimension
     net_parameters['H'] = 50  # number of hidden units
-    net_parameters['L'] = 10  # number of hidden layers
+    net_parameters['L'] = 2  # number of hidden layers
 
     # Initialise network
     if net_type == 'graph':
@@ -83,7 +84,7 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
     val_dataset = None
     if task_parameters['val_flag']:
         val_dataset = EmbeddingDataSet(dataset_name, input_dir, train=False)
-        val_dataset.create_all_data(n_batches=opt_parameters['n_batches'], shuffle=opt_parameters['shuffle_flag'])
+        val_dataset.create_all_data(n_batches=opt_parameters['n_batches'], shuffle=opt_parameters['shuffle_flag'], sampling=opt_parameters['sampling_flag'])
 
     tab_results = train(net, dataset, opt_parameters, checkpoint_dir, val_dataset)
 

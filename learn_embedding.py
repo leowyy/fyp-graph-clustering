@@ -24,6 +24,7 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
     # Optimization parameters
     n_batches = opt_parameters['n_batches']
     shuffle_flag = opt_parameters['shuffle_flag']
+    sampling_flag = opt_parameters['sampling_flag']
     metric = opt_parameters['distance_metric']
     distance_reduction = opt_parameters['distance_reduction']
     graph_weight = opt_parameters['graph_weight']
@@ -56,8 +57,8 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
 
         # Create a new set of data blocks
         if loss_function in ['tsne_loss', 'tsne_graph_loss']:
-            if n_batches > 1 or not all_features_P_initialised:
-                train_set.create_all_data(n_batches=n_batches, shuffle=shuffle_flag)
+            if shuffle_flag or not all_features_P_initialised:
+                train_set.create_all_data(n_batches=n_batches, shuffle=shuffle_flag, sampling=sampling_flag)
                 all_features_P = []
                 all_graph_P = []
                 for G in train_set.all_data:
