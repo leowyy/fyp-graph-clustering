@@ -173,21 +173,10 @@ def neighborhood_preservation(path_matrix, X_emb, max_graph_dist=2):
     t = 0.0
     for i in range(n_samples):
         graph_n = {k for k, v in enumerate(path_matrix[i]) if 0 < v <= max_graph_dist}
+        if len(graph_n) == 0:
+            t += 1
+            continue
         layout_n = set(ind_X_emb[i][:len(graph_n)])
         intersection_size = len(graph_n.intersection(layout_n))
         t += intersection_size / (2*len(graph_n) - intersection_size)
     return t/n_samples
-
-
-def get_net_projection(all_data, net):
-    all_y_pred = []
-    net.eval()
-
-    for G in all_data:
-        if torch.cuda.is_available():
-            y_pred = net.forward(G).cpu().detach().numpy()
-        else:
-            y_pred = net.forward(G).detach().numpy()
-        all_y_pred.append(y_pred)
-
-    return np.concatenate(all_y_pred, axis=0)

@@ -7,16 +7,15 @@ import torch
 class GraphDataBlock(object):
     def __init__(self, X, labels, W=None):
         # Convert to torch if numpy array
+        if sp.issparse(X):
+            X = X.toarray()
         if type(X) is np.ndarray:
             X = torch.from_numpy(X).type(torch.FloatTensor)
-
-        # Unroll each feature into a single vector
-        X_unrolled = X.view(X.shape[0], -1).numpy()
 
         # Get affinity matrix
         if W is None:
             embedder = manifold.SpectralEmbedding(n_components=2)
-            W = embedder._get_affinity_matrix(X_unrolled)
+            W = embedder._get_affinity_matrix(X)
 
         W = sp.coo_matrix(W)  # sparse matrix
 

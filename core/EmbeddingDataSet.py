@@ -1,7 +1,10 @@
 import os
 import pickle
 import numpy as np
+import scipy.sparse as sp
+import time
 from core.GraphDataBlock import GraphDataBlock
+from util.graph_utils import neighbor_sampling
 
 
 class EmbeddingDataSet():
@@ -10,16 +13,20 @@ class EmbeddingDataSet():
                  '20news': '20news_train_tsne.pkl',
                  'fasttext': 'fasttext_train_tsne.pkl',
                  'imagenet': 'imagenet_train.pkl',
-                 'cora': 'cora_subset.pkl',
-                 'karate': 'karate.pkl'}
+                 'cora': 'cora_train.pkl',
+                 'cora_full': 'cora_full.pkl',
+                 'karate': 'karate.pkl',
+                 'pubmed': 'pubmed.pkl'}
 
     test_dir = {'mnist': 'mnist_test.pkl',
                 'usps': 'usps_test_tsne.pkl',
                 '20news': None,
                 'fasttext': None,
                 'imagenet': None,
-                'cora': 'cora_subset.pkl',
-                'karate': 'karate.pkl'}
+                'cora': 'cora_test.pkl',
+                'cora_full': 'cora_full.pkl',
+                'karate': 'karate.pkl',
+                'pubmed': 'pubmed.pkl'}
 
     def __init__(self, name, data_dir, train=True):
         self.name = name
@@ -50,9 +57,14 @@ class EmbeddingDataSet():
 
         self.is_labelled = len(self.labels) != 0
         self.is_graph = self.adj_matrix is not None
-        self.input_dim = np.prod(self.inputs.shape[1:])
+        self.input_dim = self.inputs.shape[1]
 
         self.all_indices = np.arange(0, self.inputs.shape[0])
+
+        # Convert adj to csr matrix
+        self.inputs = sp.csr_matrix(self.inputs)
+        if self.is_graph:
+            self.adj_matrix = sp.csr_matrix(self.adj_matrix)
 
     def create_all_data(self, n_batches=1, shuffle=False, sampling=False):
         # Initialise all_train_data: list of DataEmbeddingGraph blocks
@@ -70,13 +82,15 @@ class EmbeddingDataSet():
         # TODO: Another option to split randomly
         chunk_sizes = self.get_k_equal_chunks(self.inputs.shape[0], k=n_batches)
 
+        t_start = time.time()
+
         for num_samples in chunk_sizes:
             mask = self.all_indices[i: i + num_samples]
 
             # Perform sampling to obtain local neighborhood of mini-batch
             if sampling:
-                D_layers = [5, 10]  # max samples per layer
-                mask = self.sample_neighborhood(self.adj_matrix, mask, D_layers)
+                D_layers = [4, 9]  # max samples per layer
+                mask = neighbor_sampling(self.adj_matrix, mask, D_layers)
 
             inputs_subset = self.inputs[mask]
 
@@ -90,6 +104,10 @@ class EmbeddingDataSet():
 
             self.all_data.append(G)
             i += num_samples
+
+        t_elapsed = time.time() - t_start
+        print("Time to create all data (s) = {:.4f}".format(t_elapsed))
+        #print([G.edge_to_starting_vertex.getnnz() for G in self.all_data])
 
     def summarise(self):
         print("Name of dataset = {}".format(self.name))
@@ -108,24 +126,6 @@ class EmbeddingDataSet():
         labels = self.labels[self.all_indices]
         adj = self.adj_matrix[self.all_indices, :][:, self.all_indices]
         return inputs, labels, adj
-
-    def sample_neighborhood(self, A, batch_indices, D_layers):
-        # A: the full adjacency matrix
-        # batch_indices: subset of all vertices
-        # D_layers: sampling strategy per layer, default [5, 10]
-
-        selected_indices = set(batch_indices)
-        for i in batch_indices:
-            one_hop_neighbors = np.nonzero(A[i, :])[0]
-            if len(one_hop_neighbors) > D_layers[0]:
-                one_hop_neighbors = np.random.choice(one_hop_neighbors, size=D_layers[0], replace=False)
-            selected_indices = selected_indices.union(one_hop_neighbors)
-            for j in one_hop_neighbors:
-                two_hop_neighbors = np.nonzero(A[j, :])[0]
-                if len(two_hop_neighbors) > D_layers[1]:
-                    two_hop_neighbors = np.random.choice(two_hop_neighbors, size=D_layers[1], replace=False)
-                selected_indices = selected_indices.union(two_hop_neighbors)
-        return np.array(list(selected_indices))
 
 
 if __name__ == "__main__":

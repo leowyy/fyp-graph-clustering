@@ -34,6 +34,7 @@ class SimpleNet(nn.Module):
         self.fc1 = nn.Linear(input_size, n_units_1)
         self.fc2 = nn.Linear(n_units_1, n_units_2)
         self.fc3 = nn.Linear(n_units_2, n_units_3)
+        self.relu = nn.ReLU()
         self.fc4 = nn.Linear(n_units_3, n_components)
 
     def forward(self, G):
@@ -48,7 +49,8 @@ class SimpleNet(nn.Module):
 
         out = F.relu(self.fc1(x))
         out = F.relu(self.fc2(out))
-        out = F.relu(self.fc3(out))
+        out = self.fc3(out)
+        out = self.relu(out)
         out = self.fc4(out)
         return out
 

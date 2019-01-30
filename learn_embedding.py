@@ -62,9 +62,12 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
                 all_features_P = []
                 all_graph_P = []
                 for G in train_set.all_data:
+                    t_start_detailed = time.time()
                     X = G.data.view(G.data.shape[0], -1).numpy()
                     P = compute_joint_probabilities(X, perplexity=30, metric=metric, adj=G.adj_matrix, alpha=distance_reduction)
                     all_features_P.append(P)
+                    #print("1. Time to compute P matrix = {}".format(time.time() - t_start_detailed))
+
 
                     if loss_function =='tsne_graph_loss':
                         P = compute_joint_probabilities(X, perplexity=30, metric='shortest_path', adj=G.adj_matrix)
@@ -73,8 +76,11 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
 
         # Forward pass through all training data
         for i, G in enumerate(train_set.all_data):
+            t_start_detailed = time.time()
             y_pred = net.forward(G)
+            #print("2. Time to perform forward pass = {}".format(time.time() - t_start_detailed))
 
+            t_start_detailed = time.time()
             if loss_function == 'tsne_loss':
                 loss = tsne_torch_loss(all_features_P[i], y_pred)
             elif loss_function =='tsne_graph_loss':
@@ -87,11 +93,14 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
 
             running_loss += loss.item()
             running_total += 1
+            #print("3. Time to compute loss = {}".format(time.time() - t_start_detailed))
 
             # Backprop
+            t_start_detailed = time.time()
             loss.backward()
             optimizer.step()
             optimizer.zero_grad()
+            #print("4. Time to backprop = {}".format(time.time() - t_start_detailed))
 
         # update learning rate, print results, perform validation
         if not iteration % batch_iters:

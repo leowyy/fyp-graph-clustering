@@ -2,6 +2,7 @@ from sklearn.metrics.pairwise import pairwise_distances
 import torch
 import numpy as np
 from util.graph_utils import get_shortest_path_matrix
+import time
 
 
 if torch.cuda.is_available():
@@ -99,7 +100,7 @@ def compute_joint_probabilities(samples, batch_size=10000, d=2, perplexity=30, m
             D = pairwise_distances(curX, metric=metric)
         elif metric == 'shortest_path':
             assert adj is not None and alpha == 0
-            D = get_shortest_path_matrix(adj)
+            D = get_shortest_path_matrix(adj.toarray())
             alpha = 0
 
         # Augment distances with adjacency matrix
@@ -108,7 +109,10 @@ def compute_joint_probabilities(samples, batch_size=10000, d=2, perplexity=30, m
             affinity = alpha * W * D
             D = D - affinity
 
+        t_start = time.time()
         P[i], beta = x2p(D, perplexity, tol, verbose=verbose)      # compute affinities using fixed perplexity
+        #print("Time to compute X2P = {}".format(time.time() - t_start))
+
         P[i][np.isnan(P[i])] = 0                                   # make sure we don't have NaN's
         P[i] = (P[i] + P[i].T)  # / 2                              # make symmetric
         P[i] = P[i] / P[i].sum()                                   # obtain estimation of joint probabilities

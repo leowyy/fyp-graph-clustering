@@ -15,17 +15,17 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
     # optimization parameters
     opt_parameters = {}
     opt_parameters['learning_rate'] = 0.00075  # ADAM
-    opt_parameters['max_iters'] = 700
+    opt_parameters['max_iters'] = 600
     opt_parameters['batch_iters'] = 50
     opt_parameters['save_flag'] = True
     opt_parameters['decay_rate'] = 1.25
     opt_parameters['start_epoch'] = 0
 
     opt_parameters['distance_metric'] = 'cosine'
-    opt_parameters['distance_reduction'] = 0.7  # Multiplier to reduce distances of connected nodes
+    opt_parameters['distance_reduction'] = 0  # Multiplier to reduce distances of connected nodes
     opt_parameters['graph_weight'] = 0.5  # Weight of graph cut loss
-    opt_parameters['loss_function'] = 'tsne_loss'
-    opt_parameters['n_batches'] = 24
+    opt_parameters['loss_function'] = 'tsne_graph_loss'
+    opt_parameters['n_batches'] = 100
     opt_parameters['shuffle_flag'] = True
     opt_parameters['sampling_flag'] = True
 
@@ -76,7 +76,7 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
     print("Number of network parameters = {}".format(net.nb_param))
     print('Saving results into: {}'.format(checkpoint_dir))
 
-    if 2 == 1:  # fast debugging
+    if 1 == 1:  # fast debugging
         opt_parameters['max_iters'] = 5
         opt_parameters['batch_iters'] = 1
 
@@ -84,7 +84,7 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
     val_dataset = None
     if task_parameters['val_flag']:
         val_dataset = EmbeddingDataSet(dataset_name, input_dir, train=False)
-        val_dataset.create_all_data(n_batches=opt_parameters['n_batches'], shuffle=opt_parameters['shuffle_flag'], sampling=opt_parameters['sampling_flag'])
+        val_dataset.create_all_data(n_batches=1, shuffle=False, sampling=False)
 
     tab_results = train(net, dataset, opt_parameters, checkpoint_dir, val_dataset)
 
