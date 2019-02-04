@@ -15,17 +15,17 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
     # optimization parameters
     opt_parameters = {}
     opt_parameters['learning_rate'] = 0.00075  # ADAM
-    opt_parameters['max_iters'] = 600
+    opt_parameters['max_iters'] = 800
     opt_parameters['batch_iters'] = 50
     opt_parameters['save_flag'] = True
     opt_parameters['decay_rate'] = 1.25
     opt_parameters['start_epoch'] = 0
 
     opt_parameters['distance_metric'] = 'cosine'
-    opt_parameters['distance_reduction'] = 0  # Multiplier to reduce distances of connected nodes
-    opt_parameters['graph_weight'] = 0.5  # Weight of graph cut loss
-    opt_parameters['loss_function'] = 'tsne_graph_loss'
-    opt_parameters['n_batches'] = 100
+    opt_parameters['distance_reduction'] = 0.7  # Multiplier to reduce distances of connected nodes
+    opt_parameters['graph_weight'] = 0  # Weight of graph cut loss
+    opt_parameters['loss_function'] = 'tsne_loss'
+    opt_parameters['n_batches'] = 50
     opt_parameters['shuffle_flag'] = True
     opt_parameters['sampling_flag'] = True
 
@@ -35,13 +35,13 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
 
     task_parameters = {}
     task_parameters['net_type'] = net_type
-    task_parameters['n_components'] = 2
+    task_parameters['n_components'] = 128
     task_parameters['val_flag'] = True
 
     net_parameters = {}
     net_parameters['n_components'] = task_parameters['n_components']
     net_parameters['D'] = dataset.input_dim  # input dimension
-    net_parameters['H'] = 50  # number of hidden units
+    net_parameters['H'] = 128  # number of hidden units
     net_parameters['L'] = 2  # number of hidden layers
 
     # Initialise network

@@ -180,3 +180,16 @@ def neighborhood_preservation(path_matrix, X_emb, max_graph_dist=2):
         intersection_size = len(graph_n.intersection(layout_n))
         t += intersection_size / (2*len(graph_n) - intersection_size)
     return t/n_samples
+
+
+def run_regression(train_embeds, train_labels, test_embeds, test_labels):
+    np.random.seed(1)
+    from sklearn.linear_model import SGDClassifier
+    from sklearn.dummy import DummyClassifier
+    from sklearn.metrics import f1_score
+    dummy = DummyClassifier()
+    dummy.fit(train_embeds, train_labels)
+    log = SGDClassifier(loss="log", n_jobs=10)
+    log.fit(train_embeds, train_labels)
+    print("F1 score:", f1_score(test_labels, log.predict(test_embeds), average="micro"))
+    print("Random baseline f1 score:", f1_score(test_labels, dummy.predict(test_embeds), average="micro"))

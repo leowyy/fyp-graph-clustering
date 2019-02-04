@@ -16,7 +16,8 @@ class EmbeddingDataSet():
                  'cora': 'cora_train.pkl',
                  'cora_full': 'cora_full.pkl',
                  'karate': 'karate.pkl',
-                 'pubmed': 'pubmed.pkl'}
+                 'pubmed': 'pubmed.pkl',
+                 'pubmed_full': 'pubmed_full.pkl'}
 
     test_dir = {'mnist': 'mnist_test.pkl',
                 'usps': 'usps_test_tsne.pkl',
@@ -26,7 +27,8 @@ class EmbeddingDataSet():
                 'cora': 'cora_test.pkl',
                 'cora_full': 'cora_full.pkl',
                 'karate': 'karate.pkl',
-                'pubmed': 'pubmed.pkl'}
+                'pubmed': 'pubmed.pkl',
+                'pubmed_full': 'pubmed_full.pkl'}
 
     def __init__(self, name, data_dir, train=True):
         self.name = name
@@ -50,27 +52,21 @@ class EmbeddingDataSet():
 
         self.inputs = file_contents[0]
         self.labels = file_contents[1]
-        self.X_emb = file_contents[2]
-        self.adj_matrix = None
-        if len(file_contents) > 3:
-            self.adj_matrix = file_contents[3]
+        self.adj_matrix = file_contents[2]
 
         self.is_labelled = len(self.labels) != 0
-        self.is_graph = self.adj_matrix is not None
         self.input_dim = self.inputs.shape[1]
 
         self.all_indices = np.arange(0, self.inputs.shape[0])
 
         # Convert adj to csr matrix
         self.inputs = sp.csr_matrix(self.inputs)
-        if self.is_graph:
-            self.adj_matrix = sp.csr_matrix(self.adj_matrix)
+        self.adj_matrix = sp.csr_matrix(self.adj_matrix)
 
     def create_all_data(self, n_batches=1, shuffle=False, sampling=False):
         # Initialise all_train_data: list of DataEmbeddingGraph blocks
         i = 0
         labels_subset = []
-        adj_subset = None
         self.all_data = []
 
         if shuffle:
@@ -89,15 +85,14 @@ class EmbeddingDataSet():
 
             # Perform sampling to obtain local neighborhood of mini-batch
             if sampling:
-                D_layers = [4, 9]  # max samples per layer
+                D_layers = [9, 14]  # max samples per layer
                 mask = neighbor_sampling(self.adj_matrix, mask, D_layers)
 
             inputs_subset = self.inputs[mask]
+            adj_subset = self.adj_matrix[mask, :][:, mask]
 
             if self.is_labelled:
                 labels_subset = self.labels[mask]
-            if self.is_graph:
-                adj_subset = self.adj_matrix[mask, :][:, mask]
 
             # Package data into graph block
             G = GraphDataBlock(inputs_subset, labels=labels_subset, W=adj_subset)
@@ -114,7 +109,6 @@ class EmbeddingDataSet():
         print("Input dimension = {}".format(self.input_dim))
         print("Number of training samples = {}".format(self.inputs.shape[0]))
         print("Training labels = {}".format(self.is_labelled))
-        print("Graph information = {}".format(self.is_graph))
 
     def get_k_equal_chunks(self, n, k):
         # returns n % k sub-arrays of size n//k + 1 and the rest of size n//k
