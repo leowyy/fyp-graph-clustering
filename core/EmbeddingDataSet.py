@@ -8,27 +8,19 @@ from util.graph_utils import neighbor_sampling
 
 
 class EmbeddingDataSet():
-    train_dir = {'mnist': 'mnist_train.pkl',
-                 'usps': 'usps_train_tsne.pkl',
-                 '20news': '20news_train_tsne.pkl',
-                 'fasttext': 'fasttext_train_tsne.pkl',
-                 'imagenet': 'imagenet_train.pkl',
-                 'cora': 'cora_train.pkl',
+    train_dir = {'cora': 'cora_train.pkl',
                  'cora_full': 'cora_full.pkl',
-                 'karate': 'karate.pkl',
                  'pubmed': 'pubmed.pkl',
-                 'pubmed_full': 'pubmed_full.pkl'}
+                 'pubmed_full': 'pubmed_full.pkl',
+                 'citeseer_full': 'citeseer_full.pkl',
+                 'reddit_full': 'reddit_full.pkl'}
 
-    test_dir = {'mnist': 'mnist_test.pkl',
-                'usps': 'usps_test_tsne.pkl',
-                '20news': None,
-                'fasttext': None,
-                'imagenet': None,
-                'cora': 'cora_test.pkl',
+    test_dir = {'cora': 'cora_test.pkl',
                 'cora_full': 'cora_full.pkl',
-                'karate': 'karate.pkl',
                 'pubmed': 'pubmed.pkl',
-                'pubmed_full': 'pubmed_full.pkl'}
+                'pubmed_full': 'pubmed_full.pkl',
+                'citeseer_full': 'citeseer_full.pkl',
+                'reddit_full': 'reddit_full.pkl'}
 
     def __init__(self, name, data_dir, train=True):
         self.name = name
@@ -101,6 +93,7 @@ class EmbeddingDataSet():
             i += num_samples
 
         t_elapsed = time.time() - t_start
+        print('Data blocks of length: ', [len(G.labels) for G in self.all_data])
         print("Time to create all data (s) = {:.4f}".format(t_elapsed))
         #print([G.edge_to_starting_vertex.getnnz() for G in self.all_data])
 

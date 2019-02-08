@@ -1,8 +1,9 @@
 import os
 import time
 import torch
+from math import ceil
+
 from core.tsne_torch_loss import compute_joint_probabilities, tsne_torch_loss
-from core.graph_cut_torch_loss import covariance_constraint, graph_cut_torch_loss
 from util.evaluation_metrics import evaluate_net_metrics
 
 
@@ -35,7 +36,7 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
     batch_iters = opt_parameters['batch_iters']
     decay_rate = opt_parameters['decay_rate']
     start_epoch = opt_parameters['start_epoch']
-    checkpoint_interval = max_iters / 5
+    checkpoint_interval = ceil(max_iters / 5)
 
     # Optimizer
     optimizer = net.update(lr)

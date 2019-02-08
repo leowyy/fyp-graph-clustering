@@ -15,27 +15,27 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
     # optimization parameters
     opt_parameters = {}
     opt_parameters['learning_rate'] = 0.00075  # ADAM
-    opt_parameters['max_iters'] = 800
+    opt_parameters['max_iters'] = 360
     opt_parameters['batch_iters'] = 50
     opt_parameters['save_flag'] = True
     opt_parameters['decay_rate'] = 1.25
     opt_parameters['start_epoch'] = 0
 
-    opt_parameters['distance_metric'] = 'cosine'
-    opt_parameters['distance_reduction'] = 0.7  # Multiplier to reduce distances of connected nodes
-    opt_parameters['graph_weight'] = 0  # Weight of graph cut loss
+    opt_parameters['distance_metric'] = 'euclidean'
+    opt_parameters['distance_reduction'] = 0.0  # Multiplier to reduce distances of connected nodes
+    opt_parameters['graph_weight'] = 0.5  # Weight of graph cut loss
     opt_parameters['loss_function'] = 'tsne_loss'
-    opt_parameters['n_batches'] = 50
+    opt_parameters['n_batches'] = 250
     opt_parameters['shuffle_flag'] = True
     opt_parameters['sampling_flag'] = True
 
     dataset = EmbeddingDataSet(dataset_name, input_dir, train=True)
-    dataset.create_all_data(n_batches=opt_parameters['n_batches'], shuffle=opt_parameters['shuffle_flag'], sampling=opt_parameters['sampling_flag'])
+    # dataset.create_all_data(n_batches=opt_parameters['n_batches'], shuffle=opt_parameters['shuffle_flag'], sampling=opt_parameters['sampling_flag'])
     dataset.summarise()
 
     task_parameters = {}
     task_parameters['net_type'] = net_type
-    task_parameters['n_components'] = 128
+    task_parameters['n_components'] = 2
     task_parameters['val_flag'] = True
 
     net_parameters = {}
@@ -51,7 +51,7 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
         net = OldGraphConvNet(net_parameters)
     elif net_type == 'simple':
         net = SimpleNet(net_parameters)
-        opt_parameters['max_iters'] = 3000
+        opt_parameters['max_iters'] = 1000
         opt_parameters['batch_iters'] = 50
 
     device = 'cpu'
@@ -77,7 +77,7 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
     print('Saving results into: {}'.format(checkpoint_dir))
 
     if 1 == 1:  # fast debugging
-        opt_parameters['max_iters'] = 5
+        opt_parameters['max_iters'] = 3
         opt_parameters['batch_iters'] = 1
 
     # Start training here
