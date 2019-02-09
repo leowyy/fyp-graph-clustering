@@ -1,17 +1,12 @@
 from sklearn.metrics.pairwise import pairwise_distances
 import torch
 import numpy as np
-from util.graph_utils import get_shortest_path_matrix
 import time
+from util.graph_utils import get_shortest_path_matrix
+from util.training_utils import get_torch_dtype
 
 
-if torch.cuda.is_available():
-    dtypeFloat = torch.cuda.FloatTensor
-    dtypeLong = torch.cuda.LongTensor
-else:
-    dtypeFloat = torch.FloatTensor
-    dtypeLong = torch.LongTensor
-
+dtypeFloat, dtypeLong = get_torch_dtype()
 
 def Hbeta(D, beta):
     eps = 10e-15

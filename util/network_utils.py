@@ -6,10 +6,11 @@ def get_net_projection(all_data, net):
     net.eval()
 
     for G in all_data:
-        if torch.cuda.is_available():
-            y_pred = net.forward(G).cpu().detach().numpy()
-        else:
-            y_pred = net.forward(G).detach().numpy()
+        # if torch.cuda.is_available():
+        #     y_pred = net.forward(G).cpu().detach().numpy()
+        # else:
+        #     y_pred = net.forward(G).detach().numpy()
+        y_pred = net.forward(G).detach().numpy()
         all_y_pred.append(y_pred)
 
     return np.concatenate(all_y_pred, axis=0)

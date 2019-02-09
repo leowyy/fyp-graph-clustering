@@ -2,16 +2,10 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.autograd import Variable
-from core.tsne_torch_loss import tsne_torch_loss
-from core.graph_cut_torch_loss import graph_cut_torch_loss
+from util.training_utils import get_torch_dtype
 
 
-if torch.cuda.is_available():
-    dtypeFloat = torch.cuda.FloatTensor
-    dtypeLong = torch.cuda.LongTensor
-else:
-    dtypeFloat = torch.FloatTensor
-    dtypeLong = torch.LongTensor
+dtypeFloat, dtypeLong = get_torch_dtype()
 
 
 class SimpleNet(nn.Module):

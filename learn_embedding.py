@@ -5,17 +5,10 @@ from math import ceil
 
 from core.tsne_torch_loss import compute_joint_probabilities, tsne_torch_loss
 from util.evaluation_metrics import evaluate_net_metrics
+from util.training_utils import get_torch_dtype
 
 
-if torch.cuda.is_available():
-    print('cuda available')
-    dtypeFloat = torch.cuda.FloatTensor
-    dtypeLong = torch.cuda.LongTensor
-else:
-    print('cuda not available')
-    dtypeFloat = torch.FloatTensor
-    dtypeLong = torch.LongTensor
-
+dtypeFloat, dtypeLong = get_torch_dtype()
 
 def save_checkpoint(state, filename):
     torch.save(state, filename)
@@ -30,6 +23,7 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
     distance_reduction = opt_parameters['distance_reduction']
     graph_weight = opt_parameters['graph_weight']
     loss_function = opt_parameters['loss_function']
+    perplextity = opt_parameters['perplexity']
 
     lr = opt_parameters['learning_rate']
     max_iters = opt_parameters['max_iters']
@@ -65,13 +59,13 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
                 for G in train_set.all_data:
                     t_start_detailed = time.time()
                     X = G.data.view(G.data.shape[0], -1).numpy()
-                    P = compute_joint_probabilities(X, perplexity=30, metric=metric, adj=G.adj_matrix, alpha=distance_reduction)
+                    P = compute_joint_probabilities(X, perplexity=perplextity, metric=metric, adj=G.adj_matrix, alpha=distance_reduction)
                     all_features_P.append(P)
                     #print("1. Time to compute P matrix = {}".format(time.time() - t_start_detailed))
 
 
                     if loss_function =='tsne_graph_loss':
-                        P = compute_joint_probabilities(X, perplexity=30, metric='shortest_path', adj=G.adj_matrix)
+                        P = compute_joint_probabilities(X, perplexity=perplextity, metric='shortest_path', adj=G.adj_matrix)
                         all_graph_P.append(P)
                 all_features_P_initialised = True
 
@@ -153,8 +147,9 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
 
 def validate(net, val_set):
     net.eval()
-    trust_score, one_nn_score, five_nn_score, time_elapsed = evaluate_net_metrics(val_set.all_data, net)
-    print("Trustworthy score = {:.4f}".format(trust_score))
+    one_nn_score, five_nn_score, time_elapsed = evaluate_net_metrics(val_set, net)
+    # print("Trustworthy score = {:.4f}".format(trust_score))
+    # print("Trustworthy score = {:.4f}".format(trust_score))
     print("1-NN generalisation accuracy = {:.4f}".format(one_nn_score))
     print("5-NN generalisation accuracy = {:.4f}".format(five_nn_score))
     print("Average time to compute (s) = {:.4f}\n".format(time_elapsed))

@@ -1,11 +1,11 @@
 import numpy as np
 from timeit import default_timer as timer
-import torch
-
 from sklearn import neighbors
 from sklearn.metrics.pairwise import pairwise_distances
 from sklearn.model_selection import KFold
 from sklearn.metrics import accuracy_score
+
+from util.network_utils import get_net_projection
 
 
 def trustworthiness(X, X_embedded, n_neighbors=5, metric='euclidean', precomputed=False):
@@ -89,62 +89,23 @@ def nearest_neighbours_generalisation_accuracy(X, y, n_neighbors=1):
     return np.average(scores)
 
 
-def evaluate_net_metrics(all_test_data, net, distance_metric='euclidean'):
+def evaluate_net_metrics(dataset, net, distance_metric='euclidean'):
     """
     Given a embedding net,
     Obtains the average trustworthiness, NN accuracy and time taken to compute
     all_test_data should be a list of DataEmbeddingGraph objects
     """
     net.eval()
-    n_test = len(all_test_data)
-    trust_tracker = np.zeros((n_test,))
-    one_nn_tracker = np.zeros((n_test,))
-    five_nn_tracker = np.zeros((n_test,))
-    time_tracker = np.zeros((n_test,))
 
-    for i in range(n_test):
-        G = all_test_data[i]
-        time_start = timer()
-        if torch.cuda.is_available():   
-            y_pred = net.forward(G).cpu().detach().numpy()
-        else:    
-            y_pred = net.forward(G).detach().numpy()
-        time_end = timer()
-        time_tracker[i] = time_end - time_start
+    time_start = timer()
+    y_pred = get_net_projection(dataset.all_data, net)
+    time_tracker = timer() - time_start
 
-        X = G.data.view(G.data.shape[0], -1).numpy()
-        trust_tracker[i] = trustworthiness(X, y_pred, n_neighbors=5, metric=distance_metric)
-        one_nn_tracker[i] = nearest_neighbours_generalisation_accuracy(y_pred, G.labels, 1)
-        five_nn_tracker[i] = nearest_neighbours_generalisation_accuracy(y_pred, G.labels, 5)
-    return np.average(trust_tracker), np.average(one_nn_tracker), np.average(five_nn_tracker), np.average(time_tracker)
-
-
-def evaluate_embedding_metrics(all_test_data, embedder, distance_metric='euclidean'):
-    """
-    Given an embedder,
-    Obtains the average trustworthiness, NN accuracy and time taken to compute
-    all_test_data should be a list of DataEmbeddingGraph objects
-    """
-    #dim_red = DimReduction(n_components=2)
-    n_test = len(all_test_data)
-    trust_tracker = np.zeros((n_test,))
-    one_nn_tracker = np.zeros((n_test,))
-    five_nn_tracker = np.zeros((n_test,))
-    time_tracker = np.zeros((n_test,))
-
-    for i in range(n_test):
-        G = all_test_data[i]
-        X = G.data.view(G.data.shape[0], -1).numpy()  # unroll into a single vector
-        time_start = timer()
-        #X_emb = dim_red.fit_transform(X, method)
-        X_emb = embedder.fit_transform(X)
-        time_end = timer()
-        time_tracker[i] = time_end - time_start
-
-        trust_tracker[i] = trustworthiness(X, X_emb, n_neighbors=5, metric=distance_metric)
-        one_nn_tracker[i] = nearest_neighbours_generalisation_accuracy(X_emb, G.labels, 1)
-        five_nn_tracker[i] = nearest_neighbours_generalisation_accuracy(X_emb, G.labels, 5)
-    return np.average(trust_tracker), np.average(one_nn_tracker), np.average(five_nn_tracker), np.average(time_tracker)
+    #X = G.data.view(G.data.shape[0], -1).numpy()
+    #trust_tracker[i] = trustworthiness(X, y_pred, n_neighbors=5, metric=distance_metric)
+    one_nn = nearest_neighbours_generalisation_accuracy(y_pred, dataset.labels, 1)
+    five_nn = nearest_neighbours_generalisation_accuracy(y_pred, dataset.labels, 5)
+    return one_nn, five_nn, time_tracker
 
 
 def graph_trustworthiness(path_matrix, X_emb, n_neighbors=5):

@@ -3,18 +3,19 @@ import scipy.sparse as sp
 import bokeh.plotting as bp
 from bokeh.plotting import show
 from bokeh.models.glyphs import Segment
+from bokeh.palettes import Category20_20, Category20b_20, Accent8
 
 def plot_graph_embedding(X_emb, labels, adj, line_alpha=0.2):
     labels = np.array([int(l) for l in labels])
     adj = sp.coo_matrix(adj)
 
-    # 20 colors
-    colormap = np.array([
-        "#1f77b4", "#aec7e8", "#ff7f0e", "#ffbb78", "#2ca02c",
-        "#98df8a", "#d62728", "#ff9896", "#9467bd", "#c5b0d5",
-        "#8c564b", "#c49c94", "#e377c2", "#f7b6d2", "#7f7f7f",
-        "#c7c7c7", "#bcbd22", "#dbdb8d", "#17becf", "#9edae5"
-    ])
+    # colormap = np.array([
+    #     "#1f77b4", "#aec7e8", "#ff7f0e", "#ffbb78", "#2ca02c",
+    #     "#98df8a", "#d62728", "#ff9896", "#9467bd", "#c5b0d5",
+    #     "#8c564b", "#c49c94", "#e377c2", "#f7b6d2", "#7f7f7f",
+    #     "#c7c7c7", "#bcbd22", "#dbdb8d", "#17becf", "#9edae5"
+    # ])
+    colormap = np.array(Category20_20 + Category20b_20 + Accent8)
 
     plot_fig = bp.figure(plot_width=900, plot_height=650,
                          tools="pan, wheel_zoom, box_zoom, reset, previewsave",

@@ -11,9 +11,9 @@ from core.SimpleNet import SimpleNet
 from util.training_utils import get_oldest_net, save_metadata, save_train_log
 
 
-def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
+def main(input_dir, output_dir, dataset_name, net_type, resume_folder, opt_parameters):
     # optimization parameters
-    opt_parameters = {}
+    # opt_parameters = {}
     opt_parameters['learning_rate'] = 0.00075  # ADAM
     opt_parameters['max_iters'] = 360
     opt_parameters['batch_iters'] = 50
@@ -22,12 +22,14 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
     opt_parameters['start_epoch'] = 0
 
     opt_parameters['distance_metric'] = 'euclidean'
-    opt_parameters['distance_reduction'] = 0.0  # Multiplier to reduce distances of connected nodes
-    opt_parameters['graph_weight'] = 0.5  # Weight of graph cut loss
+    # opt_parameters['distance_reduction'] = 0.0  # Multiplier to reduce distances of connected nodes
+    opt_parameters['graph_weight'] = 0  # Weight of graph cut loss
     opt_parameters['loss_function'] = 'tsne_loss'
-    opt_parameters['n_batches'] = 250
-    opt_parameters['shuffle_flag'] = True
-    opt_parameters['sampling_flag'] = True
+    opt_parameters['n_batches'] = 1
+    opt_parameters['shuffle_flag'] = False
+    opt_parameters['sampling_flag'] = False
+    opt_parameters['val_batches'] = 1
+    opt_parameters['perplexity'] = 100
 
     dataset = EmbeddingDataSet(dataset_name, input_dir, train=True)
     # dataset.create_all_data(n_batches=opt_parameters['n_batches'], shuffle=opt_parameters['shuffle_flag'], sampling=opt_parameters['sampling_flag'])
@@ -35,13 +37,13 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
 
     task_parameters = {}
     task_parameters['net_type'] = net_type
-    task_parameters['n_components'] = 2
-    task_parameters['val_flag'] = True
+    task_parameters['n_components'] = 256
+    task_parameters['val_flag'] = False
 
     net_parameters = {}
     net_parameters['n_components'] = task_parameters['n_components']
     net_parameters['D'] = dataset.input_dim  # input dimension
-    net_parameters['H'] = 128  # number of hidden units
+    net_parameters['H'] = 256  # number of hidden units
     net_parameters['L'] = 2  # number of hidden layers
 
     # Initialise network
@@ -55,9 +57,9 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
         opt_parameters['batch_iters'] = 50
 
     device = 'cpu'
-    if torch.cuda.is_available():
-        net.cuda()
-        device = 'cuda'
+    # if torch.cuda.is_available():
+    #     net.cuda()
+    #     device = 'cuda'
 
     if resume_folder != 'NA':
         checkpoint_dir = os.path.join(output_dir, resume_folder)
@@ -77,14 +79,14 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder):
     print('Saving results into: {}'.format(checkpoint_dir))
 
     if 1 == 1:  # fast debugging
-        opt_parameters['max_iters'] = 3
+        opt_parameters['max_iters'] = 2
         opt_parameters['batch_iters'] = 1
 
     # Start training here
     val_dataset = None
     if task_parameters['val_flag']:
         val_dataset = EmbeddingDataSet(dataset_name, input_dir, train=False)
-        val_dataset.create_all_data(n_batches=1, shuffle=False, sampling=False)
+        val_dataset.create_all_data(n_batches=opt_parameters['val_batches'], shuffle=False, sampling=False)
 
     tab_results = train(net, dataset, opt_parameters, checkpoint_dir, val_dataset)
 
@@ -110,4 +112,14 @@ if __name__ == "__main__":
     print("Network type: {}".format(args.net_type))
     print("Resume from folder: {}".format(args.resume_folder))
 
-    main(args.input_dir, args.output_dir, args.dataset_name, args.net_type, args.resume_folder)
+    input_dir = '/Users/signapoop/Desktop/data'
+    output_dir = '/Users/signapoop/Desktop/fyp-graph-clustering/results'
+    dataset_name = 'reddit_full'
+    net_type = 'graph'
+
+    distance_reduction = [0.95]
+    for val in distance_reduction:
+        opt_parameters = {'distance_reduction': val}
+
+        #main(args.input_dir, args.output_dir, args.dataset_name, args.net_type, args.resume_folder)
+        main(input_dir, output_dir, dataset_name, net_type, args.resume_folder, opt_parameters)

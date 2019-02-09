@@ -1,5 +1,6 @@
 import os
 import pickle
+import torch
 
 
 def save_metadata(checkpoint_dir, task_parameters, net_parameters, opt_parameters, epoch_num):
@@ -32,3 +33,15 @@ def get_oldest_net(output_dir):
                 max_iteration = iteration_num
                 target_file = fname
     return os.path.join(output_dir, target_file), max_iteration
+
+
+def get_torch_dtype():
+    if torch.cuda.is_available():
+        print('cuda available')
+        dtypeFloat = torch.cuda.FloatTensor
+        dtypeLong = torch.cuda.LongTensor
+    else:
+        print('cuda not available')
+        dtypeFloat = torch.FloatTensor
+        dtypeLong = torch.LongTensor
+    return dtypeFloat, dtypeLong
