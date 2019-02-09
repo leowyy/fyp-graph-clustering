@@ -25,10 +25,10 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder, opt_param
     # opt_parameters['distance_reduction'] = 0.0  # Multiplier to reduce distances of connected nodes
     opt_parameters['graph_weight'] = 0  # Weight of graph cut loss
     opt_parameters['loss_function'] = 'tsne_loss'
-    opt_parameters['n_batches'] = 1
-    opt_parameters['shuffle_flag'] = False
-    opt_parameters['sampling_flag'] = False
-    opt_parameters['val_batches'] = 1
+    opt_parameters['n_batches'] = 250
+    opt_parameters['shuffle_flag'] = True
+    opt_parameters['sampling_flag'] = True
+    opt_parameters['val_batches'] = 50
     opt_parameters['perplexity'] = 100
 
     dataset = EmbeddingDataSet(dataset_name, input_dir, train=True)
@@ -38,7 +38,7 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder, opt_param
     task_parameters = {}
     task_parameters['net_type'] = net_type
     task_parameters['n_components'] = 256
-    task_parameters['val_flag'] = False
+    task_parameters['val_flag'] = True
 
     net_parameters = {}
     net_parameters['n_components'] = task_parameters['n_components']
@@ -112,14 +112,14 @@ if __name__ == "__main__":
     print("Network type: {}".format(args.net_type))
     print("Resume from folder: {}".format(args.resume_folder))
 
-    input_dir = '/Users/signapoop/Desktop/data'
-    output_dir = '/Users/signapoop/Desktop/fyp-graph-clustering/results'
-    dataset_name = 'reddit_full'
-    net_type = 'graph'
+#     input_dir = '/Users/signapoop/Desktop/data'
+#     output_dir = '/Users/signapoop/Desktop/fyp-graph-clustering/results'
+#     dataset_name = 'reddit_full'
+#     net_type = 'graph'
 
     distance_reduction = [0.95]
     for val in distance_reduction:
         opt_parameters = {'distance_reduction': val}
 
-        #main(args.input_dir, args.output_dir, args.dataset_name, args.net_type, args.resume_folder)
-        main(input_dir, output_dir, dataset_name, net_type, args.resume_folder, opt_parameters)
+        main(args.input_dir, args.output_dir, args.dataset_name, args.net_type, args.resume_folder, opt_parameters)
+        #main(input_dir, output_dir, dataset_name, net_type, args.resume_folder, opt_parameters)

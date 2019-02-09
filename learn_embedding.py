@@ -23,7 +23,7 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
     distance_reduction = opt_parameters['distance_reduction']
     graph_weight = opt_parameters['graph_weight']
     loss_function = opt_parameters['loss_function']
-    perplextity = opt_parameters['perplexity']
+    perplexity = opt_parameters['perplexity']
 
     lr = opt_parameters['learning_rate']
     max_iters = opt_parameters['max_iters']
@@ -59,13 +59,13 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
                 for G in train_set.all_data:
                     t_start_detailed = time.time()
                     X = G.data.view(G.data.shape[0], -1).numpy()
-                    P = compute_joint_probabilities(X, perplexity=perplextity, metric=metric, adj=G.adj_matrix, alpha=distance_reduction)
+                    P = compute_joint_probabilities(X, perplexity=perplexity, metric=metric, adj=G.adj_matrix, alpha=distance_reduction)
                     all_features_P.append(P)
                     #print("1. Time to compute P matrix = {}".format(time.time() - t_start_detailed))
 
 
                     if loss_function =='tsne_graph_loss':
-                        P = compute_joint_probabilities(X, perplexity=perplextity, metric='shortest_path', adj=G.adj_matrix)
+                        P = compute_joint_probabilities(X, perplexity=perplexity, metric='shortest_path', adj=G.adj_matrix)
                         all_graph_P.append(P)
                 all_features_P_initialised = True
 

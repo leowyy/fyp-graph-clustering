@@ -36,12 +36,12 @@ def get_oldest_net(output_dir):
 
 
 def get_torch_dtype():
-    if torch.cuda.is_available():
-        print('cuda available')
-        dtypeFloat = torch.cuda.FloatTensor
-        dtypeLong = torch.cuda.LongTensor
-    else:
-        print('cuda not available')
-        dtypeFloat = torch.FloatTensor
-        dtypeLong = torch.LongTensor
+#     if torch.cuda.is_available():
+#         print('cuda available')
+#         dtypeFloat = torch.cuda.FloatTensor
+#         dtypeLong = torch.cuda.LongTensor
+#     else:
+    print('cuda not available')
+    dtypeFloat = torch.FloatTensor
+    dtypeLong = torch.LongTensor
     return dtypeFloat, dtypeLong
