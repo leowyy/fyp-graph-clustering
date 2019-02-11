@@ -59,10 +59,10 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
                 for G in train_set.all_data:
                     t_start_detailed = time.time()
                     X = G.data.view(G.data.shape[0], -1).numpy()
-                    P = compute_joint_probabilities(X, perplexity=perplexity, metric=metric, adj=G.adj_matrix, alpha=distance_reduction)
-                    all_features_P.append(P)
+                    if graph_weight != 1.0:
+                        P = compute_joint_probabilities(X, perplexity=perplexity, metric=metric, adj=G.adj_matrix, alpha=distance_reduction)
+                        all_features_P.append(P)
                     #print("1. Time to compute P matrix = {}".format(time.time() - t_start_detailed))
-
 
                     if loss_function =='tsne_graph_loss':
                         P = compute_joint_probabilities(X, perplexity=perplexity, metric='shortest_path', adj=G.adj_matrix)
@@ -79,8 +79,13 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
             if loss_function == 'tsne_loss':
                 loss = tsne_torch_loss(all_features_P[i], y_pred)
             elif loss_function =='tsne_graph_loss':
-                feature_loss = tsne_torch_loss(all_features_P[i], y_pred)
-                graph_loss = tsne_torch_loss(all_graph_P[i], y_pred)
+                feature_loss = 0
+                graph_loss = 0
+
+                if graph_weight != 1.0:
+                    feature_loss = tsne_torch_loss(all_features_P[i], y_pred)
+                if graph_weight != 0.0:
+                    graph_loss = tsne_torch_loss(all_graph_P[i], y_pred)
 
                 loss = (1-graph_weight) * feature_loss + graph_weight * graph_loss
                 running_tsne_loss += feature_loss.item()
