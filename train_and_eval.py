@@ -28,7 +28,7 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder, opt_param
     opt_parameters['n_batches'] = 2000
     opt_parameters['shuffle_flag'] = True
     opt_parameters['sampling_flag'] = True
-    opt_parameters['val_batches'] = 50
+    opt_parameters['val_batches'] = 5
     opt_parameters['perplexity'] = 30
 
     dataset = EmbeddingDataSet(dataset_name, input_dir, train=True)
@@ -42,7 +42,7 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder, opt_param
     net_parameters = {}
     net_parameters['n_components'] = task_parameters['n_components']
     net_parameters['D'] = dataset.input_dim  # input dimension
-    net_parameters['H'] = 256  # number of hidden units
+    net_parameters['H'] = 512  # number of hidden units
     net_parameters['L'] = 2  # number of hidden layers
 
     # Initialise network

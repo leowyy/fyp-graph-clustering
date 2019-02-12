@@ -79,12 +79,12 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
             if loss_function == 'tsne_loss':
                 loss = tsne_torch_loss(all_features_P[i], y_pred)
             elif loss_function =='tsne_graph_loss':
-                feature_loss = 0
-                graph_loss = 0
+                feature_loss = torch.tensor([0]).type(dtypeFloat)
+                graph_loss = torch.tensor([0]).type(dtypeFloat)
 
                 if graph_weight != 1.0:
                     feature_loss = tsne_torch_loss(all_features_P[i], y_pred)
-                if graph_weight != 0.0:
+                elif graph_weight != 0.0:
                     graph_loss = tsne_torch_loss(all_graph_P[i], y_pred)
 
                 loss = (1-graph_weight) * feature_loss + graph_weight * graph_loss
