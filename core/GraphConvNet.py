@@ -64,7 +64,7 @@ class GraphConvNet(nn.Module):
 
     def forward(self, G):
         # Data matrix
-        x = G.data
+        x = G.inputs
 
         # Unroll into single vector
         x = x.view(x.shape[0], -1)

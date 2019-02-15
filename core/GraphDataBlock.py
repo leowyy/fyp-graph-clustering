@@ -23,12 +23,11 @@ class GraphDataBlock(object):
         nb_edges = W.nnz
         nb_vertices = W.shape[0]
         self.edge_to_starting_vertex = sp.coo_matrix((np.ones(nb_edges), (np.arange(nb_edges), W.row)),
-                                                shape=(nb_edges, nb_vertices))
+                                                     shape=(nb_edges, nb_vertices))
         self.edge_to_ending_vertex = sp.coo_matrix((np.ones(nb_edges), (np.arange(nb_edges), W.col)),
-                                              shape=(nb_edges, nb_vertices))
+                                                   shape=(nb_edges, nb_vertices))
 
         # Save as attributes
-        self.data = X           # data matrix
-        self.target = []        # embedding matrix
-        self.labels = labels    # labels
-        self.adj_matrix = W     # affinity matrix
+        self.inputs = X             # data matrix
+        self.labels = labels        # labels
+        self.adj_matrix = W         # affinity matrix

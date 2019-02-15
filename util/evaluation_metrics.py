@@ -26,6 +26,7 @@ def evaluate_viz_metrics(y_emb, dataset, distance_metric='euclidean'):
     """
     Given a low-dimensional embedding y_emb,
     Obtains the average trustworthiness, NN accuracy, custom losses
+    dataset can be either a EmbeddingDataSet or GraphDataBlock
     """
     results = {}
 
