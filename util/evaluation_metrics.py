@@ -31,13 +31,13 @@ def evaluate_viz_metrics(y_emb, dataset, distance_metric='euclidean'):
     results = {}
 
     # results["trust"] = trustworthiness(dataset.inputs, y_emb, n_neighbors=5, metric=distance_metric)
-    results["one_nn"] = nearest_neighbours_generalisation_accuracy(y_emb, dataset.labels, 1)
-    results["five_nn"] = nearest_neighbours_generalisation_accuracy(y_emb, dataset.labels, 5)
-    results["graph_dist"], results["feature_dist"] = combined_dist_metric(y_emb, dataset.inputs, dataset.adj_matrix, k=5)
-    results['total_dist'] = results["graph_dist"] + results["feature_dist"]
+    results["One NN accuracy"] = nearest_neighbours_generalisation_accuracy(y_emb, dataset.labels, 1)
+    # results["Five NN accuracy"] = nearest_neighbours_generalisation_accuracy(y_emb, dataset.labels, 5)
+    results["Avg graph distance"], results["Avg feature distance"] = combined_dist_metric(y_emb, dataset.inputs, dataset.adj_matrix, k=5)
+    results['Total distance'] = results["Avg graph distance"] + results["Avg feature distance"]
 
     for k, v in results.items():
-        print("Metric {} = {:.4f}".format(k, v))
+        print("{} = {:.4f}".format(k, v))
     return results
 
 

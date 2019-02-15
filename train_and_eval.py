@@ -6,7 +6,6 @@ import torch
 from learn_embedding import train
 from core.EmbeddingDataSet import EmbeddingDataSet
 from core.GraphConvNet import GraphConvNet
-from core.OldGraphConvNet import OldGraphConvNet
 from core.SimpleNet import SimpleNet
 from util.training_utils import get_oldest_net, save_metadata, save_train_log
 
@@ -23,7 +22,7 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder, opt_param
 
     opt_parameters['distance_metric'] = 'euclidean'
     opt_parameters['distance_reduction'] = 0  # Multiplier to reduce distances of connected nodes
-    #opt_parameters['graph_weight'] = 1.0  # Weight of graph cut loss
+    # opt_parameters['graph_weight'] = 1.0  # Weight of graph cut loss
     opt_parameters['loss_function'] = 'tsne_graph_loss'
     opt_parameters['n_batches'] = 2000
     opt_parameters['shuffle_flag'] = True
@@ -36,7 +35,7 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder, opt_param
 
     task_parameters = {}
     task_parameters['net_type'] = net_type
-    task_parameters['n_components'] = 256
+    task_parameters['n_components'] = 2
     task_parameters['val_flag'] = True
 
     net_parameters = {}
@@ -48,8 +47,6 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder, opt_param
     # Initialise network
     if net_type == 'graph':
         net = GraphConvNet(net_parameters)
-    elif net_type == 'old_graph':
-        net = OldGraphConvNet(net_parameters)
     elif net_type == 'simple':
         net = SimpleNet(net_parameters)
         opt_parameters['max_iters'] = 1000
@@ -111,7 +108,6 @@ if __name__ == "__main__":
     print("Network type: {}".format(args.net_type))
     print("Resume from folder: {}".format(args.resume_folder))
 
-    # distance_reduction = [0.95]
     # perplexity = [30]
     graph_weight = [1, 0.5]
     for val in graph_weight:
