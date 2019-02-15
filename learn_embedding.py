@@ -49,24 +49,23 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
     for iteration in range(start_epoch+1, start_epoch+max_iters+1):
         net.train()  # Set the net to training mode
 
-        # Create a new set of data blocks
-        if loss_function in ['tsne_loss', 'tsne_graph_loss']:
-            if shuffle_flag or not all_features_P_initialised:
-                train_set.create_all_data(n_batches=n_batches, shuffle=shuffle_flag, sampling=sampling_flag)
-                all_features_P = []
-                all_graph_P = []
-                for G in tqdm(train_set.all_data):
-                    t_start_detailed = time.time()
-                    X = G.data.view(G.data.shape[0], -1).numpy()
-                    if graph_weight != 1.0:
-                        P = compute_joint_probabilities(X, perplexity=perplexity, metric=metric, adj=G.adj_matrix, alpha=distance_reduction)
-                        all_features_P.append(P)
-                    #print("1. Time to compute P matrix = {}".format(time.time() - t_start_detailed))
+        # Create a new set of data blocks per iteration
+        if shuffle_flag or not all_features_P_initialised:
+            train_set.create_all_data(n_batches=n_batches, shuffle=shuffle_flag, sampling=sampling_flag)
+            all_features_P = []
+            all_graph_P = []
+            for G in tqdm(train_set.all_data):
+                t_start_detailed = time.time()
+                X = G.data.view(G.data.shape[0], -1).numpy()
+                if graph_weight != 1.0:
+                    P = compute_joint_probabilities(X, perplexity=perplexity, metric=metric, adj=G.adj_matrix, alpha=distance_reduction)
+                    all_features_P.append(P)
+                #print("1. Time to compute P matrix = {}".format(time.time() - t_start_detailed))
 
-                    if graph_weight != 0.0 and loss_function == 'tsne_graph_loss':
-                        P = compute_joint_probabilities(X, perplexity=perplexity, metric='shortest_path', adj=G.adj_matrix, verbose=0)
-                        all_graph_P.append(P)
-                all_features_P_initialised = True
+                if graph_weight != 0.0:
+                    P = compute_joint_probabilities(X, perplexity=perplexity, metric='shortest_path', adj=G.adj_matrix, verbose=0)
+                    all_graph_P.append(P)
+            all_features_P_initialised = True
 
         # Forward pass through all training data
         for i, G in enumerate(train_set.all_data):
@@ -75,20 +74,17 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
             #print("2. Time to perform forward pass = {}".format(time.time() - t_start_detailed))
 
             t_start_detailed = time.time()
-            if loss_function == 'tsne_loss':
-                loss = tsne_torch_loss(all_features_P[i], y_pred)
-            elif loss_function == 'tsne_graph_loss':
-                feature_loss = torch.tensor([0]).type(dtypeFloat)
-                graph_loss = torch.tensor([0]).type(dtypeFloat)
+            feature_loss = torch.tensor([0]).type(dtypeFloat)
+            graph_loss = torch.tensor([0]).type(dtypeFloat)
 
-                if graph_weight != 1.0:
-                    feature_loss = tsne_torch_loss(all_features_P[i], y_pred)
-                if graph_weight != 0.0:
-                    graph_loss = tsne_torch_loss(all_graph_P[i], y_pred)
+            if graph_weight != 1.0:
+                feature_loss = tsne_torch_loss(all_features_P[i], y_pred)
+            if graph_weight != 0.0:
+                graph_loss = tsne_torch_loss(all_graph_P[i], y_pred)
 
-                loss = (1-graph_weight) * feature_loss + graph_weight * graph_loss
-                running_tsne_loss += feature_loss.item()
-                running_graph_loss += graph_loss.item()
+            loss = (1-graph_weight) * feature_loss + graph_weight * graph_loss
+            running_tsne_loss += feature_loss.item()
+            running_graph_loss += graph_loss.item()
 
             running_loss += loss.item()
             running_total += 1
@@ -116,20 +112,14 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
             optimizer = net.update_learning_rate(optimizer, lr)
 
             # print results
-            if loss_function == 'tsne_graph_loss':
-                average_tsne_loss = running_tsne_loss / running_total
-                average_graph_loss = running_graph_loss / running_total
-                running_tsne_loss = 0.0
-                running_graph_loss = 0.0
-                running_covariance_loss = 0.0
-                print('iteration= %d, loss(%diter)= %.8f, tsne_loss= %.8f, graph_loss= %.8f, '
-                      'lr= %.8f, time(%diter)= %.2f' %
-                      (iteration, batch_iters, average_loss, average_tsne_loss, average_graph_loss, lr, batch_iters, t_stop))
-                tab_results.append([iteration, average_loss, time.time() - t_start_total])
-            else:
-                print('iteration= %d, loss(%diter)= %.8f, lr= %.8f, time(%diter)= %.2f' %
-                      (iteration, batch_iters, average_loss, lr, batch_iters, t_stop))
-                tab_results.append([iteration, average_loss, time.time() - t_start_total])
+            average_tsne_loss = running_tsne_loss / running_total
+            average_graph_loss = running_graph_loss / running_total
+            running_tsne_loss = 0.0
+            running_graph_loss = 0.0
+            print('iteration= %d, loss(%diter)= %.8f, tsne_loss= %.8f, graph_loss= %.8f, '
+                  'lr= %.8f, time(%diter)= %.2f' %
+                  (iteration, batch_iters, average_loss, average_tsne_loss, average_graph_loss, lr, batch_iters, t_stop))
+            tab_results.append([iteration, average_loss, time.time() - t_start_total])
 
             running_loss = 0.0
             running_total = 0

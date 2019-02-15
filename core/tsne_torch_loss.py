@@ -8,6 +8,7 @@ from util.training_utils import get_torch_dtype
 
 dtypeFloat, dtypeLong = get_torch_dtype()
 
+
 def Hbeta(D, beta):
     eps = 10e-15
     P = np.exp(-D * beta)

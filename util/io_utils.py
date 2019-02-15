@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def unpack_deepwalk_embedding(filename):
     from gensim.models import KeyedVectors
     model = KeyedVectors.load_word2vec_format(filename, binary=False)
