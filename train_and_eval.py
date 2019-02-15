@@ -36,7 +36,7 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder, opt_param
 
     task_parameters = {}
     task_parameters['net_type'] = net_type
-    task_parameters['n_components'] = 2
+    task_parameters['n_components'] = 256
     task_parameters['val_flag'] = True
 
     net_parameters = {}
@@ -78,7 +78,7 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder, opt_param
     print('Saving results into: {}'.format(checkpoint_dir))
 
     if 1 == 1:  # fast debugging
-        opt_parameters['max_iters'] = 1
+        opt_parameters['max_iters'] = 2
         opt_parameters['batch_iters'] = 1
 
     # Start training here
@@ -113,7 +113,7 @@ if __name__ == "__main__":
 
     # distance_reduction = [0.95]
     # perplexity = [30]
-    graph_weight = [0.5, 1, 0]
+    graph_weight = [1, 0.5]
     for val in graph_weight:
         opt_parameters = {'graph_weight': val}
 

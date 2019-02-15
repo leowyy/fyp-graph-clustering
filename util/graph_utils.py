@@ -5,16 +5,19 @@ import time
 
 MAX_DISTANCE = 1e6
 
-def get_shortest_path_matrix(adj):
+
+def get_shortest_path_matrix(adj, verbose=0):
     n = adj.shape[0]
-    print("Computing all pairs shortest path lengths for {} nodes...".format(n))
+    if verbose:
+        print("Computing all pairs shortest path lengths for {} nodes...".format(n))
     t_start = time.time()
     G = nx.from_numpy_matrix(adj)
     path_lengths = dict(nx.all_pairs_shortest_path_length(G))
     path_lengths_matrix = np.array([[path_lengths[i].get(k, MAX_DISTANCE) for k in range(n)] for i in range(n)])
 
     t_elapsed = time.time() - t_start
-    print("Time to compute shortest paths (s) = {:.4f}".format(t_elapsed))
+    if verbose:
+        print("Time to compute shortest paths (s) = {:.4f}".format(t_elapsed))
     return path_lengths_matrix
 
 

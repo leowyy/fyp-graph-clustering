@@ -95,7 +95,7 @@ def compute_joint_probabilities(samples, batch_size=10000, d=2, perplexity=30, m
             D = pairwise_distances(curX, metric=metric)
         elif metric == 'shortest_path':
             assert adj is not None and alpha == 0
-            D = get_shortest_path_matrix(adj.toarray())
+            D = get_shortest_path_matrix(adj.toarray(), verbose)
             alpha = 0
 
         # Augment distances with adjacency matrix

@@ -2,16 +2,15 @@ import os
 import time
 import torch
 from math import ceil
+from tqdm import tqdm
 
 from core.tsne_torch_loss import compute_joint_probabilities, tsne_torch_loss
-from util.evaluation_metrics import evaluate_net_metrics
+from util.network_utils import get_net_projection, save_checkpoint
+from util.evaluation_metrics import evaluate_viz_metrics
 from util.training_utils import get_torch_dtype
 
 
 dtypeFloat, dtypeLong = get_torch_dtype()
-
-def save_checkpoint(state, filename):
-    torch.save(state, filename)
 
 
 def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
@@ -56,7 +55,7 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
                 train_set.create_all_data(n_batches=n_batches, shuffle=shuffle_flag, sampling=sampling_flag)
                 all_features_P = []
                 all_graph_P = []
-                for G in train_set.all_data:
+                for G in tqdm(train_set.all_data):
                     t_start_detailed = time.time()
                     X = G.data.view(G.data.shape[0], -1).numpy()
                     if graph_weight != 1.0:
@@ -64,8 +63,8 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
                         all_features_P.append(P)
                     #print("1. Time to compute P matrix = {}".format(time.time() - t_start_detailed))
 
-                    if loss_function =='tsne_graph_loss':
-                        P = compute_joint_probabilities(X, perplexity=perplexity, metric='shortest_path', adj=G.adj_matrix)
+                    if graph_weight != 0.0 and loss_function == 'tsne_graph_loss':
+                        P = compute_joint_probabilities(X, perplexity=perplexity, metric='shortest_path', adj=G.adj_matrix, verbose=0)
                         all_graph_P.append(P)
                 all_features_P_initialised = True
 
@@ -78,13 +77,13 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
             t_start_detailed = time.time()
             if loss_function == 'tsne_loss':
                 loss = tsne_torch_loss(all_features_P[i], y_pred)
-            elif loss_function =='tsne_graph_loss':
+            elif loss_function == 'tsne_graph_loss':
                 feature_loss = torch.tensor([0]).type(dtypeFloat)
                 graph_loss = torch.tensor([0]).type(dtypeFloat)
 
                 if graph_weight != 1.0:
                     feature_loss = tsne_torch_loss(all_features_P[i], y_pred)
-                elif graph_weight != 0.0:
+                if graph_weight != 0.0:
                     graph_loss = tsne_torch_loss(all_graph_P[i], y_pred)
 
                 loss = (1-graph_weight) * feature_loss + graph_weight * graph_loss
@@ -151,10 +150,5 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
 
 
 def validate(net, val_set):
-    net.eval()
-    one_nn_score, five_nn_score, time_elapsed = evaluate_net_metrics(val_set, net)
-    # print("Trustworthy score = {:.4f}".format(trust_score))
-    # print("Trustworthy score = {:.4f}".format(trust_score))
-    print("1-NN generalisation accuracy = {:.4f}".format(one_nn_score))
-    print("5-NN generalisation accuracy = {:.4f}".format(five_nn_score))
-    print("Average time to compute (s) = {:.4f}\n".format(time_elapsed))
+    y_emb = get_net_projection(net, val_set.all_data)
+    _ = evaluate_viz_metrics(y_emb, val_set)

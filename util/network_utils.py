@@ -1,7 +1,12 @@
 import torch
 import numpy as np
 
-def get_net_projection(all_data, net):
+
+def save_checkpoint(state, filename):
+    torch.save(state, filename)
+
+
+def get_net_projection(net, all_data):
     all_y_pred = []
     net.eval()
 
@@ -16,7 +21,7 @@ def get_net_projection(all_data, net):
     return np.concatenate(all_y_pred, axis=0)
 
 
-def get_net_embeddings(all_data, net, net_type, H=50):
+def get_net_embeddings(net, all_data, net_type, H=50):
     # Use the model object to select the desired layer
     if net_type =='graph':
         layer = net._modules['gnn_cells'][0]

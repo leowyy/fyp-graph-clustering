@@ -1,11 +1,8 @@
 import numpy as np
-from timeit import default_timer as timer
 from sklearn import neighbors
 from sklearn.metrics.pairwise import pairwise_distances
 from sklearn.model_selection import KFold
 from sklearn.metrics import accuracy_score
-
-from util.network_utils import get_net_projection
 
 
 def trustworthiness(X, X_embedded, n_neighbors=5, metric='euclidean', precomputed=False):
@@ -89,30 +86,30 @@ def nearest_neighbours_generalisation_accuracy(X, y, n_neighbors=1):
     return np.average(scores)
 
 
-def evaluate_net_metrics(dataset, net, distance_metric='euclidean'):
+def evaluate_viz_metrics(y_emb, dataset, distance_metric='euclidean'):
     """
-    Given a embedding net,
-    Obtains the average trustworthiness, NN accuracy and time taken to compute
-    all_test_data should be a list of DataEmbeddingGraph objects
+    Given a low-dimensional embedding y_emb,
+    Obtains the average trustworthiness, NN accuracy, custom losses
     """
-    net.eval()
 
-    time_start = timer()
-    y_pred = get_net_projection(dataset.all_data, net)
-    time_tracker = timer() - time_start
+    results = {}
 
-    #X = G.data.view(G.data.shape[0], -1).numpy()
-    #trust_tracker[i] = trustworthiness(X, y_pred, n_neighbors=5, metric=distance_metric)
-    one_nn = nearest_neighbours_generalisation_accuracy(y_pred, dataset.labels, 1)
-    five_nn = nearest_neighbours_generalisation_accuracy(y_pred, dataset.labels, 5)
-    return one_nn, five_nn, time_tracker
+    # results["trust"] = trustworthiness(dataset.inputs, y_emb, n_neighbors=5, metric=distance_metric)
+    results["one_nn"] = nearest_neighbours_generalisation_accuracy(y_emb, dataset.labels, 1)
+    results["five_nn"] = nearest_neighbours_generalisation_accuracy(y_emb, dataset.labels, 5)
+    results["graph_dist"], results["feature_dist"] = combined_dist_metric(y_emb, dataset.inputs, dataset.adj_matrix, k=5)
+    results['total_dist'] = results["graph_dist"] + results["feature_dist"]
+
+    for k, v in results.items():
+        print("Metric {} = {:.4f}".format(k, v))
+    return results
 
 
-def graph_trustworthiness(path_matrix, X_emb, n_neighbors=5):
-    dist_X_emb = pairwise_distances(X_emb, squared=True)
+def graph_trustworthiness(y_emb, path_matrix, n_neighbors=5):
+    dist_X_emb = pairwise_distances(y_emb, squared=True)
     ind_X_emb = np.argsort(dist_X_emb, axis=1)[:, 1:n_neighbors + 1]
 
-    n_samples = X_emb.shape[0]
+    n_samples = y_emb.shape[0]
     t = 0.0
     min_sum = 0.0
     max_sum = 0.0
@@ -126,11 +123,11 @@ def graph_trustworthiness(path_matrix, X_emb, n_neighbors=5):
     return t
 
 
-def neighborhood_preservation(path_matrix, X_emb, max_graph_dist=2):
-    dist_X_emb = pairwise_distances(X_emb, squared=True)
+def neighborhood_preservation(y_emb, path_matrix, max_graph_dist=2):
+    dist_X_emb = pairwise_distances(y_emb, squared=True)
     ind_X_emb = np.argsort(dist_X_emb, axis=1)[:, 1:]
 
-    n_samples = X_emb.shape[0]
+    n_samples = y_emb.shape[0]
     t = 0.0
     for i in range(n_samples):
         graph_n = {k for k, v in enumerate(path_matrix[i]) if 0 < v <= max_graph_dist}
@@ -141,6 +138,28 @@ def neighborhood_preservation(path_matrix, X_emb, max_graph_dist=2):
         intersection_size = len(graph_n.intersection(layout_n))
         t += intersection_size / (2*len(graph_n) - intersection_size)
     return t/n_samples
+
+
+def combined_dist_metric(y_emb, feature_matrix, W, k=5):
+    from sklearn.neighbors import kneighbors_graph
+    from sklearn.preprocessing import StandardScaler
+    from sklearn.metrics.pairwise import pairwise_distances
+
+    scaler = StandardScaler()
+    z_emb = scaler.fit_transform(y_emb)
+    z_dist_matrix = pairwise_distances(z_emb, squared=True)
+
+    # feature_dist_matrix = pairwise_distances(feature_matrix, metric='cosine')
+    knn_graph = kneighbors_graph(feature_matrix, n_neighbors=k, mode='connectivity', metric='cosine',
+                                 include_self=False)
+
+    # Average edge length in the original graph
+    graph_dist = np.sum(W.toarray() * z_dist_matrix) / W.getnnz()
+
+    # Average edge length in the kNN graph
+    feature_dist = np.sum(knn_graph.toarray() * z_dist_matrix) / knn_graph.getnnz()
+
+    return graph_dist, feature_dist
 
 
 def run_regression(train_embeds, train_labels, test_embeds, test_labels):
