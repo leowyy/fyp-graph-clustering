@@ -2,6 +2,7 @@ import os
 import argparse
 import pathlib
 import torch
+import numpy as np
 
 from learn_embedding import train
 from core.EmbeddingDataSet import EmbeddingDataSet
@@ -20,14 +21,14 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder, opt_param
     opt_parameters['decay_rate'] = 1.25
     opt_parameters['start_epoch'] = 0
 
-    opt_parameters['distance_metric'] = 'euclidean'
+    opt_parameters['distance_metric'] = 'cosine'
     opt_parameters['distance_reduction'] = 0  # Multiplier to reduce distances of connected nodes
     # opt_parameters['graph_weight'] = 1.0  # Weight of graph cut loss
     opt_parameters['loss_function'] = 'tsne_graph_loss'
-    opt_parameters['n_batches'] = 2000
-    opt_parameters['shuffle_flag'] = True
-    opt_parameters['sampling_flag'] = True
-    opt_parameters['val_batches'] = 5
+    opt_parameters['n_batches'] = 1
+    opt_parameters['shuffle_flag'] = False
+    opt_parameters['sampling_flag'] = False
+    opt_parameters['val_batches'] = 1
     opt_parameters['perplexity'] = 30
 
     dataset = EmbeddingDataSet(dataset_name, input_dir, train=True)
@@ -41,7 +42,7 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder, opt_param
     net_parameters = {}
     net_parameters['n_components'] = task_parameters['n_components']
     net_parameters['D'] = dataset.input_dim  # input dimension
-    net_parameters['H'] = 512  # number of hidden units
+    net_parameters['H'] = 128  # number of hidden units
     net_parameters['L'] = 2  # number of hidden layers
 
     # Initialise network
@@ -74,8 +75,8 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder, opt_param
     print("Number of network parameters = {}".format(net.nb_param))
     print('Saving results into: {}'.format(checkpoint_dir))
 
-    if 1 == 1:  # fast debugging
-        opt_parameters['max_iters'] = 2
+    if 2 == 1:  # fast debugging
+        opt_parameters['max_iters'] = 3
         opt_parameters['batch_iters'] = 1
 
     # Start training here
@@ -109,7 +110,8 @@ if __name__ == "__main__":
     print("Resume from folder: {}".format(args.resume_folder))
 
     # perplexity = [30]
-    graph_weight = [1, 0.5]
+    graph_weight = np.linspace(0, 1, num=11)
+    print(graph_weight)
     for val in graph_weight:
         opt_parameters = {'graph_weight': val}
 

@@ -31,3 +31,7 @@ class GraphDataBlock(object):
         self.inputs = X             # data matrix
         self.labels = labels        # labels
         self.adj_matrix = W         # affinity matrix
+
+    def add_original_indices(self, indices):
+        self.original_indices = indices
+

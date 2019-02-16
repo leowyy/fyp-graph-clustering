@@ -9,17 +9,17 @@ from util.graph_utils import neighbor_sampling
 
 class EmbeddingDataSet():
     train_dir = {'cora': 'cora_train.pkl',
-                 'cora_full': 'cora_full.pkl',
+                 'cora_test': 'cora_full.pkl',
                  'pubmed': 'pubmed.pkl',
                  'pubmed_full': 'pubmed_full.pkl',
-                 'citeseer_full': 'citeseer_full.pkl',
+                 'citeseer_test': 'citeseer_full.pkl',
                  'reddit_full': 'reddit_full.pkl'}
 
     test_dir = {'cora': 'cora_test.pkl',
-                'cora_full': 'cora_full.pkl',
+                'cora_test': 'cora_full.pkl',
                 'pubmed': 'pubmed.pkl',
                 'pubmed_full': 'pubmed_full.pkl',
-                'citeseer_full': 'citeseer_full.pkl',
+                'citeseer_test': 'citeseer_full.pkl',
                 'reddit_full': 'reddit_full.pkl'}
 
     def __init__(self, name, data_dir, train=True):
@@ -88,6 +88,7 @@ class EmbeddingDataSet():
 
             # Package data into graph block
             G = GraphDataBlock(inputs_subset, labels=labels_subset, W=adj_subset)
+            G.add_original_indices(mask)
 
             self.all_data.append(G)
             i += num_samples

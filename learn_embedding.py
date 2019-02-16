@@ -56,7 +56,7 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
             all_graph_P = []
             for G in tqdm(train_set.all_data):
                 t_start_detailed = time.time()
-                X = G.data.view(G.data.shape[0], -1).numpy()
+                X = G.inputs.view(G.inputs.shape[0], -1).numpy()
                 if graph_weight != 1.0:
                     P = compute_joint_probabilities(X, perplexity=perplexity, metric=metric, adj=G.adj_matrix, alpha=distance_reduction)
                     all_features_P.append(P)
