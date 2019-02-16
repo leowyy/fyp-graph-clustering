@@ -73,7 +73,7 @@ class EmbeddingDataSet():
         t_start = time.time()
 
         for num_samples in chunk_sizes:
-            mask = self.all_indices[i: i + num_samples]
+            mask = sorted(self.all_indices[i: i + num_samples])
 
             # Perform sampling to obtain local neighborhood of mini-batch
             if sampling:

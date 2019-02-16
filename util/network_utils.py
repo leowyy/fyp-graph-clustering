@@ -2,6 +2,7 @@ import torch
 import numpy as np
 from util.graph_utils import neighbor_sampling
 from core.GraphDataBlock import GraphDataBlock
+from tqdm import tqdm
 
 
 def save_checkpoint(state, filename):
@@ -16,37 +17,43 @@ def get_net_projection(net, dataset, n_batches=1, n_components=2):
         return _get_net_projection(net, dataset.all_data[0])
 
     y_pred = np.zeros((len(dataset.labels), n_components))
-    for G in dataset.all_data:
-        original_idx = G.original_indices
-        neighborhood_idx = neighbor_sampling(dataset.adj_matrix, original_idx, [-1, -1])
-
-        original_idx.sort()
-        neighborhood_idx.sort()
-
-        # Package into GraphDataBlock
-        inputs_subset = dataset.inputs[neighborhood_idx]
-        labels_subset = dataset.labels[neighborhood_idx]
-        adj_subset = dataset.adj_matrix[neighborhood_idx, :][:, neighborhood_idx]
-        G = GraphDataBlock(inputs_subset, labels=labels_subset, W=adj_subset)
-
-        # Get projection
-        y_pred_neighborhood = _get_net_projection(net, G)
-
-        # Get mask of indices of original within neighborhood
-        ix = np.isin(neighborhood_idx, original_idx)
-
-        # Retrieve predictions for original indices only
-        y_pred_original = y_pred_neighborhood[ix]
+    for G in tqdm(dataset.all_data):
+        y_pred_original = _get_net_projection(net, G, sampling=True, dataset=dataset)
 
         # Place results into full matrix
-        y_pred[original_idx] = y_pred_original
+        y_pred[G.original_indices] = y_pred_original
     return y_pred
 
 
-def _get_net_projection(net, G):
+def _get_net_projection(net, G, sampling=False, dataset=None):
     # if torch.cuda.is_available():
     #     y_pred_neighborhood = net.forward(G).cpu().detach().numpy()
-    return net.forward(G).detach().numpy()
+    if not sampling:
+        return net.forward(G).detach().numpy()
+
+    is_sorted = lambda a: np.all(a[:-1] <= a[1:])
+    assert is_sorted(G.original_indices)
+    assert dataset is not None
+
+    original_idx = G.original_indices
+    neighborhood_idx = neighbor_sampling(dataset.adj_matrix, original_idx, [-1, -1])
+
+    # Package into GraphDataBlock
+    inputs_subset = dataset.inputs[neighborhood_idx]
+    labels_subset = dataset.labels[neighborhood_idx]
+    adj_subset = dataset.adj_matrix[neighborhood_idx, :][:, neighborhood_idx]
+    G = GraphDataBlock(inputs_subset, labels=labels_subset, W=adj_subset)
+
+    # Get projection
+    y_pred_neighborhood = _get_net_projection(net, G, sampling=False)
+
+    # Get mask of indices of original within neighborhood
+    ix = np.isin(neighborhood_idx, original_idx)
+
+    # Retrieve predictions for original indices only
+    y_pred_original = y_pred_neighborhood[ix]
+
+    return y_pred_original
 
 
 def get_net_embeddings(net, all_data, net_type, H=50):

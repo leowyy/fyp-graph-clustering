@@ -83,7 +83,6 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder, opt_param
     val_dataset = None
     if task_parameters['val_flag']:
         val_dataset = EmbeddingDataSet(dataset_name, input_dir, train=False)
-        val_dataset.create_all_data(n_batches=opt_parameters['val_batches'], shuffle=False, sampling=False)
 
     tab_results = train(net, dataset, opt_parameters, checkpoint_dir, val_dataset)
 

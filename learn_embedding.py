@@ -23,6 +23,7 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
     graph_weight = opt_parameters['graph_weight']
     loss_function = opt_parameters['loss_function']
     perplexity = opt_parameters['perplexity']
+    val_batches = opt_parameters['val_batches']
 
     lr = opt_parameters['learning_rate']
     max_iters = opt_parameters['max_iters']
@@ -125,7 +126,7 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
             running_total = 0
 
             if val_set is not None:
-                validate(net, val_set)
+                validate(net, val_set, val_batches)
 
         # save checkpoint
         if iteration % checkpoint_interval == 0:
@@ -139,6 +140,6 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
     return tab_results
 
 
-def validate(net, val_set):
-    y_emb = get_net_projection(net, val_set.all_data)
+def validate(net, val_set, val_batches):
+    y_emb = get_net_projection(net, val_set, n_batches=val_batches)
     _ = evaluate_viz_metrics(y_emb, val_set)
