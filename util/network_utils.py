@@ -56,15 +56,15 @@ def _get_net_projection(net, G, sampling=False, dataset=None):
     return y_pred_original
 
 
-def get_net_embeddings(net, all_data, net_type, H=50):
+def get_net_embeddings(net, dataset, net_type, H=50):
     # Use the model object to select the desired layer
-    if net_type =='graph':
+    if net_type == 'graph':
         layer = net._modules['gnn_cells'][0]
     elif net_type == 'simple':
         layer = net._modules['relu']
 
     # Get the total number of data points
-    n = sum([len(G.labels) for G in all_data])
+    n = len(dataset.labels)
 
     # Define a function that will copy the output of a layer
     my_embedding = torch.zeros([n, H])
@@ -76,6 +76,6 @@ def get_net_embeddings(net, all_data, net_type, H=50):
     h = layer.register_forward_hook(copy_data)
 
     # Perform projection to capture embeddings
-    get_net_projection(all_data, net)
+    get_net_projection(net, dataset)
 
     return my_embedding
