@@ -25,11 +25,13 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder, opt_param
     opt_parameters['distance_reduction'] = 0  # Multiplier to reduce distances of connected nodes
     # opt_parameters['graph_weight'] = 1.0  # Weight of graph cut loss
     opt_parameters['loss_function'] = 'tsne_graph_loss'
-    opt_parameters['n_batches'] = 1
+    opt_parameters['n_batches'] = 12
     opt_parameters['shuffle_flag'] = False
-    opt_parameters['sampling_flag'] = False
+    opt_parameters['sampling_flag'] = True
     opt_parameters['val_batches'] = 1
     opt_parameters['perplexity'] = 30
+    opt_parameters['early_exaggeration'] = 1.0
+    opt_parameters['exploration_iters'] = 100
 
     dataset = EmbeddingDataSet(dataset_name, input_dir, train=True)
     dataset.summarise()
@@ -109,8 +111,8 @@ if __name__ == "__main__":
     print("Resume from folder: {}".format(args.resume_folder))
 
     # perplexity = [30]
-    graph_weight = np.linspace(0, 1, num=11)
-    print(graph_weight)
+    # graph_weight = np.linspace(0, 1, num=11)
+    graph_weight = [1.0]
     for val in graph_weight:
         opt_parameters = {'graph_weight': val}
 

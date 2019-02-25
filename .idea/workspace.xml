@@ -2,11 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c77c5ea6-97cc-4fe8-9972-2ba1a0ca9024" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/archive/plot_bokeh_embedding.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/archive/similarity_test.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/archive/similarity_test.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiments/citeseer_viz.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/experiments/citeseer_viz.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/experiments/cora_viz.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/experiments/cora_viz.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiments/multiple_alphas.ipynb" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/experiments/new_cora_test.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/experiments/new_cora_test.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/learn_embedding.py" beforeDir="false" afterPath="$PROJECT_DIR$/learn_embedding.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train_and_eval.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_and_eval.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/util/network_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/util/network_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/plot_bokeh_embedding.py" beforeDir="false" afterPath="$PROJECT_DIR$/util/plot_bokeh_embedding.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/plot_graph_embedding.py" beforeDir="false" afterPath="$PROJECT_DIR$/util/plot_graph_embedding.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,43 +21,60 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="1871603587">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="3" />
+          <entry key="project.open.time.3" value="3" />
+          <entry key="project.open.time.4" value="1" />
+          <entry key="project.opened" value="4" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="py" value="3" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="Python" value="3" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="py" value="125" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="Python" value="125" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
   <component name="FavoritesManager">
     <favorites_list name="fyp-graph-clustering" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/util/training_utils.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-              <folding>
-                <element signature="e#0#9#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/util/evaluation_metrics.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="915">
-              <caret line="61" column="33" selection-start-line="61" selection-start-column="33" selection-end-line="61" selection-end-column="33" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/train_and_eval.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1080">
-              <caret line="82" column="22" selection-start-line="82" selection-start-column="22" selection-end-line="82" selection-end-column="22" />
+            <state relative-caret-position="1589">
+              <caret line="109" column="51" selection-start-line="109" selection-start-column="51" selection-end-line="109" selection-end-column="51" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/learn_embedding.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1170">
+              <caret line="87" selection-start-line="87" selection-end-line="87" />
             </state>
           </provider>
         </entry>
@@ -64,11 +88,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/util/network_utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="278">
-              <caret line="57" selection-start-line="57" selection-end-line="57" />
+            <state relative-caret-position="735">
+              <caret line="53" column="45" selection-start-line="53" selection-start-column="45" selection-end-line="53" selection-end-column="45" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -79,17 +103,32 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/util/plot_graph_embedding.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="32" column="21" selection-start-line="32" selection-start-column="21" selection-end-line="32" selection-end-column="21" />
+            <state relative-caret-position="90">
+              <caret line="6" selection-start-line="6" selection-end-line="6" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/util/plot_bokeh_embedding.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="45">
+              <caret line="8" column="14" selection-start-line="8" selection-start-column="14" selection-end-line="8" selection-end-column="14" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/core/EmbeddingDataSet.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-154">
-              <caret line="71" selection-start-line="71" selection-end-line="71" />
+            <state relative-caret-position="255">
+              <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -146,7 +185,6 @@
         <option value="$PROJECT_DIR$/util/plot_images.py" />
         <option value="$PROJECT_DIR$/util/usps_data_loader.py" />
         <option value="$PROJECT_DIR$/util/mnist_data_loader.py" />
-        <option value="$PROJECT_DIR$/util/plot_bokeh_embedding.py" />
         <option value="$PROJECT_DIR$/train.py" />
         <option value="$USER_HOME$/anaconda3/envs/py36/lib/python3.6/site-packages/sklearn/externals/joblib/externals/cloudpickle/cloudpickle.py" />
         <option value="$PROJECT_DIR$/tests/test_tsne_loss.py" />
@@ -167,21 +205,22 @@
         <option value="$PROJECT_DIR$/core/GraphConvNet.py" />
         <option value="$PROJECT_DIR$/core/SimpleNet.py" />
         <option value="$PROJECT_DIR$/core/tsne_torch_loss.py" />
-        <option value="$PROJECT_DIR$/util/plot_graph_embedding.py" />
         <option value="$PROJECT_DIR$/util/evaluation_metrics.py" />
+        <option value="$PROJECT_DIR$/core/GraphDataBlock.py" />
+        <option value="$PROJECT_DIR$/util/network_utils.py" />
         <option value="$PROJECT_DIR$/learn_embedding.py" />
         <option value="$PROJECT_DIR$/train_and_eval.py" />
-        <option value="$PROJECT_DIR$/core/GraphDataBlock.py" />
+        <option value="$PROJECT_DIR$/util/plot_bokeh_embedding.py" />
+        <option value="$PROJECT_DIR$/util/plot_graph_embedding.py" />
         <option value="$PROJECT_DIR$/core/EmbeddingDataSet.py" />
-        <option value="$PROJECT_DIR$/util/network_utils.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
-    <option name="x" value="66" />
-    <option name="y" value="114" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="294" />
+    <option name="y" value="23" />
     <option name="width" value="1365" />
-    <option name="height" value="867" />
+    <option name="height" value="877" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -195,11 +234,6 @@
             <path>
               <item name="fyp-graph-clustering" type="b2602c69:ProjectViewProjectNode" />
               <item name="fyp-graph-clustering" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="fyp-graph-clustering" type="b2602c69:ProjectViewProjectNode" />
-              <item name="fyp-graph-clustering" type="462c0819:PsiDirectoryNode" />
-              <item name="archive" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="fyp-graph-clustering" type="b2602c69:ProjectViewProjectNode" />
@@ -223,16 +257,16 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/experiments" />
+      <recent name="$PROJECT_DIR$/core" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/archive" />
       <recent name="$PROJECT_DIR$/experiments" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/util" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/experiments" />
-      <recent name="$PROJECT_DIR$/core" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -303,7 +337,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/train_and_eval.py" />
-      <option name="PARAMETERS" value="-i $PROJECT_DIR$/../data -o $PROJECT_DIR$/results -d citeseer_test -net graph" />
+      <option name="PARAMETERS" value="-i $PROJECT_DIR$/../data -o $PROJECT_DIR$/results -d cora_second_test -net graph" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -404,7 +438,7 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="66" y="114" width="1365" height="867" extended-state="1" />
+    <frame x="294" y="23" width="1365" height="877" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49919742" visible="true" weight="0.21726191" />
@@ -412,7 +446,7 @@
       <window_info id="Favorites" order="2" sideWeight="0.5008026" side_tool="true" weight="0.19401993" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32919255" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.24489796" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3312808" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.31870967" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -426,14 +460,10 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
   </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="17" lean-forward="true" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/evaluation_test.ipynb" />
     <entry file="file://$PROJECT_DIR$/experiments/test_clustering.ipynb" />
     <entry file="file://$PROJECT_DIR$/experiments/torch_pairwise_loss.ipynb" />
@@ -619,39 +649,27 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
           <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/train_and_eval.py">
+    <entry file="file://$PROJECT_DIR$/util/evaluation_metrics.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1080">
-          <caret line="82" column="22" selection-start-line="82" selection-start-column="22" selection-end-line="82" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="855">
+          <caret line="61" column="33" selection-start-line="61" selection-start-column="33" selection-end-line="61" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/archive/plot_bokeh_embedding.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="465">
+          <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/learn_embedding.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1815">
-          <caret line="130" column="25" selection-start-line="130" selection-start-column="25" selection-end-line="130" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/EmbeddingDataSet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-154">
-          <caret line="71" selection-start-line="71" selection-end-line="71" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="1170">
+          <caret line="87" selection-start-line="87" selection-end-line="87" />
         </state>
       </provider>
     </entry>
@@ -662,17 +680,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/util/plot_bokeh_embedding.py">
+    <entry file="file://$PROJECT_DIR$/util/network_utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="8" column="62" lean-forward="true" selection-start-line="8" selection-start-column="62" selection-end-line="8" selection-end-column="62" />
+        <state relative-caret-position="735">
+          <caret line="53" column="45" selection-start-line="53" selection-start-column="45" selection-end-line="53" selection-end-column="45" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/util/evaluation_metrics.py">
+    <entry file="file://$PROJECT_DIR$/util/plot_bokeh_embedding.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="915">
-          <caret line="61" column="33" selection-start-line="61" selection-start-column="33" selection-end-line="61" selection-end-column="33" />
+        <state relative-caret-position="45">
+          <caret line="8" column="14" selection-start-line="8" selection-start-column="14" selection-end-line="8" selection-end-column="14" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
@@ -681,17 +702,30 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/util/plot_graph_embedding.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="32" column="21" selection-start-line="32" selection-start-column="21" selection-end-line="32" selection-end-column="21" />
+        <state relative-caret-position="90">
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/util/network_utils.py">
+    <entry file="file://$PROJECT_DIR$/train_and_eval.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="278">
-          <caret line="57" selection-start-line="57" selection-end-line="57" />
+        <state relative-caret-position="1589">
+          <caret line="109" column="51" selection-start-line="109" selection-start-column="51" selection-end-line="109" selection-end-column="51" />
           <folding>
-            <element signature="e#0#12#0" expanded="true" />
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/EmbeddingDataSet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>

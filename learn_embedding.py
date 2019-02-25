@@ -24,6 +24,8 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
     loss_function = opt_parameters['loss_function']
     perplexity = opt_parameters['perplexity']
     val_batches = opt_parameters['val_batches']
+    early_exaggeration = opt_parameters['early_exaggeration']
+    exploration_iters = opt_parameters['exploration_iters']
 
     lr = opt_parameters['learning_rate']
     max_iters = opt_parameters['max_iters']
@@ -60,13 +62,23 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
                 X = G.inputs.view(G.inputs.shape[0], -1).numpy()
                 if graph_weight != 1.0:
                     P = compute_joint_probabilities(X, perplexity=perplexity, metric=metric, adj=G.adj_matrix, alpha=distance_reduction)
+                    if iteration < exploration_iters:
+                        P *= early_exaggeration
                     all_features_P.append(P)
                 #print("1. Time to compute P matrix = {}".format(time.time() - t_start_detailed))
 
                 if graph_weight != 0.0:
                     P = compute_joint_probabilities(X, perplexity=perplexity, metric='shortest_path', adj=G.adj_matrix, verbose=0)
+                    if iteration < exploration_iters:
+                        P *= early_exaggeration
                     all_graph_P.append(P)
+
             all_features_P_initialised = True
+
+        # Remove early exaggeration if not shuffling data and iteration over
+        if not shuffle_flag and iteration == exploration_iters:
+            all_features_P = [P / early_exaggeration for P in all_features_P]
+            all_graph_P = [P / early_exaggeration for P in all_graph_P]
 
         # Forward pass through all training data
         for i, G in enumerate(train_set.all_data):
