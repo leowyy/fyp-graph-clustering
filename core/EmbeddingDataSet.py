@@ -9,14 +9,14 @@ from util.graph_utils import neighbor_sampling
 
 class EmbeddingDataSet():
     train_dir = {'cora': 'cora_train.pkl',
-                 'cora_test': 'cora_full.pkl',
+                 'cora_third_test': 'cora_full.pkl',
                  'pubmed': 'pubmed.pkl',
                  'pubmed_full': 'pubmed_full.pkl',
                  'citeseer_test': 'citeseer_full.pkl',
                  'reddit_full': 'reddit_full.pkl'}
 
     test_dir = {'cora': 'cora_test.pkl',
-                'cora_test': 'cora_full.pkl',
+                'cora_third_test': 'cora_full.pkl',
                 'pubmed': 'pubmed.pkl',
                 'pubmed_full': 'pubmed_full.pkl',
                 'citeseer_test': 'citeseer_full.pkl',

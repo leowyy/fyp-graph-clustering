@@ -15,7 +15,7 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder, opt_param
     # optimization parameters
     # opt_parameters = {}
     opt_parameters['learning_rate'] = 0.00075  # ADAM
-    opt_parameters['max_iters'] = 360
+    opt_parameters['max_iters'] = 200
     opt_parameters['batch_iters'] = 50
     opt_parameters['save_flag'] = True
     opt_parameters['decay_rate'] = 1.25
@@ -25,7 +25,7 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder, opt_param
     opt_parameters['distance_reduction'] = 0  # Multiplier to reduce distances of connected nodes
     # opt_parameters['graph_weight'] = 1.0  # Weight of graph cut loss
     opt_parameters['loss_function'] = 'tsne_graph_loss'
-    opt_parameters['n_batches'] = 12
+    opt_parameters['n_batches'] = 50
     opt_parameters['shuffle_flag'] = False
     opt_parameters['sampling_flag'] = True
     opt_parameters['val_batches'] = 1
