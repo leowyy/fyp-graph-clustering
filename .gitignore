@@ -1,4 +1,5 @@
 *~
+*.mp4
 *.pdf
 .idea/*
 .DS_Store
