@@ -5,6 +5,16 @@ import torch
 
 
 class GraphDataBlock(object):
+    """
+    Attributes:
+        edge_to_starting_vertex (scipy coo matrix): matrix of size E x V mapping edges to start vertices
+        edge_to_ending_vertex (scipy coo matrix): matrix of size E x V mapping edges to end vertices
+        inputs (np.arrray): data feature matrix of size n x f
+        labels (np,array): data class label matrix of size n x 1
+        adj_matrix (scipy coo matrix): adjacency matrix of size n x n
+        original indices (np.array): indices of data points within the original dataset
+        precomputed_path_matrix (scipy csr matrix)
+    """
     def __init__(self, X, labels, W=None):
         # Convert to torch if numpy array
         if sp.issparse(X):
@@ -32,6 +42,7 @@ class GraphDataBlock(object):
         self.labels = labels        # labels
         self.adj_matrix = W         # affinity matrix
 
-    def add_original_indices(self, indices):
-        self.original_indices = indices
+        # Placeholders
+        self.original_indices = None
+        self.precomputed_path_matrix = None
 

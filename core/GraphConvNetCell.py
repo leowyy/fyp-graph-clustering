@@ -5,6 +5,12 @@ import numpy as np
 
 
 class GraphConvNetCell(nn.Module):
+    """
+    PyTorch implementation of Residual Gated Graph ConvNets
+    Adapted from An Experimental Study of Neural Networks for Variable Graphs (ICLR'18)
+    Xavier Bresson and Thomas Laurent
+    See: https://github.com/xbresson/spatial_graph_convnets
+    """
 
     def __init__(self, dim_in, dim_out):
         super(GraphConvNetCell, self).__init__()

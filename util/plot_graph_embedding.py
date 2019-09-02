@@ -6,6 +6,13 @@ import matplotlib.pyplot as plt
 
 
 def plot_graph_embedding(y_emb, labels, adj, line_alpha=0.2, s=7, ax=None, title=""):
+    """
+    Plots the visualization of graph-structured data
+    Args:
+        y_emb (np.array): low dimensional map of data points, matrix of size n x 2
+        labels (np.array): underlying class labels, matrix of size n x 1
+        adj (np.array): adjacency matrix
+    """
     labels = np.array([int(l) for l in labels])
     adj = sp.coo_matrix(adj)
 

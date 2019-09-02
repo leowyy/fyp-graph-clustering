@@ -1,19 +1,21 @@
-import networkx as nx
 import numpy as np
 import time
-
+from scipy.sparse.csgraph import shortest_path
 
 MAX_DISTANCE = 1e6
 
 
 def get_shortest_path_matrix(adj, verbose=0):
-    n = adj.shape[0]
+    """
+    Computes the all-pairs shortest path matrix for an undirected and unweighted graph
+    If a pair of nodes are not connected, places an arbitrarily large value
+    """
     if verbose:
-        print("Computing all pairs shortest path lengths for {} nodes...".format(n))
+        print("Computing all pairs shortest path lengths for {} nodes...".format(adj.shape[0]))
     t_start = time.time()
-    G = nx.from_numpy_matrix(adj)
-    path_lengths = dict(nx.all_pairs_shortest_path_length(G))
-    path_lengths_matrix = np.array([[path_lengths[i].get(k, MAX_DISTANCE) for k in range(n)] for i in range(n)])
+
+    path_lengths_matrix = shortest_path(adj, directed=False, unweighted=True)
+    path_lengths_matrix[path_lengths_matrix == np.inf] = MAX_DISTANCE
 
     t_elapsed = time.time() - t_start
     if verbose:
@@ -23,11 +25,14 @@ def get_shortest_path_matrix(adj, verbose=0):
 
 def neighbor_sampling(adj, minibatch_indices, D_layers):
     """
+    Performs neighbor sampling scheme proposed by Hamilton et al (2017)
     Args:
-        adj: adjacency matrix of the COMPLETE graph in csr format
-        minibatch_indices: indices subset of all vertices
-        D_layers: sampling strategy per layer, default D_layers=[5, 10],
+        adj (scipy csr matrix): adjacency matrix of the COMPLETE graph
+        minibatch_indices (list or np.array): indices of initial sample
+        D_layers (list): maximum number of neighbors sampled per layer,
                     if D_layers[l] = -1, sample all neighbors at layer l
+    Returns:
+        expanded indices (np.array): indices of expanded sample
     """
     selected_indices = list(minibatch_indices)
     for i in minibatch_indices:

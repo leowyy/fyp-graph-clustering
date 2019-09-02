@@ -10,6 +10,16 @@ def save_checkpoint(state, filename):
 
 
 def get_net_projection(net, dataset, n_batches=1, n_components=2):
+    """
+    Get visualization of dataset using a projection net
+    Args:
+        net (GraphConvNet): projection net
+        dataset (EmbeddingDataSet): dataset to project
+        n_batches (int): number of batches to split dataset
+        n_components (int): dimensional of output
+    Returns:
+        y_pred (np.array): low dimensional map of data points, matrix of size n x n_components
+    """
     net.eval()
 
     dataset.create_all_data(n_batches=n_batches, shuffle=False)
@@ -18,14 +28,22 @@ def get_net_projection(net, dataset, n_batches=1, n_components=2):
 
     y_pred = np.zeros((len(dataset.labels), n_components))
     for G in tqdm(dataset.all_data):
-        y_pred_original = _get_net_projection(net, G, sampling=True, dataset=dataset)
-
-        # Place results into full matrix
-        y_pred[G.original_indices] = y_pred_original
+        y_pred_original = _get_net_projection(net, G, sampling=False, dataset=dataset)
+        y_pred[G.original_indices] = y_pred_original  # Place results into full matrix
     return y_pred
 
 
 def _get_net_projection(net, G, sampling=False, dataset=None):
+    """
+    Helper function for get_net_projection
+    Args:
+        net (GraphConvNet): projection net
+        G (GraphDataBlock): graph block to project
+        sampling (Boolean): whether to expand the graph block via neighbor sampling
+        dataset (EmbeddingDataSet): provided as input to perform neighbor sampling
+    Returns:
+        y_pred_original (np.array): low dimensional map of data points, matrix of size n x n_components
+    """
     # if torch.cuda.is_available():
     #     y_pred_neighborhood = net.forward(G).cpu().detach().numpy()
     if not sampling:
@@ -44,7 +62,7 @@ def _get_net_projection(net, G, sampling=False, dataset=None):
     adj_subset = dataset.adj_matrix[neighborhood_idx, :][:, neighborhood_idx]
     G = GraphDataBlock(inputs_subset, labels=labels_subset, W=adj_subset)
 
-    # Get projection
+    # Get projection of the expanded GraphDataBlock, without sampling this time
     y_pred_neighborhood = _get_net_projection(net, G, sampling=False)
 
     # Get mask of indices of original within neighborhood

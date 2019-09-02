@@ -3,6 +3,7 @@ import time
 import torch
 from math import ceil
 from tqdm import tqdm
+import numpy as np
 
 from core.tsne_torch_loss import compute_joint_probabilities, tsne_torch_loss
 from util.network_utils import get_net_projection, save_checkpoint
@@ -13,15 +14,13 @@ from util.training_utils import get_torch_dtype
 dtypeFloat, dtypeLong = get_torch_dtype()
 
 
-def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
+def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None, snapshot=False):
     # Optimization parameters
     n_batches = opt_parameters['n_batches']
     shuffle_flag = opt_parameters['shuffle_flag']
     sampling_flag = opt_parameters['sampling_flag']
     metric = opt_parameters['distance_metric']
-    distance_reduction = opt_parameters['distance_reduction']
     graph_weight = opt_parameters['graph_weight']
-    loss_function = opt_parameters['loss_function']
     perplexity = opt_parameters['perplexity']
     val_batches = opt_parameters['val_batches']
     early_exaggeration = opt_parameters['early_exaggeration']
@@ -47,6 +46,17 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
     running_total = 0
     tab_results = []
 
+    # Load full path matrix (if applicable)
+    if opt_parameters['full_path_matrix']:
+        print('Loading full path matrix from path = {}'.format(opt_parameters['full_path_matrix']))
+        full_path_matrix = np.load(opt_parameters['full_path_matrix']).item()
+        full_path_matrix = full_path_matrix.toarray()
+        full_path_matrix[full_path_matrix == 0] = opt_parameters['full_path_matrix_cutoff']
+        np.fill_diagonal(full_path_matrix, 0)
+        print('Size of full path matrix = {}'.format(full_path_matrix.shape))
+    else:
+        full_path_matrix = None
+
     all_features_P_initialised = False
 
     for iteration in range(start_epoch+1, start_epoch+max_iters+1):
@@ -54,39 +64,38 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
 
         # Create a new set of data blocks per iteration
         if shuffle_flag or not all_features_P_initialised:
-            train_set.create_all_data(n_batches=n_batches, shuffle=shuffle_flag, sampling=sampling_flag)
+            train_set.create_all_data(n_batches=n_batches, shuffle=shuffle_flag, sampling=sampling_flag, full_path_matrix=full_path_matrix)
             all_features_P = []
             all_graph_P = []
+
             for G in tqdm(train_set.all_data):
-                t_start_detailed = time.time()
                 X = G.inputs.view(G.inputs.shape[0], -1).numpy()
                 if graph_weight != 1.0:
-                    P = compute_joint_probabilities(X, perplexity=perplexity, metric=metric, adj=G.adj_matrix, alpha=distance_reduction)
-                    if iteration < exploration_iters:
+                    P = compute_joint_probabilities(X, perplexity=perplexity, metric=metric, method='approx', adj=G.adj_matrix)
+                    if early_exaggeration != 1.0 and iteration < exploration_iters:
                         P *= early_exaggeration
                     all_features_P.append(P)
-                #print("1. Time to compute P matrix = {}".format(time.time() - t_start_detailed))
 
                 if graph_weight != 0.0:
-                    P = compute_joint_probabilities(X, perplexity=perplexity, metric='shortest_path', adj=G.adj_matrix, verbose=0)
-                    if iteration < exploration_iters:
+                    if G.precomputed_path_matrix is not None:
+                        P = compute_joint_probabilities(G.precomputed_path_matrix, perplexity=perplexity, metric='precomputed')
+                    else:
+                        P = compute_joint_probabilities(X, perplexity=perplexity, metric='shortest_path', adj=G.adj_matrix)
+                    if early_exaggeration != 1.0 and iteration < exploration_iters:
                         P *= early_exaggeration
                     all_graph_P.append(P)
 
             all_features_P_initialised = True
 
         # Remove early exaggeration if not shuffling data and iteration over
-        if not shuffle_flag and iteration == exploration_iters:
+        if not shuffle_flag and early_exaggeration != 1.0 and iteration == exploration_iters:
             all_features_P = [P / early_exaggeration for P in all_features_P]
             all_graph_P = [P / early_exaggeration for P in all_graph_P]
 
         # Forward pass through all training data
         for i, G in enumerate(train_set.all_data):
-            t_start_detailed = time.time()
             y_pred = net.forward(G)
-            #print("2. Time to perform forward pass = {}".format(time.time() - t_start_detailed))
 
-            t_start_detailed = time.time()
             feature_loss = torch.tensor([0]).type(dtypeFloat)
             graph_loss = torch.tensor([0]).type(dtypeFloat)
 
@@ -95,20 +104,17 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
             if graph_weight != 0.0:
                 graph_loss = tsne_torch_loss(all_graph_P[i], y_pred)
 
-            loss = (1-graph_weight) * feature_loss + graph_weight * graph_loss
+            loss = (1 - graph_weight) * feature_loss + graph_weight * graph_loss
             running_tsne_loss += feature_loss.item()
             running_graph_loss += graph_loss.item()
 
             running_loss += loss.item()
             running_total += 1
-            #print("3. Time to compute loss = {}".format(time.time() - t_start_detailed))
 
             # Backprop
-            t_start_detailed = time.time()
             loss.backward()
             optimizer.step()
             optimizer.zero_grad()
-            #print("4. Time to backprop = {}".format(time.time() - t_start_detailed))
 
         # update learning rate, print results, perform validation
         if not iteration % batch_iters:
@@ -139,6 +145,11 @@ def train(net, train_set, opt_parameters, checkpoint_dir, val_set=None):
 
             if val_set is not None:
                 validate(net, val_set, val_batches)
+
+        if val_set is not None and snapshot:
+            filename = os.path.join(checkpoint_dir, 'proj_' + str(iteration) + '.npy')
+            y_emb = get_net_projection(net, val_set, n_batches=1)
+            np.save(filename, y_emb)
 
         # save checkpoint
         if iteration % checkpoint_interval == 0:

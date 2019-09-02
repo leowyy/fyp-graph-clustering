@@ -15,23 +15,26 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder, opt_param
     # optimization parameters
     # opt_parameters = {}
     opt_parameters['learning_rate'] = 0.00075  # ADAM
-    opt_parameters['max_iters'] = 200
-    opt_parameters['batch_iters'] = 50
+    opt_parameters['max_iters'] = 360
+    opt_parameters['batch_iters'] = 60
     opt_parameters['save_flag'] = True
     opt_parameters['decay_rate'] = 1.25
     opt_parameters['start_epoch'] = 0
 
     opt_parameters['distance_metric'] = 'cosine'
-    opt_parameters['distance_reduction'] = 0  # Multiplier to reduce distances of connected nodes
     # opt_parameters['graph_weight'] = 1.0  # Weight of graph cut loss
-    opt_parameters['loss_function'] = 'tsne_graph_loss'
-    opt_parameters['n_batches'] = 50
+    opt_parameters['n_batches'] = 1
     opt_parameters['shuffle_flag'] = False
-    opt_parameters['sampling_flag'] = True
+    opt_parameters['sampling_flag'] = False
     opt_parameters['val_batches'] = 1
     opt_parameters['perplexity'] = 30
     opt_parameters['early_exaggeration'] = 1.0
-    opt_parameters['exploration_iters'] = 100
+    opt_parameters['exploration_iters'] = 0
+
+    opt_parameters['full_path_matrix'] = None
+    data_root = os.path.join(input_dir, dataset_name)
+    # opt_parameters['full_path_matrix'] = os.path.join(data_root, '{}_cutoff_max.npy'.format(dataset_name))
+    # opt_parameters['full_path_matrix_cutoff'] = 1e6
 
     dataset = EmbeddingDataSet(dataset_name, input_dir, train=True)
     dataset.summarise()
@@ -78,7 +81,7 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder, opt_param
     print('Saving results into: {}'.format(checkpoint_dir))
 
     if 2 == 1:  # fast debugging
-        opt_parameters['max_iters'] = 3
+        opt_parameters['max_iters'] = 4
         opt_parameters['batch_iters'] = 1
 
     # Start training here
@@ -86,7 +89,7 @@ def main(input_dir, output_dir, dataset_name, net_type, resume_folder, opt_param
     if task_parameters['val_flag']:
         val_dataset = EmbeddingDataSet(dataset_name, input_dir, train=False)
 
-    tab_results = train(net, dataset, opt_parameters, checkpoint_dir, val_dataset)
+    tab_results = train(net, dataset, opt_parameters, checkpoint_dir, val_dataset, snapshot=True)
 
     end_epoch = opt_parameters['start_epoch'] + opt_parameters['max_iters']
 
@@ -111,9 +114,10 @@ if __name__ == "__main__":
     print("Resume from folder: {}".format(args.resume_folder))
 
     # perplexity = [30]
-    # graph_weight = np.linspace(0, 1, num=11)
-    graph_weight = [1.0]
+    #graph_weight = np.linspace(0, 1, num=11)
+    graph_weight = [0]
     for val in graph_weight:
-        opt_parameters = {'graph_weight': val}
+        print("Graph weight = {}".format(val))
+        opt_parameters = {'graph_weight': float(val)}
 
         main(args.input_dir, args.output_dir, args.dataset_name, args.net_type, args.resume_folder, opt_parameters)

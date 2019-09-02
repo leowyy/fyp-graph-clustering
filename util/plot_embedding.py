@@ -1,24 +1,24 @@
-import matplotlib.pyplot as plt
 import numpy as np
+from bokeh.palettes import Category20_20, Category20b_20, Accent8
+import matplotlib.pyplot as plt
 
 
-# Functions for plotting data with labels 0-9
-def plot_embedding(X, labels=None, title=None):
-    plt.figure()
-    ax = plt.subplot(111)
-    plot_embedding_subplot(ax, X, labels, title)
+def plot_embedding(y_emb, labels, s=7, ax=None, title=""):
+    labels = np.array([int(l) for l in labels])
 
+    colormap = np.array(Category20_20 + Category20b_20 + Accent8)
 
-def plot_embedding_subplot(ax, X, labels=None, title=None):
-    x_min, x_max = np.min(X, 0), np.max(X, 0)
-    X = (X - x_min) / (x_max - x_min)
+    if ax is None:
+        f, ax = plt.subplots(1, sharex='col', figsize=(10, 8), dpi=300)
+    else:
+        ax.set_axis_off()
 
-    if labels is not None:
-        for i in range(X.shape[0]):
-            ax.text(X[i, 0], X[i, 1], str(labels[i]),
-                    color=plt.cm.Set1(labels[i] / 10.),
-                    fontdict={'weight': 'bold', 'size': 9})
+    ax.get_xaxis().set_visible(False)
+    ax.get_yaxis().set_visible(False)
+    ax.set_title(title)
 
-    ax.set_xticks([]), ax.set_yticks([])
-    if title is not None:
-        ax.set_title(title)
+    ax.scatter(y_emb[:, 0], y_emb[:, 1], s=s, c=colormap[labels])
+
+    ax.margins(0.05, 0.05)
+    plt.autoscale(tight=True)
+    plt.tight_layout()

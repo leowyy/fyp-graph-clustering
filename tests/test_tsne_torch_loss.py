@@ -27,10 +27,8 @@ class TestTorchLoss(unittest.TestCase):
             loss_sklearn = embedder.kl_divergence_
 
             P = compute_joint_probabilities(X, perplexity=30, metric=metric)
-            P = P.reshape((n_train, n_train))
-            P = torch.from_numpy(P).type(dtypeFloat)
             activations = torch.from_numpy(X_emb).type(dtypeFloat)
-            loss_torch = tsne_torch_loss(P, activations, metric=metric)
+            loss_torch = tsne_torch_loss(P, activations)
 
             print(loss_sklearn)
             print(loss_torch)

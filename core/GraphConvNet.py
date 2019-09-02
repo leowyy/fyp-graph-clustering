@@ -11,6 +11,12 @@ dtypeFloat, dtypeLong = get_torch_dtype()
 
 
 class GraphConvNet(nn.Module):
+    """
+    PyTorch implementation of Residual Gated Graph ConvNets
+    Adapted from An Experimental Study of Neural Networks for Variable Graphs (ICLR'18)
+    Xavier Bresson and Thomas Laurent
+    See: https://github.com/xbresson/spatial_graph_convnets
+    """
 
     def __init__(self, net_parameters):
 

@@ -8,26 +8,38 @@ from util.graph_utils import neighbor_sampling
 
 
 class EmbeddingDataSet():
-    train_dir = {'cora': 'cora_train.pkl',
-                 'cora_third_test': 'cora_full.pkl',
-                 'pubmed': 'pubmed.pkl',
-                 'pubmed_full': 'pubmed_full.pkl',
-                 'citeseer_test': 'citeseer_full.pkl',
-                 'reddit_full': 'reddit_full.pkl'}
+    """
+    Attributes:
+        name (str): name of dataset
+        data_dir (str): path to dataset folder
+        train_dir (str): path to training data file
+        test_dir (str): path to test data file
+        input_dim (int): number of data features per node
+        is_labelled (Boolean): whether underlying class labels are present
+        all_data (list[GraphDataBlock]): data inputs packaged into blocks
+        all_indices (np.array): input sequence when packaging data into blocks
 
-    test_dir = {'cora': 'cora_test.pkl',
-                'cora_third_test': 'cora_full.pkl',
-                'pubmed': 'pubmed.pkl',
-                'pubmed_full': 'pubmed_full.pkl',
-                'citeseer_test': 'citeseer_full.pkl',
-                'reddit_full': 'reddit_full.pkl'}
+        inputs (scipy csr matrix): data feature matrix of size n x f
+        labels (np.array): data class label matrix of size n x 1
+        adj_matrix (scipy csr matrix): adjacency matrix of size n x n
+    """
+
+    train_dir = {'cora_test': 'cora_test.pkl',
+                 'cora_third_test': 'cora_full.pkl',
+                 'pubmed_test': 'pubmed_full.pkl',
+                 'citeseer_test': 'citeseer_full.pkl',
+                 'reddit_full': 'reddit_full.pkl',
+                 'reddit_test': 'reddit_test.pkl',
+                 'cora_ml': 'cora_ml.pkl',
+                 'ms_academic': 'ms_academic.pkl'}
+
+    test_dir = train_dir
 
     def __init__(self, name, data_dir, train=True):
         self.name = name
         self.data_dir = data_dir
         self.train_dir = EmbeddingDataSet.train_dir[name]
         self.test_dir = EmbeddingDataSet.test_dir[name]
-        self.input_dim = None
         self.is_labelled = False
 
         self.all_data = []
@@ -52,11 +64,16 @@ class EmbeddingDataSet():
         self.all_indices = np.arange(0, self.inputs.shape[0])
 
         # Convert adj to csr matrix
-        self.inputs = sp.csr_matrix(self.inputs)
         self.adj_matrix = sp.csr_matrix(self.adj_matrix)
 
-    def create_all_data(self, n_batches=1, shuffle=False, sampling=False):
-        # Initialise all_train_data: list of DataEmbeddingGraph blocks
+    def create_all_data(self, n_batches=1, shuffle=False, sampling=False, full_path_matrix=None):
+        """
+        Initialises all_data as a list of GraphDataBlock
+        Args:
+            n_batches (int): number of blocks to return
+            shuffle (Boolean): whether to shuffle input sequence
+            sampling (Boolean): whether to expand data blocks with neighbor sampling
+        """
         i = 0
         labels_subset = []
         self.all_data = []
@@ -88,7 +105,13 @@ class EmbeddingDataSet():
 
             # Package data into graph block
             G = GraphDataBlock(inputs_subset, labels=labels_subset, W=adj_subset)
-            G.add_original_indices(mask)
+
+            # Add original indices from the complete dataset
+            G.original_indices = mask
+
+            # Add shortest path matrix from precomputed data if needed
+            if full_path_matrix is not None:
+                G.precomputed_path_matrix = full_path_matrix[mask, :][:, mask]
 
             self.all_data.append(G)
             i += num_samples
@@ -96,7 +119,6 @@ class EmbeddingDataSet():
         t_elapsed = time.time() - t_start
         print('Data blocks of length: ', [len(G.labels) for G in self.all_data])
         print("Time to create all data (s) = {:.4f}".format(t_elapsed))
-        #print([G.edge_to_starting_vertex.getnnz() for G in self.all_data])
 
     def summarise(self):
         print("Name of dataset = {}".format(self.name))
@@ -114,6 +136,28 @@ class EmbeddingDataSet():
         labels = self.labels[self.all_indices]
         adj = self.adj_matrix[self.all_indices, :][:, self.all_indices]
         return inputs, labels, adj
+
+    def get_sample_block(self, n_initial, sample_neighbors, verbose=0):
+        """
+        Returns a subset of data as a GraphDataBlock
+        Args:
+            n_initial (int): number of samples at the start
+            sample_neighbors (Boolean): whether to expand the sample block with neighbor sampling
+        Returns:
+            G (GraphDataBlock): data subset
+        """
+
+        mask = sorted(np.random.choice(self.all_indices, size=n_initial, replace=False))
+        if sample_neighbors:
+            mask = neighbor_sampling(self.adj_matrix, mask, D_layers=[9, 14])
+        inputs = self.inputs[mask]
+        labels = self.labels[mask]
+        W = self.adj_matrix[mask, :][:, mask]
+        G = GraphDataBlock(inputs, labels, W)
+        G.original_indices = mask
+        if verbose:
+            print("Initial set of {} points was expanded to {} points".format(n_initial, len(mask)))
+        return G
 
 
 if __name__ == "__main__":
